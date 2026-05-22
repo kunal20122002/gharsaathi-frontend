@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GharSaathi — Find Your Flatmate, Not a Stranger</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────── */
+:root {
+  --ink:#1B1208; --mink:#4A3420; --dust:#8C7060;
+  --bone:#FAF5EE; --warm:#F3EBE0; --line:#E8DDD0;
+  --fire:#E8440A; --fire2:#FF6B35;
+  --jade:#1A7A62; --jade2:#22B88A;
+  --gold:#F5A623; --sky:#2563EB; --blush:#FF4D8D;
+  --r4:4px;--r8:8px;--r12:12px;--r16:16px;--r24:24px;--r32:32px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:'DM Sans',sans-serif;background:var(--bone);color:var(--ink);overflow-x:hidden;cursor:none;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;cursor:none;}
+a{text-decoration:none;color:inherit;}
+
+/* ─── CURSOR ─────────────────────────────── */
+#C,#C2{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+#C{width:10px;height:10px;background:var(--fire);transition:width .15s,height .15s,background .15s;}
+#C2{width:38px;height:38px;border:2px solid var(--fire);opacity:.35;transition:left .09s,top .09s,width .2s,height .2s,opacity .2s;}
+body.hov #C{width:20px;height:20px;background:var(--blush);}
+body.hov #C2{width:56px;height:56px;opacity:.18;}
+
+/* ─── CONFETTI ───────────────────────────── */
+.cf{position:fixed;top:-12px;pointer-events:none;z-index:9998;border-radius:2px;animation:cffall linear forwards;}
+@keyframes cffall{to{transform:translateY(110vh) rotate(900deg);opacity:0;}}
+
+/* ─── MARQUEE ────────────────────────────── */
+.marq{background:var(--ink);overflow:hidden;padding:11px 0;}
+.marq-inner{display:inline-flex;animation:marqmv 30s linear infinite;white-space:nowrap;}
+.marq-inner:hover{animation-play-state:paused;}
+.mi{display:inline-flex;align-items:center;gap:12px;padding:0 36px;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.65);}
+.mi span{color:var(--fire2);}
+@keyframes marqmv{to{transform:translateX(-50%);}}
+
+/* ─── NAV ────────────────────────────────── */
+nav{position:sticky;top:0;z-index:200;background:rgba(250,245,238,.97);backdrop-filter:blur(20px);border-bottom:1.5px solid var(--line);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{font-family:'Instrument Serif',serif;font-size:24px;font-style:italic;color:var(--ink);cursor:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1);user-select:none;}
+.logo:hover{transform:scale(1.06) rotate(-1.5deg);}
+.logo sup{font-size:10px;vertical-align:super;color:var(--fire);font-style:normal;font-family:'Syne',sans-serif;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;letter-spacing:.5px;color:var(--mink);position:relative;padding-bottom:2px;transition:color .2s;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--fire);border-radius:2px;transition:width .3s cubic-bezier(.34,1.56,.64,1);}
+.nav-links a:hover{color:var(--fire);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{display:flex;gap:10px;align-items:center;}
+.btn-ghost{border:1.5px solid var(--line);background:transparent;padding:8px 18px;border-radius:40px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--mink);transition:all .2s;cursor:none;}
+.btn-ghost:hover{border-color:var(--fire);color:var(--fire);transform:translateY(-1px);}
+.btn-fire{background:var(--fire);color:white;border:none;padding:10px 22px;border-radius:40px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;cursor:none;transition:all .25s;position:relative;overflow:hidden;}
+.btn-fire::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.18));transform:translateX(-100%);transition:transform .3s;}
+.btn-fire:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,68,10,.35);}
+.btn-fire:hover::before{transform:translateX(0);}
+.btn-fire:active{transform:scale(.96);}
+
+/* ─── HERO ───────────────────────────────── */
+.hero{min-height:calc(100vh - 64px);display:flex;align-items:center;padding:60px 5%;position:relative;overflow:hidden;gap:40px;}
+.hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.hb1{width:600px;height:600px;background:rgba(232,68,10,.08);top:-200px;right:-100px;animation:blobf 9s ease-in-out infinite;}
+.hb2{width:350px;height:350px;background:rgba(26,122,98,.07);bottom:-100px;left:-60px;animation:blobf 11s ease-in-out infinite reverse;}
+.hb3{width:280px;height:280px;background:rgba(245,166,35,.06);top:30%;left:40%;animation:blobf 13s ease-in-out infinite 2s;}
+@keyframes blobf{0%,100%{transform:translate(0,0) scale(1);}40%{transform:translate(40px,-30px) scale(1.06);}70%{transform:translate(-25px,40px) scale(.95);}}
+.floatie{position:absolute;font-size:28px;opacity:.45;animation:floata var(--fd,6s) ease-in-out infinite var(--fdl,0s);pointer-events:none;user-select:none;z-index:0;}
+@keyframes floata{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(12deg);}}
+.hero-content{max-width:560px;position:relative;z-index:1;flex:1;}
+.h-eyebrow{display:inline-flex;align-items:center;gap:8px;background:white;border:1.5px solid var(--line);padding:6px 16px;border-radius:40px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mink);margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.06);animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both;}
+.live-dot{width:8px;height:8px;background:var(--jade2);border-radius:50%;animation:livepulse 1.5s ease infinite;}
+@keyframes livepulse{0%,100%{box-shadow:0 0 0 0 rgba(34,184,138,.5);}50%{box-shadow:0 0 0 7px rgba(34,184,138,0);}}
+.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(42px,6vw,74px);font-weight:400;line-height:1.05;letter-spacing:-1.5px;margin-bottom:24px;}
+.hero h1 em{color:var(--fire);font-style:italic;}
+.hero h1 .jade-text{color:var(--jade);}
+.word-reveal{display:inline-block;overflow:hidden;}
+.word-reveal span{display:inline-block;animation:wordUp .6s cubic-bezier(.34,1.56,.64,1) both;}
+.word-reveal:nth-child(1) span{animation-delay:.1s;}
+.word-reveal:nth-child(2) span{animation-delay:.18s;}
+.word-reveal:nth-child(3) span{animation-delay:.26s;}
+.word-reveal:nth-child(4) span{animation-delay:.34s;}
+.word-reveal:nth-child(5) span{animation-delay:.42s;}
+@keyframes wordUp{from{transform:translateY(110%) rotate(3deg);opacity:0;}to{transform:translateY(0) rotate(0deg);opacity:1;}}
+.hero-sub{font-size:17px;color:var(--mink);line-height:1.75;font-weight:300;max-width:440px;margin-bottom:40px;animation:fadeSlide .7s ease .4s both;}
+.hero-acts{display:flex;gap:14px;flex-wrap:wrap;animation:fadeSlide .7s ease .5s both;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes popIn{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:scale(1);}}
+.btn-big{background:var(--fire);color:white;border:none;padding:16px 36px;border-radius:50px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:none;transition:all .28s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 28px rgba(232,68,10,.28);}
+.btn-big:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 40px rgba(232,68,10,.4);}
+.btn-outline-big{background:transparent;color:var(--ink);border:1.5px solid var(--line);padding:16px 30px;border-radius:50px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:none;transition:all .25s;}
+.btn-outline-big:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+
+/* ─── SWIPE STACK ────────────────────────── */
+.hero-visual{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;animation:fadeSlide .8s ease .2s both;}
+.swipe-stage{position:relative;width:300px;height:420px;cursor:none;}
+.swipe-card{position:absolute;width:286px;background:white;border-radius:20px;border:1.5px solid var(--line);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.09);user-select:none;transition:transform .14s ease;}
+.sw-top{top:0;left:7px;z-index:3;}
+.sw-mid{top:14px;left:2px;z-index:2;transform:rotate(-3.5deg) scale(.96);opacity:.82;}
+.sw-bot{top:24px;left:14px;z-index:1;transform:rotate(3.5deg) scale(.93);opacity:.55;}
+.sw-label{position:absolute;top:14px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;padding:5px 12px;border-radius:8px;letter-spacing:2px;opacity:0;transition:opacity .15s;pointer-events:none;z-index:10;}
+.sw-like{left:12px;background:var(--jade2);color:white;transform:rotate(-10deg);}
+.sw-nope{right:12px;background:var(--fire);color:white;transform:rotate(10deg);}
+.sw-img{width:100%;height:150px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden;}
+.sw-img span{transition:transform .4s;display:block;}
+.sw-top:hover .sw-img span{transform:scale(1.12) rotate(5deg);}
+.si-a{background:linear-gradient(135deg,#FFE3CC,#FFC09A);}
+.si-b{background:linear-gradient(135deg,#CFF5EA,#8FE8C8);}
+.si-c{background:linear-gradient(135deg,#DDD8FF,#BAB0FF);}
+.si-d{background:linear-gradient(135deg,#FEFACD,#FFE565);}
+.si-e{background:linear-gradient(135deg,#FFE4F0,#FFB3D1);}
+.si-f{background:linear-gradient(135deg,#E4F5E0,#A8E09A);}
+.sw-body{padding:14px 16px 16px;}
+.sw-tag{display:inline-block;background:var(--warm);color:var(--mink);font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:20px;margin-bottom:7px;}
+.sw-name{font-family:'Instrument Serif',serif;font-size:16px;margin-bottom:3px;}
+.sw-loc{font-size:12px;color:var(--dust);margin-bottom:9px;}
+.sw-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.sw-chip{background:var(--warm);color:var(--mink);font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.sw-foot{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1.5px solid var(--line);}
+.sw-price{font-family:'Instrument Serif',serif;font-size:19px;color:var(--fire);}
+.sw-verified{background:var(--jade2);color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.fly-right{animation:flyR .42s cubic-bezier(.36,.07,.19,.97) forwards;}
+.fly-left{animation:flyL .42s cubic-bezier(.36,.07,.19,.97) forwards;}
+@keyframes flyR{to{transform:translateX(230%) rotate(25deg);opacity:0;}}
+@keyframes flyL{to{transform:translateX(-230%) rotate(-25deg);opacity:0;}}
+.sw-actions{display:flex;gap:16px;margin-top:18px;}
+.sw-btn{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--line);background:white;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .22s;box-shadow:0 3px 12px rgba(0,0,0,.08);}
+.sw-btn.pass:hover{background:#FFEAEA;border-color:var(--fire);transform:scale(1.14) rotate(-10deg);}
+.sw-btn.like:hover{background:var(--jade2);border-color:var(--jade2);transform:scale(1.14) rotate(10deg);}
+.sw-btn.star:hover{background:var(--gold);border-color:var(--gold);transform:scale(1.18) translateY(-5px);}
+.sw-hint{font-size:11px;color:var(--dust);font-family:'Syne',sans-serif;letter-spacing:.5px;text-align:center;margin-top:10px;}
+
+/* ─── STATS BAR ──────────────────────────── */
+.stats-bar{background:var(--ink);display:flex;justify-content:center;padding:38px 5%;gap:0;position:relative;overflow:hidden;}
+.stats-bar::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(232,68,10,.12),transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(26,122,98,.1),transparent 60%);}
+.stat-block{flex:1;max-width:220px;text-align:center;padding:0 24px;border-right:1px solid rgba(255,255,255,.08);position:relative;z-index:1;}
+.stat-block:last-child{border:none;}
+.stat-emoji{font-size:28px;display:block;margin-bottom:8px;animation:statbounce 2s ease-in-out infinite;}
+.stat-block:nth-child(2) .stat-emoji{animation-delay:.3s;}
+.stat-block:nth-child(3) .stat-emoji{animation-delay:.6s;}
+.stat-block:nth-child(4) .stat-emoji{animation-delay:.9s;}
+@keyframes statbounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.stat-num{font-family:'Instrument Serif',serif;font-size:40px;color:white;line-height:1;}
+.stat-acc{color:var(--fire2);}
+.stat-lbl{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:6px;}
+
+/* ─── SECTIONS ───────────────────────────── */
+.section{padding:80px 5%;}
+.section.alt{background:var(--warm);}
+.section-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--fire);margin-bottom:12px;text-align:center;}
+.section-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,4vw,46px);font-weight:400;letter-spacing:-1px;text-align:center;line-height:1.15;margin-bottom:10px;}
+.section-title em{color:var(--fire);font-style:italic;}
+.section-sub{font-size:15px;color:var(--dust);text-align:center;max-width:480px;margin:0 auto 48px;font-weight:300;line-height:1.75;}
+
+/* ─── SEARCH ─────────────────────────────── */
+.search-card{background:white;border-radius:var(--r24);border:1.5px solid var(--line);padding:32px;max-width:920px;margin:0 auto;box-shadow:0 8px 40px rgba(0,0,0,.06);transition:box-shadow .3s,border-color .3s;}
+.search-card:focus-within{border-color:var(--fire);box-shadow:0 12px 50px rgba(232,68,10,.12);}
+.search-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end;}
+.sf label{display:block;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dust);margin-bottom:7px;}
+.sf input,.sf select{width:100%;padding:12px 15px;border:1.5px solid var(--line);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--bone);outline:none;appearance:none;transition:all .2s;cursor:none;}
+.sf input:focus,.sf select:focus{border-color:var(--fire);background:white;box-shadow:0 0 0 3px rgba(232,68,10,.09);}
+.sf input::placeholder{color:var(--dust);}
+.btn-search{background:var(--fire);color:white;border:none;padding:13px 28px;border-radius:var(--r12);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;cursor:none;transition:all .22s;box-shadow:0 4px 16px rgba(232,68,10,.28);white-space:nowrap;}
+.btn-search:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,68,10,.38);}
+.filter-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;align-items:center;}
+.filter-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dust);}
+.chip{padding:6px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.3px;color:var(--mink);background:white;cursor:none;transition:all .22s;display:flex;align-items:center;gap:5px;}
+.chip:hover,.chip.on{border-color:var(--fire);color:var(--fire);background:#FFF5F2;transform:translateY(-2px);}
+
+/* ─── LISTINGS ───────────────────────────── */
+.listings-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px;}
+.tab-row{display:flex;background:var(--warm);border-radius:40px;padding:4px;border:1.5px solid var(--line);}
+.tab{padding:8px 20px;border-radius:30px;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--dust);cursor:none;transition:all .2s;}
+.tab.on{background:white;color:var(--ink);box-shadow:0 2px 10px rgba(0,0,0,.09);}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+
+/* ─── LISTING CARD ───────────────────────── */
+.lcard{background:white;border-radius:20px;border:1.5px solid var(--line);overflow:hidden;cursor:none;transition:all .35s cubic-bezier(.34,1.2,.64,1);position:relative;}
+.lcard:hover{transform:translateY(-8px) scale(1.014);box-shadow:0 24px 56px rgba(0,0,0,.11);border-color:rgba(232,68,10,.3);}
+.lcard:hover .card-cta{opacity:1;transform:translateY(0);}
+.card-img{width:100%;height:185px;display:flex;align-items:center;justify-content:center;font-size:54px;position:relative;overflow:hidden;}
+.card-img .big-emoji{transition:transform .4s ease;display:block;}
+.lcard:hover .big-emoji{transform:scale(1.15) rotate(6deg);}
+.ci-a{background:linear-gradient(135deg,#FFE3CC,#FFC09A);}
+.ci-b{background:linear-gradient(135deg,#CFF5EA,#8FE8C8);}
+.ci-c{background:linear-gradient(135deg,#DDD8FF,#BAB0FF);}
+.ci-d{background:linear-gradient(135deg,#FEFACD,#FFE565);}
+.ci-e{background:linear-gradient(135deg,#FFE4F0,#FFB3D1);}
+.ci-f{background:linear-gradient(135deg,#E4F5E0,#A8E09A);}
+.card-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px;}
+.badge{font-family:'Syne',sans-serif;font-size:9px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.5px;}
+.b-verified{background:var(--jade);color:white;}
+.b-new{background:var(--fire);color:white;}
+.b-urgent{background:#DC2626;color:white;}
+.heart-btn{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);border:none;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:none;transition:all .22s;backdrop-filter:blur(4px);}
+.heart-btn:hover{transform:scale(1.2);}
+.heart-btn.loved{color:var(--blush);}
+.card-cta{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(255,255,255,1) 60%,rgba(255,255,255,0));opacity:0;transform:translateY(10px);transition:all .3s;}
+.card-cta button{width:100%;background:var(--fire);color:white;border:none;padding:10px;border-radius:var(--r12);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;cursor:none;}
+.card-body{padding:18px;}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.card-price{font-family:'Instrument Serif',serif;font-size:22px;color:var(--fire);}
+.card-price small{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--dust);font-weight:300;}
+.card-type{background:var(--jade);color:white;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.5px;}
+.card-title{font-family:'Instrument Serif',serif;font-size:17px;margin-bottom:4px;line-height:1.3;}
+.card-loc{font-size:12px;color:var(--dust);margin-bottom:10px;font-weight:300;}
+.card-feats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.feat{background:var(--warm);color:var(--mink);font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;border:1.5px solid var(--line);}
+.fnote{background:#F0FAF6;border-left:3px solid var(--jade2);border-radius:0 var(--r8) var(--r8) 0;padding:11px 13px;margin-bottom:12px;}
+.fnote-label{font-family:'Syne',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--jade);margin-bottom:5px;}
+.fnote p{font-size:12px;color:var(--mink);line-height:1.55;font-style:italic;font-weight:300;}
+.card-divider{height:1.5px;background:var(--line);margin:12px 0;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.poster-info{display:flex;align-items:center;gap:8px;}
+.avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:white;flex-shrink:0;}
+.av-fire{background:linear-gradient(135deg,var(--fire),var(--fire2));}
+.av-jade{background:linear-gradient(135deg,var(--jade),var(--jade2));}
+.av-sky{background:linear-gradient(135deg,var(--sky),#60A5FA);}
+.av-gold{background:linear-gradient(135deg,var(--gold),#FBBF24);}
+.av-blush{background:linear-gradient(135deg,var(--blush),#FF8CB4);}
+.av-ink{background:linear-gradient(135deg,var(--ink),var(--mink));}
+.poster-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;line-height:1.2;}
+.poster-days{font-size:10px;color:var(--dust);}
+.btn-interest{background:var(--warm);color:var(--fire);border:1.5px solid rgba(232,68,10,.25);padding:7px 15px;border-radius:30px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:.3px;cursor:none;transition:all .22s;}
+.btn-interest:hover{background:var(--fire);color:white;transform:translateY(-2px);box-shadow:0 6px 16px rgba(232,68,10,.3);}
+.compat{background:rgba(232,68,10,.1);color:var(--fire);font-family:'Syne',sans-serif;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
+
+/* ─── QUIZ ───────────────────────────────── */
+.quiz-wrap{max-width:680px;margin:0 auto;}
+.quiz-box{background:white;border-radius:var(--r24);border:1.5px solid var(--line);padding:40px;box-shadow:0 12px 48px rgba(0,0,0,.07);position:relative;overflow:hidden;}
+.quiz-box::after{content:'✨';position:absolute;right:20px;top:20px;font-size:44px;opacity:.08;pointer-events:none;}
+.quiz-prog{height:4px;background:var(--line);border-radius:4px;margin-bottom:28px;overflow:hidden;}
+.quiz-bar{height:100%;background:linear-gradient(90deg,var(--fire),var(--fire2));border-radius:4px;transition:width .5s ease;}
+.quiz-qnum{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--fire);margin-bottom:10px;}
+.quiz-q{font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;margin-bottom:28px;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.quiz-opt{background:var(--bone);border:1.5px solid var(--line);border-radius:var(--r16);padding:16px 18px;cursor:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--mink);transition:all .22s;text-align:left;display:flex;align-items:center;gap:12px;}
+.quiz-opt:hover{border-color:var(--fire);background:#FFF5F2;color:var(--fire);transform:translateY(-3px);}
+.quiz-opt .qe{font-size:24px;}
+.quiz-result{text-align:center;display:none;animation:fadeSlide .5s ease both;}
+.qr-emoji{font-size:72px;display:block;margin-bottom:16px;animation:statbounce 1s ease infinite;}
+.qr-title{font-family:'Instrument Serif',serif;font-size:28px;margin-bottom:10px;}
+.qr-sub{font-size:15px;color:var(--mink);line-height:1.65;margin-bottom:24px;font-weight:300;max-width:440px;margin-left:auto;margin-right:auto;}
+.qr-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.quiz-restart{background:none;border:1.5px solid var(--line);padding:10px 22px;border-radius:30px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--mink);cursor:none;transition:all .2s;margin-top:14px;}
+.quiz-restart:hover{border-color:var(--fire);color:var(--fire);}
+
+/* ─── HOW IT WORKS ───────────────────────── */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;max-width:960px;margin:0 auto;}
+.step-card{background:white;border-radius:20px;border:1.5px solid var(--line);padding:28px 24px;text-align:center;cursor:none;transition:all .35s cubic-bezier(.34,1.2,.64,1);}
+.step-card:hover{transform:translateY(-8px) rotate(-1.5deg);border-color:rgba(232,68,10,.35);box-shadow:0 16px 40px rgba(232,68,10,.1);}
+.step-card:nth-child(2):hover{transform:translateY(-8px) rotate(1.5deg);}
+.step-card:nth-child(3):hover{transform:translateY(-8px) rotate(-1deg);}
+.step-card:nth-child(4):hover{transform:translateY(-8px) rotate(1.5deg);}
+.step-card:nth-child(5):hover{transform:translateY(-8px) rotate(-1deg);}
+.step-icon{font-size:40px;display:block;margin-bottom:14px;transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.step-card:hover .step-icon{transform:scale(1.35) rotate(-8deg);}
+.step-num{font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--fire);margin-bottom:8px;}
+.step-title{font-family:'Instrument Serif',serif;font-size:19px;margin-bottom:8px;}
+.step-desc{font-size:13px;color:var(--mink);line-height:1.65;font-weight:300;}
+
+/* ─── MUTUAL MATCH SECTION ───────────────── */
+.match-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;max-width:900px;margin:0 auto;align-items:start;}
+.bcard{background:white;border-radius:20px;border:1.5px solid var(--line);padding:24px;transition:all .3s;}
+.bcard:hover{border-color:rgba(232,68,10,.3);transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.08);}
+.bcard-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding-bottom:12px;margin-bottom:14px;border-bottom:1.5px solid var(--line);}
+.bcard-title.seeker{color:var(--fire);}
+.bcard-title.lister{color:var(--jade);}
+.brow{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:13px;color:var(--mink);line-height:1.45;font-weight:400;}
+.brow .be{font-size:16px;flex-shrink:0;margin-top:1px;}
+.match-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding-top:48px;}
+.match-heart{width:52px;height:52px;background:#FFF5F2;border:2px solid var(--fire2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+.match-line{width:2px;height:36px;background:var(--fire2);border-radius:2px;opacity:.4;}
+.match-lbl{font-family:'Syne',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--fire);text-align:center;line-height:1.5;}
+.unlock-box{background:var(--jade2);border-radius:var(--r16);padding:20px 24px;text-align:center;max-width:900px;margin:24px auto 0;}
+.unlock-box .ut{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:white;margin-bottom:5px;}
+.unlock-box .us{font-size:13px;color:rgba(255,255,255,.85);font-weight:300;}
+
+/* ─── SAFETY ─────────────────────────────── */
+.safe-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:900px;margin:0 auto;}
+.safe-card{background:var(--warm);border:1.5px solid var(--line);border-radius:20px;padding:28px;transition:all .3s;}
+.safe-card:hover{border-color:rgba(232,68,10,.3);transform:translateY(-4px);box-shadow:0 12px 32px rgba(232,68,10,.09);}
+.safe-title{font-family:'Instrument Serif',serif;font-size:20px;margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.safe-list{list-style:none;margin-top:14px;}
+.safe-list li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--mink);padding:8px 0;border-bottom:1.5px solid var(--line);line-height:1.5;font-weight:300;}
+.safe-list li:last-child{border:none;}
+.sdot{color:var(--fire);font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* ─── REVIEWS ────────────────────────────── */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:960px;margin:0 auto;}
+.review-card{background:white;border-radius:20px;border:1.5px solid var(--line);padding:24px;transition:all .3s;}
+.review-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.08);transform:translateY(-4px);border-color:rgba(232,68,10,.2);}
+.review-stars{color:var(--gold);font-size:14px;margin-bottom:12px;}
+.review-text{font-size:14px;color:var(--mink);line-height:1.7;font-style:italic;font-weight:300;margin-bottom:16px;}
+.review-author{display:flex;align-items:center;gap:10px;}
+.review-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--ink);}
+.review-city{font-size:11px;color:var(--dust);}
+
+/* ─── CTA BAND ───────────────────────────── */
+.cta-band{background:var(--fire);padding:80px 5%;text-align:center;position:relative;overflow:hidden;}
+.cta-band::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.04) 40px,rgba(255,255,255,.04) 41px);}
+.cta-band h2{font-family:'Instrument Serif',serif;font-size:clamp(32px,5vw,60px);color:white;letter-spacing:-1px;margin-bottom:14px;position:relative;z-index:1;line-height:1.15;}
+.cta-band p{color:rgba(255,255,255,.8);font-size:16px;margin-bottom:36px;position:relative;z-index:1;font-weight:300;}
+.cta-band .btn-white{background:white;color:var(--fire);border:none;padding:18px 40px;border-radius:50px;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:none;transition:all .28s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 24px rgba(0,0,0,.15);position:relative;z-index:1;}
+.cta-band .btn-white:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 16px 36px rgba(0,0,0,.22);}
+.cta-emoji-row{display:flex;justify-content:center;gap:18px;font-size:30px;margin-bottom:28px;position:relative;z-index:1;}
+.cta-emoji-row span{display:inline-block;animation:statbounce var(--d,2s) ease-in-out infinite var(--dl,0s);}
+
+/* ─── FOOTER ─────────────────────────────── */
+footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-logo{font-family:'Instrument Serif',serif;font-style:italic;font-size:26px;color:white;margin-bottom:12px;}
+.footer-logo sup{font-style:normal;font-family:'Syne',sans-serif;font-size:10px;color:var(--fire2);}
+.footer-desc{font-size:13px;line-height:1.8;max-width:240px;font-weight:300;}
+.footer-col h4{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:white;margin-bottom:16px;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:10px;}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,.5);transition:color .2s;font-weight:300;}
+.footer-col ul li a:hover{color:var(--fire2);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{font-size:12px;font-weight:300;}
+.india-flag{display:flex;flex-direction:column;width:22px;gap:0;}
+.india-flag span{height:4px;}
+.india-flag span:nth-child(1){background:#FF9933;border-radius:2px 2px 0 0;}
+.india-flag span:nth-child(2){background:#fff;}
+.india-flag span:nth-child(3){background:#138808;border-radius:0 0 2px 2px;}
+
+/* ─── MODAL ──────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(27,18,8,.6);z-index:500;align-items:center;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(6px);}
+.overlay.open{display:flex;}
+.modal{background:white;border-radius:var(--r24);width:100%;max-width:660px;max-height:92vh;overflow-y:auto;padding:40px;position:relative;animation:modalIn .38s cubic-bezier(.34,1.2,.64,1) both;border:1.5px solid var(--line);}
+@keyframes modalIn{from{opacity:0;transform:scale(.88) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:white;cursor:none;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--dust);transition:all .22s;font-weight:700;}
+.modal-close:hover{border-color:var(--fire);color:var(--fire);transform:rotate(90deg);}
+.modal-title{font-family:'Instrument Serif',serif;font-size:28px;margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--dust);margin-bottom:28px;font-weight:300;}
+.form-section{font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--fire);margin:24px 0 12px;display:flex;align-items:center;gap:10px;}
+.form-section::after{content:'';flex:1;height:1.5px;background:var(--line);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.fg{display:flex;flex-direction:column;gap:6px;}
+.fg.span2{grid-column:span 2;}
+.fg label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--dust);}
+.fg input,.fg select,.fg textarea{padding:11px 14px;border:1.5px solid var(--line);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--bone);outline:none;transition:all .2s;resize:vertical;cursor:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--fire);background:white;box-shadow:0 0 0 3px rgba(232,68,10,.08);}
+.upload-zone{border:2px dashed var(--line);border-radius:var(--r16);padding:32px;text-align:center;cursor:none;background:var(--bone);transition:all .25s;}
+.upload-zone:hover{border-color:var(--fire);background:#FFF8F5;}
+.upload-zone .ue{font-size:38px;margin-bottom:8px;display:block;}
+.upload-zone p{font-size:13px;color:var(--dust);font-weight:300;}
+.upload-zone span{color:var(--fire);font-weight:600;}
+.toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.toggle-item{background:var(--bone);border:1.5px solid var(--line);border-radius:var(--r12);padding:11px 14px;display:flex;align-items:center;gap:8px;cursor:none;transition:all .22s;font-size:13px;font-weight:500;color:var(--mink);}
+.toggle-item:hover,.toggle-item.on{border-color:var(--fire);background:#FFF5F2;color:var(--fire);}
+.toggle-item .tick{font-size:12px;opacity:0;transition:opacity .15s;}
+.toggle-item.on .tick{opacity:1;}
+.tip{background:#FFF8F5;border-left:3px solid var(--fire2);border-radius:0 var(--r8) var(--r8) 0;padding:12px 15px;font-size:12px;color:var(--mink);font-weight:400;line-height:1.55;margin-top:10px;}
+.modal-footer{display:flex;gap:12px;justify-content:flex-end;margin-top:28px;}
+.btn-modal-sub{background:var(--fire);color:white;border:none;padding:13px 30px;border-radius:40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;cursor:none;transition:all .25s;box-shadow:0 6px 18px rgba(232,68,10,.28);}
+.btn-modal-sub:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,68,10,.4);}
+.modal-tab-bar{display:flex;background:var(--bone);border-radius:12px;padding:4px;gap:4px;margin-bottom:24px;border:1.5px solid var(--line);}
+.modal-tab{flex:1;padding:10px;border-radius:9px;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;color:var(--dust);transition:all .2s;letter-spacing:.3px;}
+.modal-tab.on{background:white;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.panel{display:none;}
+.panel.on{display:block;}
+/* detail modal */
+.detail-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:72px;border-radius:var(--r16);margin-bottom:24px;}
+.detail-price{font-family:'Instrument Serif',serif;font-size:32px;color:var(--fire);margin-bottom:4px;}
+.detail-price small{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dust);}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.info-item{background:var(--bone);border-radius:var(--r12);padding:14px;}
+.info-key{font-family:'Syne',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--dust);margin-bottom:5px;}
+.info-val{font-size:14px;font-weight:600;color:var(--ink);}
+.contact-btns{display:flex;gap:12px;margin-top:20px;}
+.btn-contact-p{flex:1;padding:14px;border-radius:var(--r12);font-size:14px;font-weight:700;font-family:inherit;cursor:none;background:var(--fire);color:white;border:none;transition:all .2s;}
+.btn-contact-p:hover{background:#c73a07;transform:translateY(-2px);}
+.btn-contact-s{flex:1;padding:14px;border-radius:var(--r12);font-size:14px;font-weight:700;font-family:inherit;cursor:none;background:transparent;color:var(--ink);border:1.5px solid var(--line);transition:all .2s;}
+.btn-contact-s:hover{border-color:var(--ink);}
+
+/* ─── TOAST ──────────────────────────────── */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:white;padding:13px 26px;border-radius:50px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.3px;z-index:600;transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none;max-width:90vw;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ─── REVEAL ─────────────────────────────── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ─── RESPONSIVE ─────────────────────────── */
+@media(max-width:900px){
+  .hero{flex-direction:column;gap:44px;padding:44px 5%;min-height:auto;}
+  .hero-visual{padding-left:0;}
+  .match-grid{grid-template-columns:1fr;}
+  .match-center{display:none;}
+  .safe-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .nav-links{display:none;}
+  .search-row{grid-template-columns:1fr 1fr;}
+  .search-row>:last-child{grid-column:span 2;}
+  .form-grid,.toggle-grid,.quiz-opts{grid-template-columns:1fr;}
+  .fg.span2{grid-column:span 1;}
+  .info-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="C"></div>
+<div id="C2"></div>
+
+<!-- MARQUEE -->
+<div class="marq">
+  <div class="marq-inner" id="MQ">
+    <div class="mi">🏠 12,400+ Rooms Listed <span>✦</span></div>
+    <div class="mi">✅ Aadhaar &amp; PAN Verified <span>✦</span></div>
+    <div class="mi">🇮🇳 38 Cities Covered <span>✦</span></div>
+    <div class="mi">🤝 Mutual Match System <span>✦</span></div>
+    <div class="mi">⭐ 4.8 Trust Score <span>✦</span></div>
+    <div class="mi">💌 Departing Flatmate Notes <span>✦</span></div>
+    <div class="mi">🔒 DigiLocker Verified <span>✦</span></div>
+    <div class="mi">🎉 Your Ghar Is Waiting <span>✦</span></div>
+    <div class="mi">🏠 12,400+ Rooms Listed <span>✦</span></div>
+    <div class="mi">✅ Aadhaar &amp; PAN Verified <span>✦</span></div>
+    <div class="mi">🇮🇳 38 Cities Covered <span>✦</span></div>
+    <div class="mi">🤝 Mutual Match System <span>✦</span></div>
+    <div class="mi">⭐ 4.8 Trust Score <span>✦</span></div>
+    <div class="mi">💌 Departing Flatmate Notes <span>✦</span></div>
+    <div class="mi">🔒 DigiLocker Verified <span>✦</span></div>
+    <div class="mi">🎉 Your Ghar Is Waiting <span>✦</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="rain()">GharSaathi<sup>IN</sup></div>
+  <ul class="nav-links">
+    <li><a href="#browse">Browse Rooms</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#quiz">Take the Quiz ✨</a></li>
+    <li><a href="#safety">Safety</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn-ghost" onclick="toast2('Login coming soon! 🙈')">Log In</button>
+    <button class="btn-fire" onclick="openList()">+ List My Room</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob hb1"></div>
+  <div class="hero-blob hb2"></div>
+  <div class="hero-blob hb3"></div>
+  <div class="floatie" style="top:10%;left:7%;--fd:5.5s;--fdl:0s">🏠</div>
+  <div class="floatie" style="top:72%;left:14%;--fd:7s;--fdl:1.2s">🌿</div>
+  <div class="floatie" style="top:18%;right:5%;--fd:6s;--fdl:.5s">☕</div>
+  <div class="floatie" style="top:78%;right:7%;--fd:8s;--fdl:2s">🛋️</div>
+  <div class="floatie" style="top:48%;left:34%;--fd:9s;--fdl:1.5s">🔑</div>
+
+  <div class="hero-content">
+    <div class="h-eyebrow">
+      <div class="live-dot"></div>
+      India's Safest Flatmate Finder
+    </div>
+    <h1>
+      <div class="word-reveal"><span>Find</span></div>&nbsp;
+      <div class="word-reveal"><span>your</span></div>&nbsp;
+      <div class="word-reveal"><span><em>ghar,</em></span></div><br>
+      <div class="word-reveal"><span>find</span></div>&nbsp;
+      <div class="word-reveal"><span class="jade-text">your tribe.</span></div>
+    </h1>
+    <p class="hero-sub">Your flatmate moved out? Don't panic. 😅 GharSaathi connects you with verified, vibe-matched people looking for exactly what you have — safely, quickly, joyfully.</p>
+    <div class="hero-acts">
+      <button class="btn-big" onclick="document.getElementById('browse').scrollIntoView({behavior:'smooth'});confetti()">Browse Rooms 🏠</button>
+      <button class="btn-outline-big" onclick="openList()">List My Room →</button>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="swipe-stage" id="swStage">
+      <div class="swipe-card sw-bot"><div class="sw-img si-d"><span>☀️</span></div><div class="sw-body"><div class="sw-tag">3BHK · Bengaluru</div><div class="sw-name">Penthouse, HSR Layout</div></div></div>
+      <div class="swipe-card sw-mid"><div class="sw-img si-c"><span>🏙️</span></div><div class="sw-body"><div class="sw-tag">3BHK · Mumbai</div><div class="sw-name">Modern Flat, Bandra</div></div></div>
+      <div class="swipe-card sw-top" id="topCard">
+        <div class="sw-img si-a" id="topImg"><span id="topEmoji">🏠</span></div>
+        <div class="sw-label sw-like" id="swLike">LIKE 💚</div>
+        <div class="sw-label sw-nope" id="swNope">NOPE 🙅</div>
+        <div class="sw-body">
+          <div class="sw-tag" id="topTag">2BHK · Bengaluru</div>
+          <div class="sw-name" id="topName">Airy Flat, Indiranagar</div>
+          <div class="sw-loc" id="topLoc">📍 3.2 km from MG Road metro</div>
+          <div class="sw-chips" id="topChips">
+            <div class="sw-chip">WiFi ✓</div><div class="sw-chip">Gym</div><div class="sw-chip">Metro 2 min</div>
+          </div>
+          <div class="sw-foot">
+            <div class="sw-price" id="topPrice">₹14,000<small>/mo</small></div>
+            <div class="sw-verified">✓ Verified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sw-actions">
+      <button class="sw-btn pass" onclick="doSwipe('left')" title="Pass">👎</button>
+      <button class="sw-btn star" onclick="doSwipe('super')" title="Super Like">⭐</button>
+      <button class="sw-btn like" onclick="doSwipe('right')" title="Like">💚</button>
+    </div>
+    <p class="sw-hint">← drag card or tap buttons →</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-block"><span class="stat-emoji">🏠</span><div class="stat-num"><span class="counter" data-target="12400">0</span><span class="stat-acc">+</span></div><div class="stat-lbl">Rooms Listed</div></div>
+  <div class="stat-block"><span class="stat-emoji">✅</span><div class="stat-num"><span class="counter" data-target="86">0</span><span class="stat-acc">%</span></div><div class="stat-lbl">Verified Users</div></div>
+  <div class="stat-block"><span class="stat-emoji">🏙️</span><div class="stat-num"><span class="counter" data-target="38">0</span><span class="stat-acc">+</span></div><div class="stat-lbl">Cities Covered</div></div>
+  <div class="stat-block"><span class="stat-emoji">💌</span><div class="stat-num"><span class="counter" data-target="96">0</span><span class="stat-acc">%</span></div><div class="stat-lbl">Match Satisfaction</div></div>
+</div>
+
+<!-- SEARCH -->
+<section class="section alt" id="search" style="position:relative;overflow:hidden;">
+  <div style="position:absolute;right:3%;top:8%;font-size:130px;opacity:.04;transform:rotate(15deg);pointer-events:none;">🏡</div>
+  <div class="section-label">Find a Room</div>
+  <h2 class="section-title">Where do you want to <em>live?</em></h2>
+  <p class="section-sub">Type a city, area, or landmark. We'll show who needs a flatmate just like you. 🔍</p>
+  <div class="search-card">
+    <div class="search-row">
+      <div class="sf"><label>City / Area</label><input type="text" id="sLoc" placeholder="e.g. Koramangala, Bengaluru"></div>
+      <div class="sf"><label>Monthly Budget</label>
+        <select><option>Any Budget 😌</option><option>Under ₹8,000</option><option>₹8k – ₹15k</option><option>₹15k – ₹25k</option><option>₹25k+</option></select></div>
+      <div class="sf"><label>Flat Type</label>
+        <select><option>Any Type 🏠</option><option>1BHK</option><option>2BHK</option><option>3BHK</option><option>Studio</option></select></div>
+      <button class="btn-search" onclick="doSearch()">Search →</button>
+    </div>
+    <div class="filter-strip">
+      <span class="filter-label">Vibe:</span>
+      <div class="chip on" onclick="togChip(this)">🌟 All</div>
+      <div class="chip" onclick="togChip(this)">💼 Working Pro</div>
+      <div class="chip" onclick="togChip(this)">🎓 Student</div>
+      <div class="chip" onclick="togChip(this)">👩 Female Only</div>
+      <div class="chip" onclick="togChip(this)">🚭 No Smoking</div>
+      <div class="chip" onclick="togChip(this)">🐾 Pet Friendly</div>
+      <div class="chip" onclick="togChip(this)">🥗 Vegetarian</div>
+      <div class="chip" onclick="togChip(this)">💻 WFH Ok</div>
+    </div>
+  </div>
+</section>
+
+<!-- LISTINGS -->
+<section class="section" id="browse">
+  <div class="listings-header">
+    <div>
+      <div class="section-label" style="text-align:left;margin-bottom:4px;">Live Listings</div>
+      <h2 class="section-title" style="text-align:left;font-size:clamp(24px,3vw,38px);">Rooms waiting for <em>you ✨</em></h2>
+    </div>
+    <div class="tab-row">
+      <button class="tab on" onclick="switchTab(this)">All 🏠</button>
+      <button class="tab" onclick="switchTab(this)">Verified ✅</button>
+      <button class="tab" onclick="switchTab(this)">New 🔥</button>
+      <button class="tab" onclick="switchTab(this)">Urgent ⚡</button>
+    </div>
+  </div>
+  <div class="grid-3">
+
+    <!-- Card 1 -->
+    <div class="lcard reveal" onclick="openDetail('🏠','Airy 2BHK, Indiranagar','📍 Indiranagar 12th Main, Bengaluru','₹14,000','2BHK · Furnished','3rd Floor, Green Villa Apts','1 room','2 existing','Priya Sharma','Priya is a dream — kitchen always spotless, pays rent early, makes the best chai. You\'re going to love her!','Sneha (outgoing flatmate)','ci-a')">
+      <div class="card-img ci-a">
+        <span class="big-emoji">🏠</span>
+        <div class="card-badges"><span class="badge b-verified">✓ Verified</span><span class="badge b-new">🔥 New</span></div>
+        <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Priya')">Show Interest 💌</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-price">₹14,000 <small>/month</small></div><div class="card-type">2BHK</div></div>
+        <div class="card-title">Airy 2BHK, Indiranagar</div>
+        <div class="card-loc">📍 Bengaluru · 3.2 km from MG Road metro</div>
+        <div class="card-feats"><div class="feat">📶 WiFi</div><div class="feat">💪 Gym</div><div class="feat">🚇 Metro 2 min</div><div class="feat">🛋️ Furnished</div></div>
+        <div class="fnote">
+          <div class="fnote-label">💬 From outgoing flatmate</div>
+          <p>"<b>Priya is a dream to live with</b> — kitchen always spotless, pays rent early, makes the best chai. You're going to love her!" — <b>Sneha</b></p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="poster-info"><div class="avatar av-fire">P</div><div><div class="poster-name">Priya Sharma</div><div class="poster-days">2 days ago · Aadhaar ✓ · LinkedIn ✓ · <span class="compat">92% match</span></div></div></div>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Priya')">Interest 💌</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="lcard reveal" style="transition-delay:.08s" onclick="openDetail('🌿','Peaceful 1BHK near IT Park','📍 Hinjewadi Phase 1, Pune','₹9,500','1BHK · Semi-furnished','B-12, Greenfield Society','1 room','1 existing','Rahul Mehta','Rahul = most organised human alive 😂 Pays rent 2 days early, never leaves dishes in the sink. My bar for flatmates is now ruined forever.','Ankit (outgoing flatmate)','ci-b')">
+      <div class="card-img ci-b">
+        <span class="big-emoji">🌿</span>
+        <div class="card-badges"><span class="badge b-verified">✓ Verified</span></div>
+        <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Rahul')">Show Interest 💌</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-price">₹9,500 <small>/month</small></div><div class="card-type" style="background:var(--fire2);">1BHK</div></div>
+        <div class="card-title">Peaceful 1BHK near IT Park</div>
+        <div class="card-loc">📍 Pune · Near Hinjewadi Phase 1</div>
+        <div class="card-feats"><div class="feat">🐾 Pet OK</div><div class="feat">🌱 Veg Pref</div><div class="feat">🌅 Balcony</div><div class="feat">🪴 Garden View</div></div>
+        <div class="fnote">
+          <div class="fnote-label">💬 From outgoing flatmate</div>
+          <p>"<b>Rahul = most organised human alive</b> 😂 Pays rent 2 days early, never leaves dishes in the sink. My bar for flatmates is now ruined." — <b>Ankit</b></p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="poster-info"><div class="avatar av-jade">R</div><div><div class="poster-name">Rahul Mehta</div><div class="poster-days">5 days ago · PAN ✓ · LinkedIn ✓ · <span class="compat">87% match</span></div></div></div>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Rahul')">Interest 💌</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="lcard reveal" style="transition-delay:.16s" onclick="openDetail('🏙️','Modern 3BHK, Bandra West','📍 Bandra West, Mumbai','₹18,000','3BHK · Fully Furnished','C-402, Sea Breeze Heights','1 room','2 existing','Kavya Nair','Kavya has movie-night energy AND respects your space 🎬 Super hygienic, professional, genuinely kind. Living with her was my Bombay highlight.','Meera (outgoing flatmate)','ci-c')">
+      <div class="card-img ci-c">
+        <span class="big-emoji">🏙️</span>
+        <div class="card-badges"><span class="badge b-verified">✓ Verified</span><span class="badge b-new">🔥 New</span></div>
+        <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Kavya')">Show Interest 💌</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-price">₹18,000 <small>/month</small></div><div class="card-type" style="background:var(--sky);">3BHK</div></div>
+        <div class="card-title">Modern 3BHK, Bandra West</div>
+        <div class="card-loc">📍 Mumbai · Walking distance to Bandra Station</div>
+        <div class="card-feats"><div class="feat">❄️ AC</div><div class="feat">👩 Female Only</div><div class="feat">🔒 Security</div><div class="feat">🌊 Sea View</div></div>
+        <div class="fnote">
+          <div class="fnote-label">💬 From outgoing flatmate</div>
+          <p>"<b>Kavya has movie-night energy AND respects your space</b> 🎬 Super hygienic and genuinely kind. Bombay highlight for sure." — <b>Meera</b></p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="poster-info"><div class="avatar av-sky">K</div><div><div class="poster-name">Kavya Nair</div><div class="poster-days">Today · Aadhaar ✓ · LinkedIn ✓ · <span class="compat">95% match</span></div></div></div>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Kavya')">Interest 💌</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="lcard reveal" style="transition-delay:.24s" onclick="openDetail('🎨','Artistic 4BHK, Hauz Khas','📍 Hauz Khas Village, New Delhi','₹9,000','4BHK · Furnished','3rd Floor, HKV Lane 7','2 rooms','2 existing','Aarav Singh','Aarav is calm, organised, and has the best playlist for literally any occasion. He works from home — super genuine person, zero drama.','Tanvi (outgoing flatmate)','ci-d')">
+      <div class="card-img ci-d">
+        <span class="big-emoji">🎨</span>
+        <div class="card-badges"><span class="badge b-verified">✓ Verified</span><span class="badge b-new">🔥 New</span></div>
+        <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Aarav')">Show Interest 💌</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-price">₹9,000 <small>/month</small></div><div class="card-type" style="background:var(--gold);color:var(--ink);">4BHK</div></div>
+        <div class="card-title">Artistic 4BHK, Hauz Khas Village</div>
+        <div class="card-loc">📍 New Delhi · Near HKV Social</div>
+        <div class="card-feats"><div class="feat">🌿 Terrace</div><div class="feat">💻 WFH Zone</div><div class="feat">🌈 Any Gender</div><div class="feat">🎵 Chill Vibes</div></div>
+        <div class="fnote">
+          <div class="fnote-label">💬 From outgoing flatmate</div>
+          <p>"<b>Aarav is calm and has the best playlist</b> for any occasion. Works from home, zero drama. Super genuine!" — <b>Tanvi</b></p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="poster-info"><div class="avatar av-gold">A</div><div><div class="poster-name">Aarav Singh</div><div class="poster-days">3 days ago · Voter ID ✓ · LinkedIn ✓ · <span class="compat">89% match</span></div></div></div>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Aarav')">Interest 💌</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="lcard reveal" style="transition-delay:.32s" onclick="openDetail('🌺','Luxe 2BHK, Banjara Hills','📍 Banjara Hills Road No. 12, Hyderabad','₹13,000','2BHK · Fully Furnished','A-12, Palm Greens Society','1 room','1 existing','Kavya Reddy','Kavya is the definition of a perfect flatmate — quiet when needed, fun when you want, and she makes the BEST pesarattu on Sunday mornings. You are so lucky!','Meera (outgoing flatmate)','ci-e')">
+      <div class="card-img ci-e">
+        <span class="big-emoji">🌺</span>
+        <div class="card-badges"><span class="badge b-verified">✓ Verified</span></div>
+        <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Kavya R.')">Show Interest 💌</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-price">₹13,000 <small>/month</small></div><div class="card-type">2BHK</div></div>
+        <div class="card-title">Luxe 2BHK, Banjara Hills</div>
+        <div class="card-loc">📍 Hyderabad · Banjara Hills Road No.12</div>
+        <div class="card-feats"><div class="feat">🏊 Pool</div><div class="feat">🏋️ Gym</div><div class="feat">👩 Female Only</div><div class="feat">🔒 Gated</div></div>
+        <div class="fnote">
+          <div class="fnote-label">💬 From outgoing flatmate</div>
+          <p>"<b>Kavya = perfect flatmate</b> — quiet when needed, fun when you want. Makes the BEST pesarattu on Sundays 🫶" — <b>Meera</b></p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="poster-info"><div class="avatar av-blush">K</div><div><div class="poster-name">Kavya Reddy</div><div class="poster-days">1 day ago · Aadhaar ✓ · LinkedIn ✓ · <span class="compat">93% match</span></div></div></div>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Kavya R.')">Interest 💌</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="lcard reveal" style="transition-delay:.4s" onclick="openDetail('🏋️','Chill 3BHK, Viman Nagar','📍 Viman Nagar, Pune','₹8,500','3BHK · Semi-furnished','B-7, Sai Kripa Society','2 rooms','1 existing','Rohan Kapoor','The boys here are solid. We cook together, gym together, work hard. Rohan just needs someone chill with good work ethic. You will love it here, guaranteed!','Karan (outgoing flatmate)','ci-f')">
+      <div class="card-img ci-f">
+        <span class="big-emoji">🏋️</span>
+        <div class="card-badges"><span class="badge b-urgent">⚡ Urgent</span><span class="badge b-verified">✓ Verified</span></div>
+        <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Rohan')">Show Interest 💌</button></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-price">₹8,500 <small>/month</small></div><div class="card-type" style="background:var(--jade);">3BHK</div></div>
+        <div class="card-title">Chill 3BHK, Viman Nagar</div>
+        <div class="card-loc">📍 Pune · Airport Road · 15 min from Airport</div>
+        <div class="card-feats"><div class="feat">🏋️ Gym Nearby</div><div class="feat">👨 Male Only</div><div class="feat">🚲 2W Parking</div><div class="feat">✈️ Airport 15 min</div></div>
+        <div class="fnote">
+          <div class="fnote-label">💬 From outgoing flatmate</div>
+          <p>"<b>The boys here cook and gym together.</b> Rohan needs someone chill with good work ethic. You'll love it here, guaranteed!" — <b>Karan</b></p>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="poster-info"><div class="avatar av-ink">R</div><div><div class="poster-name">Rohan Kapoor</div><div class="poster-days">Today · PAN ✓ · LinkedIn ✓ · <span class="compat">84% match</span></div></div></div>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Rohan')">Interest 💌</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PERSONALITY QUIZ -->
+<section class="section alt" id="quiz" style="position:relative;overflow:hidden;">
+  <div style="position:absolute;left:3%;top:12%;font-size:100px;opacity:.05;transform:rotate(-20deg);pointer-events:none;">🎯</div>
+  <div class="section-label">Personality Match</div>
+  <h2 class="section-title">What kind of flatmate <em>are you?</em></h2>
+  <p class="section-sub">4 fun questions. We'll reveal your flatmate personality and match you to the right rooms! 🎯</p>
+  <div class="quiz-wrap">
+    <div class="quiz-box">
+      <div class="quiz-result" id="qRes">
+        <span class="qr-emoji" id="qrEmoji">🏆</span>
+        <div class="qr-title" id="qrTitle">The Zen Homebody</div>
+        <div class="qr-sub" id="qrSub">You love peaceful evenings and a tidy flat. Your ideal flatmate brings good chai and zero drama. We've found your people!</div>
+        <div class="qr-cta">
+          <button class="btn-big" onclick="confetti();toast2('🔍 Showing your matched rooms!');document.getElementById('browse').scrollIntoView({behavior:'smooth'})">See My Matches 🔍</button>
+        </div>
+        <br><button class="quiz-restart" onclick="restartQuiz()">↩ Retake Quiz</button>
+      </div>
+      <div class="quiz-prog"><div class="quiz-bar" id="qBar" style="width:25%"></div></div>
+      <div id="qS1" class="quiz-step">
+        <div class="quiz-qnum">Question 1 of 4 🎯</div>
+        <div class="quiz-q">Your flatmate finishes the last of the milk. You...</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="nextQ(2,this)"><span class="qe">😤</span>Seethe silently for 3 days</button>
+          <button class="quiz-opt" onclick="nextQ(2,this)"><span class="qe">😌</span>Fine, make black chai</button>
+          <button class="quiz-opt" onclick="nextQ(2,this)"><span class="qe">📝</span>Add it to the shared list</button>
+          <button class="quiz-opt" onclick="nextQ(2,this)"><span class="qe">😂</span>Send a passive-aggressive meme</button>
+        </div>
+      </div>
+      <div id="qS2" class="quiz-step" style="display:none">
+        <div class="quiz-qnum">Question 2 of 4 🎯</div>
+        <div class="quiz-q">Ideal Saturday at home looks like...</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="nextQ(3,this)"><span class="qe">🛏️</span>Bed, Netflix &amp; solitude</button>
+          <button class="quiz-opt" onclick="nextQ(3,this)"><span class="qe">🍳</span>Cooking together vibes</button>
+          <button class="quiz-opt" onclick="nextQ(3,this)"><span class="qe">📚</span>Quiet study in my room</button>
+          <button class="quiz-opt" onclick="nextQ(3,this)"><span class="qe">🎉</span>Small gathering, good music</button>
+        </div>
+      </div>
+      <div id="qS3" class="quiz-step" style="display:none">
+        <div class="quiz-qnum">Question 3 of 4 🎯</div>
+        <div class="quiz-q">How do you feel about sharing food?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="nextQ(4,this)"><span class="qe">🤝</span>My fridge is your fridge, bhai</button>
+          <button class="quiz-opt" onclick="nextQ(4,this)"><span class="qe">🔒</span>Labels on everything pls</button>
+          <button class="quiz-opt" onclick="nextQ(4,this)"><span class="qe">🍱</span>Only if we cook together</button>
+          <button class="quiz-opt" onclick="nextQ(4,this)"><span class="qe">🤷</span>Whatever flows, no stress</button>
+        </div>
+      </div>
+      <div id="qS4" class="quiz-step" style="display:none">
+        <div class="quiz-qnum">Last one! 🎉</div>
+        <div class="quiz-q">Your flatmate plays music at 11pm. You...</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="finishQuiz(0)"><span class="qe">😴</span>Already asleep since 10 tbh</button>
+          <button class="quiz-opt" onclick="finishQuiz(1)"><span class="qe">🎶</span>Join the late-night jam!</button>
+          <button class="quiz-opt" onclick="finishQuiz(2)"><span class="qe">😐</span>Politely ask them to stop</button>
+          <button class="quiz-opt" onclick="finishQuiz(3)"><span class="qe">🎧</span>Headphones on, unbothered</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">Simple Process</div>
+  <h2 class="section-title">5 steps to your <em>new home</em> 🎯</h2>
+  <p class="section-sub">From "my flatmate left 😭" to "hey roomie, welcome home! 🎉" — faster than you'd think.</p>
+  <div class="steps">
+    <div class="step-card reveal"><span class="step-icon">📋</span><div class="step-num">Step 01</div><div class="step-title">List or Search</div><p class="step-desc">Post your room or search by vibe, location, budget. No boring forms — we kept it human!</p></div>
+    <div class="step-card reveal" style="transition-delay:.1s"><span class="step-icon">🛡️</span><div class="step-num">Step 02</div><div class="step-title">Get Verified</div><p class="step-desc">Upload Aadhaar, PAN or Passport + LinkedIn. One time. Trusted forever. 🔒</p></div>
+    <div class="step-card reveal" style="transition-delay:.2s"><span class="step-icon">💌</span><div class="step-num">Step 03</div><div class="step-title">Mutual Match</div><p class="step-desc">Both show interest? Only then does contact unlock. Safe, smart, no ghosting. 🤝</p></div>
+    <div class="step-card reveal" style="transition-delay:.3s"><span class="step-icon">🏠</span><div class="step-num">Step 04</div><div class="step-title">Visit & Vibe</div><p class="step-desc">Schedule a flat visit via our platform. Meet the current flatmate. Get a feel for the home. ☕</p></div>
+    <div class="step-card reveal" style="transition-delay:.4s"><span class="step-icon">🎉</span><div class="step-num">Step 05</div><div class="step-title">Move In!</div><p class="step-desc">Agree, sign digitally, move in, leave a review. Welcome home! Your tribe awaits.</p></div>
+  </div>
+</section>
+
+<!-- MUTUAL MATCH -->
+<section class="section alt">
+  <div class="section-label">Mutual Safety Model</div>
+  <h2 class="section-title">Both sides set <em>the rules.</em></h2>
+  <p class="section-sub">Nobody gets ghosted or spammed. Both must want each other first. Here's what each party commits to.</p>
+  <div class="match-grid">
+    <div class="bcard reveal">
+      <div class="bcard-title seeker">🔍 Room Seeker Must Provide</div>
+      <div class="brow"><div class="be">🪪</div>Govt. ID — Aadhaar / PAN / Passport / Voter ID</div>
+      <div class="brow"><div class="be">💼</div>LinkedIn profile or employer letter</div>
+      <div class="brow"><div class="be">📝</div>Reason for looking (job / study / relocation)</div>
+      <div class="brow"><div class="be">🌙</div>Sleep schedule &amp; lifestyle habits</div>
+      <div class="brow"><div class="be">🚭</div>Smoking, drinking, pet, diet habits</div>
+      <div class="brow"><div class="be">📞</div>Emergency contact reference</div>
+      <div class="brow"><div class="be">💬</div>Intro message to the lister</div>
+      <div class="brow"><div class="be">📅</div>Expected move-in date &amp; duration of stay</div>
+      <div class="brow"><div class="be">🤝</div>GharSaathi conduct agreement</div>
+    </div>
+    <div class="match-center">
+      <div class="match-line"></div>
+      <div class="match-heart">🤝</div>
+      <div class="match-line"></div>
+      <div class="match-lbl">MUTUAL<br>MATCH</div>
+      <div class="match-line"></div>
+    </div>
+    <div class="bcard reveal" style="transition-delay:.1s">
+      <div class="bcard-title lister">🏠 Room Lister Must Provide</div>
+      <div class="brow"><div class="be">🪪</div>Govt. ID — Aadhaar / PAN verified via DigiLocker</div>
+      <div class="brow"><div class="be">📸</div>Min. 4 real photos of flat &amp; common areas</div>
+      <div class="brow"><div class="be">💰</div>Exact rent breakdown, deposit &amp; utilities</div>
+      <div class="brow"><div class="be">📋</div>House rules (guests, noise, chores, cooking)</div>
+      <div class="brow"><div class="be">👤</div>Details of current flatmates</div>
+      <div class="brow"><div class="be">⭐</div>Departing flatmate's personalised reference note</div>
+      <div class="brow"><div class="be">📍</div>Exact location, floor &amp; nearby landmarks</div>
+      <div class="brow"><div class="be">🎯</div>Preferred flatmate profile (gender, lifestyle)</div>
+      <div class="brow"><div class="be">🤝</div>GharSaathi conduct agreement</div>
+    </div>
+  </div>
+  <div class="unlock-box reveal">
+    <div class="ut">🔒 Contact Unlock Rule</div>
+    <div class="us">Phone numbers &amp; personal details are <strong>never revealed</strong> until both the lister and seeker express mutual interest. All early communication happens in our secure encrypted messenger.</div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="section" id="safety">
+  <div class="section-label">Your Safety First</div>
+  <h2 class="section-title">Built with India <em>in mind. 🇮🇳</em></h2>
+  <p class="section-sub">Every single feature designed for the real, wonderful, chaotic world of Indian flatshares.</p>
+  <div class="safe-grid">
+    <div class="safe-card reveal">
+      <div class="safe-title">🛡️ Verification Layers</div>
+      <ul class="safe-list">
+        <li><span class="sdot">●</span>Aadhaar / PAN / Passport via DigiLocker — no fakes</li>
+        <li><span class="sdot">●</span>LinkedIn link for professional identity trust signal</li>
+        <li><span class="sdot">●</span>Live selfie match — no impersonation, ever 🤳</li>
+        <li><span class="sdot">●</span>Phone OTP verification (mandatory for both sides)</li>
+        <li><span class="sdot">●</span>Optional police verification certificate upload</li>
+        <li><span class="sdot">●</span>Trust Score: reviews + verifications + activity</li>
+        <li><span class="sdot">●</span>AI photo scan — stock images &amp; fakes auto-removed</li>
+      </ul>
+    </div>
+    <div class="safe-card reveal" style="transition-delay:.1s">
+      <div class="safe-title">🤝 Mutual Consent</div>
+      <ul class="safe-list">
+        <li><span class="sdot">●</span>Both must show interest before contact unlocks 🔐</li>
+        <li><span class="sdot">●</span>Departing flatmate testimonial — human reference layer ❤️</li>
+        <li><span class="sdot">●</span>No direct number sharing until mutual match confirmed</li>
+        <li><span class="sdot">●</span>Report &amp; block with 24-hour response guarantee</li>
+        <li><span class="sdot">●</span>Female-only listings with verified-female-only access 👩</li>
+        <li><span class="sdot">●</span>All chats encrypted &amp; logged for dispute resolution</li>
+        <li><span class="sdot">●</span>Emergency contact system for every registered user</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section alt">
+  <div class="section-label">Real Stories</div>
+  <h2 class="section-title">From strangers to flatmates <em>to friends. 💛</em></h2>
+  <p class="section-sub">Over 12,000 successful flatmate matches across India. These are just a few of them.</p>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Found my flatmate in 3 days! The goodbye note from the outgoing flatmate made me feel so sure about moving in. The most thoughtful feature I've seen on any platform."</div>
+      <div class="review-author">
+        <div class="avatar av-fire" style="width:36px;height:36px;">NK</div>
+        <div><div class="review-name">Naina Kapoor</div><div class="review-city">Bengaluru · Software Engineer</div></div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:.1s">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"As someone relocating to Mumbai alone, I was genuinely scared. The DigiLocker verification gave me so much confidence. My flatmate is now one of my closest friends."</div>
+      <div class="review-author">
+        <div class="avatar av-sky" style="width:36px;height:36px;">VR</div>
+        <div><div class="review-name">Vikram Rao</div><div class="review-city">Mumbai · Product Manager</div></div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:.2s">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"The compatibility score is shockingly accurate! Matched with someone who has the exact same sleep schedule, work vibe, and obsession with rajma rice. Couldn't have designed a better flatmate."</div>
+      <div class="review-author">
+        <div class="avatar av-jade" style="width:36px;height:36px;">SM</div>
+        <div><div class="review-name">Shreya Mishra</div><div class="review-city">Pune · UX Designer</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="cta-emoji-row">
+    <span style="--d:2s;--dl:0s">🏠</span><span style="--d:2.3s;--dl:.2s">✨</span><span style="--d:1.8s;--dl:.4s">🔑</span><span style="--d:2.5s;--dl:.1s">🎉</span><span style="--d:2.1s;--dl:.3s">🛋️</span>
+  </div>
+  <h2>Your flatmate left.<br>That's actually <em>great news.</em></h2>
+  <p>List your room in under 5 minutes. Let your ex-flatmate vouch for you.<br>Find someone even better. It's your glow-up era. 🌟</p>
+  <button class="btn-white" onclick="openList();confetti()">List My Room for Free →</button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">GharSaathi<sup>IN</sup></div>
+      <p class="footer-desc">India's safest, most human flatmate-finding platform. We take safety seriously — but not ourselves. 😄</p>
+      <div style="margin-top:16px;display:flex;align-items:center;gap:8px;">
+        <div class="india-flag"><span></span><span></span><span></span></div>
+        <span style="font-size:13px;color:rgba(255,255,255,.5);">Proudly Made in India</span>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Platform</h4><ul><li><a href="#">Browse Rooms</a></li><li><a href="#">List a Room</a></li><li><a href="#">How It Works</a></li><li><a href="#">Personality Quiz</a></li></ul></div>
+    <div class="footer-col"><h4>Safety</h4><ul><li><a href="#">Verification</a></li><li><a href="#">Trust &amp; Safety</a></li><li><a href="#">Report an Issue</a></li><li><a href="#">Community Rules</a></li></ul></div>
+    <div class="footer-col"><h4>Cities</h4><ul><li><a href="#">Bengaluru</a></li><li><a href="#">Mumbai · Pune</a></li><li><a href="#">Delhi NCR</a></li><li><a href="#">Hyderabad · Chennai</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 GharSaathi Technologies Pvt. Ltd. · Made with ❤️ in India</p>
+    <div><a href="#" style="color:rgba(255,255,255,.35);font-size:12px;margin-left:16px;">Privacy Policy</a><a href="#" style="color:rgba(255,255,255,.35);font-size:12px;margin-left:16px;">Terms of Service</a></div>
+  </div>
+</footer>
+
+<!-- LIST MODAL -->
+<div class="overlay" id="listModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeList()">✕</button>
+    <div class="modal-title">List Your Room 🏠</div>
+    <div class="modal-sub">Takes ~5 mins. We verify everything before going live. 🔍</div>
+    <div class="modal-tab-bar">
+      <button class="modal-tab on" onclick="switchPanel(this,'lPanel')">🏠 I'm Listing a Room</button>
+      <button class="modal-tab" onclick="switchPanel(this,'sPanel')">🔍 I'm Looking for a Room</button>
+    </div>
+
+    <!-- LISTER PANEL -->
+    <div id="lPanel" class="panel on">
+      <div class="form-section">🏠 Flat Details</div>
+      <div class="form-grid">
+        <div class="fg"><label>City</label><input type="text" placeholder="e.g. Bengaluru"></div>
+        <div class="fg"><label>Locality / Area</label><input type="text" placeholder="e.g. Koramangala 5th Block"></div>
+        <div class="fg"><label>Flat Type</label><select><option>1BHK</option><option>2BHK</option><option>3BHK</option><option>Studio</option><option>4BHK+</option></select></div>
+        <div class="fg"><label>Monthly Rent (₹)</label><input type="number" placeholder="e.g. 12000"></div>
+        <div class="fg"><label>Security Deposit (₹)</label><input type="number" placeholder="e.g. 24000"></div>
+        <div class="fg"><label>Available From</label><input type="date"></div>
+        <div class="fg span2"><label>Vacancy Reason</label><select><option>Flatmate moved to another city</option><option>Flatmate got married</option><option>Flatmate shifted flats</option><option>New flat — first listing</option><option>Other</option></select></div>
+        <div class="fg span2"><label>Flat Description &amp; Vibe ✍️</label><textarea rows="3" placeholder="Tell us about the flat, neighbourhood, current flatmates, house culture..."></textarea></div>
+      </div>
+      <div class="form-section">⚡ Amenities &amp; Rules</div>
+      <div class="toggle-grid">
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 📶 WiFi Included</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🛋️ Fully Furnished</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🫧 Washing Machine</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> ❄️ Air Conditioning</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚭 No Smoking</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🥗 Vegetarian Preferred</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🐾 Pet Friendly</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 👩 Female Only</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 💪 Gym Access</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚗 Parking Available</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> ⚡ Power Backup</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚇 Near Metro</div>
+      </div>
+      <div class="form-section">📸 Flat Photos</div>
+      <div class="upload-zone" onclick="toast2('📸 Photo upload opens in the full app!')">
+        <span class="ue">🖼️</span>
+        <p>Drag &amp; drop or <span>click to browse</span></p>
+        <p style="margin-top:6px;font-size:11px;">Min. 4 photos · JPG, PNG · Max 5MB each</p>
+      </div>
+      <div class="form-section">💌 Departing Flatmate's Reference</div>
+      <div class="form-grid">
+        <div class="fg"><label>Outgoing Flatmate's Name</label><input type="text" placeholder="Their name (optional)"></div>
+        <div class="fg"><label>LinkedIn URL (Optional but 🔥)</label><input type="url" placeholder="https://linkedin.com/in/you"></div>
+        <div class="fg span2"><label>Their Message About Current Flatmate ✍️</label><textarea rows="3" placeholder="Ask them to write something genuine about the current resident's habits, cleanliness, vibe, personality..."></textarea></div>
+      </div>
+      <div class="tip">💡 <strong>Tip:</strong> Listings with a departing flatmate note get <strong>3× more matches!</strong> It's the single most trusted signal on GharSaathi. Don't skip it. 🙏</div>
+      <div class="form-section">🛡️ Your Verification</div>
+      <div class="form-grid">
+        <div class="fg"><label>Govt. ID Type</label><select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
+        <div class="fg"><label>ID Number</label><input type="text" placeholder="Masked after verification 🔒"></div>
+        <div class="fg"><label>Emergency Contact Name</label><input type="text" placeholder="Just in case ❤️"></div>
+        <div class="fg"><label>Emergency Contact Phone</label><input type="text" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeList()">Cancel</button>
+        <button class="btn-modal-sub" onclick="submitList()">Submit Listing 🚀</button>
+      </div>
+    </div>
+
+    <!-- SEEKER PANEL -->
+    <div id="sPanel" class="panel">
+      <div class="form-section">👤 About You</div>
+      <div class="form-grid">
+        <div class="fg"><label>Your Full Name</label><input type="text" placeholder="Full name"></div>
+        <div class="fg"><label>Occupation</label><select><option>Working Professional</option><option>Student</option><option>Freelancer</option><option>Other</option></select></div>
+        <div class="fg"><label>Looking in City / Locality</label><input type="text" placeholder="e.g. Baner, Pune"></div>
+        <div class="fg"><label>Max Budget (₹/month)</label><input type="number" placeholder="e.g. 10000"></div>
+        <div class="fg"><label>Why are you looking?</label><select><option>New job in the city</option><option>College/course admission</option><option>Relocating cities</option><option>Current lease ending</option><option>Flatmate situation changed</option><option>Other</option></select></div>
+        <div class="fg"><label>Move-in Timeline</label><select><option>Immediately 🔥</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option></select></div>
+        <div class="fg"><label>Stay Duration</label><select><option>3-6 months</option><option>6-12 months</option><option>1 year+</option><option>Flexible</option></select></div>
+        <div class="fg"><label>LinkedIn URL (strongly 🔥)</label><input type="url" placeholder="https://linkedin.com/in/..."></div>
+        <div class="fg span2"><label>Introduce Yourself (visible after mutual match)</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy, 10pm bedtime... 😴 Tell them who you are!"></textarea></div>
+      </div>
+      <div class="form-section">🌙 Your Lifestyle</div>
+      <div class="toggle-grid">
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚭 Non-Smoker</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🥗 Vegetarian</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 😴 Early Sleeper</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🦉 Night Owl</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 💻 Work from Home</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🏢 Office Goer</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🧹 Super Tidy</div>
+        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🐾 Has a Pet</div>
+      </div>
+      <div class="form-section">🛡️ Verification</div>
+      <div class="form-grid">
+        <div class="fg"><label>Govt. ID Type</label><select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option></select></div>
+        <div class="fg"><label>ID Number</label><input type="text" placeholder="Masked after verification 🔒"></div>
+        <div class="fg"><label>Reference Contact Name</label><input type="text" placeholder="A friend or colleague"></div>
+        <div class="fg"><label>Reference Contact Phone</label><input type="text" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeList()">Cancel</button>
+        <button class="btn-modal-sub" style="background:var(--jade)" onclick="submitSeeker()">Find My Room 🏠</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTEREST MODAL -->
+<div class="overlay" id="intModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeInt()">✕</button>
+    <div class="modal-title" id="intTitle">Show Interest 💌</div>
+    <div class="modal-sub">They'll see your profile before deciding to connect. Make it count! ✨</div>
+    <div class="form-section">👤 About You</div>
+    <div class="form-grid">
+      <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+      <div class="fg"><label>Occupation</label><select><option>Working Professional</option><option>Student</option><option>Freelancer</option><option>Other</option></select></div>
+      <div class="fg"><label>Why are you looking?</label><select><option>New job in the city</option><option>College admission</option><option>Relocating cities</option><option>Lease ending</option><option>Other</option></select></div>
+      <div class="fg"><label>Move-in Timeline</label><select><option>Immediately 🔥</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option></select></div>
+    </div>
+    <div class="form-section">🛡️ Verification</div>
+    <div class="form-grid">
+      <div class="fg"><label>Govt. ID Type</label><select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option></select></div>
+      <div class="fg"><label>ID Number</label><input type="text" placeholder="Masked after verification 🔒"></div>
+      <div class="fg span2"><label>LinkedIn URL</label><input type="url" placeholder="https://linkedin.com/in/..."></div>
+    </div>
+    <div class="form-section">💬 Your Intro</div>
+    <div class="fg"><label>Introduce yourself (visible only after mutual match)</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy, 10pm bedtime person 😴..."></textarea></div>
+    <div class="form-section">🌙 Your Habits</div>
+    <div class="toggle-grid">
+      <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚭 Non-Smoker</div>
+      <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🥗 Vegetarian</div>
+      <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 😴 Early Sleeper</div>
+      <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 💻 Work from Home</div>
+      <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🧹 High Tidiness</div>
+      <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🐾 Has a Pet</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeInt()">Cancel</button>
+      <button class="btn-modal-sub" onclick="submitInt()">Send Interest 💌</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('detailModal').classList.remove('open');document.body.style.overflow=''">✕</button>
+    <div class="detail-img" id="dImg">🏠</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+      <div>
+        <div style="font-size:12px;color:var(--dust);margin-bottom:4px;" id="dLoc"></div>
+        <div style="font-family:'Instrument Serif',serif;font-size:22px;" id="dName"></div>
+      </div>
+      <div style="text-align:right;">
+        <div class="detail-price" id="dPrice"></div>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item"><div class="info-key">Flat Type</div><div class="info-val" id="dType"></div></div>
+      <div class="info-item"><div class="info-key">Address</div><div class="info-val" style="font-size:12px" id="dAddr"></div></div>
+      <div class="info-item"><div class="info-key">Rooms Available</div><div class="info-val" id="dRooms"></div></div>
+      <div class="info-item"><div class="info-key">Current Flatmates</div><div class="info-val" id="dFlmates"></div></div>
+    </div>
+    <div class="fnote" style="margin-top:8px">
+      <div class="fnote-label">💬 From outgoing flatmate</div>
+      <p id="dNote"></p>
+      <div style="font-size:11px;color:var(--dust);margin-top:6px;font-style:normal;font-weight:600;" id="dNoteFrom"></div>
+    </div>
+    <div class="contact-btns">
+      <button class="btn-contact-p" id="dInterestBtn">💌 Show Interest</button>
+      <button class="btn-contact-s" onclick="toast2('📅 Visit request sent! They\'ll confirm timing.')">📅 Schedule Visit</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CURSOR ──────────────────────────────────
+const cur=document.getElementById('C'),cur2=document.getElementById('C2');
+let mx=0,my=0,lx=0,ly=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+setInterval(()=>{lx+=(mx-lx)*.12;ly+=(my-ly)*.12;cur2.style.left=lx+'px';cur2.style.top=ly+'px';},16);
+const hoverEls='button,a,.chip,.quiz-opt,.toggle-item,.lcard,.step-card,.safe-card,.bcard,.sw-btn,.review-card';
+document.querySelectorAll(hoverEls).forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+// ── TOAST ────────────────────────────────────
+function toast2(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3500);}
+
+// ── CONFETTI ─────────────────────────────────
+function confetti(cx){
+  const cols=['#E8440A','#FF4D8D','#7C4DFF','#F5A623','#1FC99A','#2563EB','#FF6B35'];
+  for(let i=0;i<72;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=5+Math.random()*8,dur=1.2+Math.random()*1.5;
+    p.style.cssText=`left:${cx!=null?cx:Math.random()*100}vw;width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};animation-duration:${dur}s;animation-delay:${Math.random()*.4}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),(dur+.6)*1000);
+  }
+}
+function miniConf(el){
+  const r=el.getBoundingClientRect(),cols=['#E8440A','#FF4D8D','#1FC99A','#F5A623','#7C4DFF'];
+  for(let i=0;i<14;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=4+Math.random()*6,dur=.7+Math.random()*.6;
+    p.style.cssText=`left:${r.left+r.width/2}px;top:${r.top}px;width:${sz}px;height:${sz}px;background:${cols[i%5]};animation-duration:${dur}s;border-radius:50%;`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),1500);
+  }
+}
+function rain(){confetti();toast2('🎉 Click the logo for confetti anytime! 🥳');}
+
+// ── MARQUEE CLONE ────────────────────────────
+const mq=document.getElementById('MQ');mq.innerHTML+=mq.innerHTML;
+
+// ── MODALS ───────────────────────────────────
+function openList(){document.getElementById('listModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeList(){document.getElementById('listModal').classList.remove('open');document.body.style.overflow='';}
+function openInterest(name){
+  document.getElementById('intTitle').textContent=`Show Interest — ${name}'s Room 💌`;
+  document.getElementById('intModal').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeInt(){document.getElementById('intModal').classList.remove('open');document.body.style.overflow='';}
+function submitList(){closeList();confetti();setTimeout(()=>toast2('🎉 Room listed! Verified & published within 24 hrs.'),400);}
+function submitSeeker(){closeList();confetti();setTimeout(()=>toast2('🎉 Profile created! Matching you now...'),400);}
+function submitInt(){closeInt();confetti();setTimeout(()=>toast2('💌 Interest sent! You\'ll hear back when they respond.'),400);}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');document.body.style.overflow='';}}));
+
+// ── DETAIL MODAL ──────────────────────────────
+function openDetail(emoji,name,loc,price,type,addr,rooms,flmates,resident,note,noteFrom,colorClass){
+  const m=document.getElementById('detailModal');
+  const img=document.getElementById('dImg');
+  img.textContent=emoji;
+  img.className='detail-img '+colorClass;
+  document.getElementById('dName').textContent=name;
+  document.getElementById('dLoc').textContent=loc;
+  document.getElementById('dPrice').innerHTML=price+' <small style="font-family:\'DM Sans\',sans-serif;font-size:14px;color:var(--dust)">/month</small>';
+  document.getElementById('dType').textContent=type;
+  document.getElementById('dAddr').textContent=addr;
+  document.getElementById('dRooms').textContent=rooms;
+  document.getElementById('dFlmates').textContent=flmates;
+  document.getElementById('dNote').innerHTML='"'+note+'"';
+  document.getElementById('dNoteFrom').textContent='— '+noteFrom;
+  document.getElementById('dInterestBtn').onclick=()=>{document.getElementById('detailModal').classList.remove('open');document.body.style.overflow='';openInterest(resident);};
+  m.classList.add('open');document.body.style.overflow='hidden';
+}
+
+// ── PANEL SWITCH (LIST MODAL) ─────────────────
+function switchPanel(btn,panelId){
+  document.querySelectorAll('.modal-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+}
+
+// ── CHIPS / TABS ─────────────────────────────
+function togChip(el){document.querySelectorAll('.filter-strip .chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');toast2('🔍 Filter: '+el.textContent.trim());}
+function togItem(el){el.classList.toggle('on');}
+function switchTab(btn){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');toast2('📋 '+btn.textContent.trim());}
+
+// ── SEARCH ───────────────────────────────────
+function doSearch(){const v=document.getElementById('sLoc').value.trim();toast2(v?`🔍 Searching in ${v}...`:'🔍 Showing all rooms!');setTimeout(()=>document.getElementById('browse').scrollIntoView({behavior:'smooth'}),400);}
+
+// ── LOVE / HEART ─────────────────────────────
+function loveCard(btn){const on=btn.classList.toggle('loved');btn.textContent=on?'♥':'♡';if(on){miniConf(btn);toast2('❤️ Saved to favourites!');}}
+
+// ── SWIPE STACK ──────────────────────────────
+const swData=[
+  {e:'🏠',ci:'si-a',tag:'2BHK · Bengaluru',name:'Airy Flat, Indiranagar',loc:'3.2 km from MG Road metro',chips:['WiFi ✓','Gym','Metro 2 min'],price:'₹14,000'},
+  {e:'🌿',ci:'si-b',tag:'1BHK · Pune',name:'Peaceful Near IT Park',loc:'Hinjewadi Phase 1',chips:['Pet OK 🐾','Balcony 🌅','Veg'],price:'₹9,500'},
+  {e:'🏙️',ci:'si-c',tag:'3BHK · Mumbai',name:'Modern Flat, Bandra',loc:'Walk to Bandra Station',chips:['AC ❄️','Female Only 👩','Pool'],price:'₹18,000'},
+  {e:'☀️',ci:'si-d',tag:'4BHK · New Delhi',name:'Artistic HKV Flat',loc:'Hauz Khas Village',chips:['Terrace 🌿','WFH Zone','Any Gender'],price:'₹9,000'},
+  {e:'🌺',ci:'si-e',tag:'2BHK · Hyderabad',name:'Luxe Banjara Hills Flat',loc:'Banjara Hills Rd No. 12',chips:['Pool 🏊','Gym','Female Only 👩'],price:'₹13,000'},
+  {e:'🏋️',ci:'si-f',tag:'3BHK · Pune',name:'Chill Viman Nagar Flat',loc:'Airport Road, Pune',chips:['Gym Nearby','Male Only 👨','Airport 15 min'],price:'₹8,500'},
+];
+let swIdx=0,drag=false,sx=0,dcx=0;
+const tc=document.getElementById('topCard');
+const swLike=document.getElementById('swLike'),swNope=document.getElementById('swNope');
+tc.addEventListener('mousedown',e=>{drag=true;sx=e.clientX;tc.style.transition='none';});
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;dcx=e.clientX-sx;const rot=dcx*.08;
+  tc.style.transform=`translateX(${dcx}px) rotate(${rot}deg)`;
+  swLike.style.opacity=dcx>30?Math.min((dcx-30)/60,1):0;
+  swNope.style.opacity=dcx<-30?Math.min((-dcx-30)/60,1):0;
+});
+document.addEventListener('mouseup',()=>{
+  if(!drag)return;drag=false;tc.style.transition='';
+  if(dcx>80)doSwipe('right');else if(dcx<-80)doSwipe('left');
+  else{tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;}dcx=0;
+});
+tc.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].clientX;tc.style.transition='none';},{passive:true});
+document.addEventListener('touchmove',e=>{
+  if(!drag)return;dcx=e.touches[0].clientX-sx;
+  tc.style.transform=`translateX(${dcx}px) rotate(${dcx*.08}deg)`;
+  swLike.style.opacity=dcx>30?Math.min((dcx-30)/60,1):0;
+  swNope.style.opacity=dcx<-30?Math.min((-dcx-30)/60,1):0;
+},{passive:true});
+document.addEventListener('touchend',()=>{
+  if(!drag)return;drag=false;tc.style.transition='';
+  if(dcx>80)doSwipe('right');else if(dcx<-80)doSwipe('left');
+  else{tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;}dcx=0;
+});
+function doSwipe(dir){
+  swIdx=(swIdx+1)%swData.length;const d=swData[swIdx];
+  if(dir==='right'){tc.classList.add('fly-right');miniConf(tc);toast2('💚 Liked! They\'ll be notified.');}
+  else if(dir==='left'){tc.classList.add('fly-left');toast2('👋 Passed on this one.');}
+  else{tc.classList.add('fly-right');confetti();toast2('⭐ Super Liked! They\'ll definitely see this!');}
+  setTimeout(()=>{
+    tc.classList.remove('fly-right','fly-left');tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;
+    const ti=document.getElementById('topImg');
+    ti.className='sw-img '+d.ci;
+    document.getElementById('topEmoji').textContent=d.e;
+    document.getElementById('topTag').textContent=d.tag;
+    document.getElementById('topName').textContent=d.name;
+    document.getElementById('topLoc').textContent='📍 '+d.loc;
+    document.getElementById('topChips').innerHTML=d.chips.map(c=>`<div class="sw-chip">${c}</div>`).join('');
+    document.getElementById('topPrice').innerHTML=d.price+'<small>/mo</small>';
+  },440);
+}
+
+// ── COUNTERS ─────────────────────────────────
+function animCount(el){
+  const target=parseInt(el.dataset.target),dur=1800,s=performance.now();
+  const tick=now=>{const p=Math.min((now-s)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(target*ease).toLocaleString('en-IN');if(p<1)requestAnimationFrame(tick);};
+  requestAnimationFrame(tick);
+}
+const cObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){animCount(e.target);cObs.unobserve(e.target);}}),{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>cObs.observe(el));
+
+// ── SCROLL REVEAL ─────────────────────────────
+const rObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
+
+// ── 3D TILT CARDS ─────────────────────────────
+document.querySelectorAll('.lcard').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    card.style.cssText+=`transform:translateY(-8px) scale(1.014) rotateX(${-y*5}deg) rotateY(${x*5}deg);transform-style:preserve-3d;`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+
+// ── QUIZ ──────────────────────────────────────
+const qResults=[
+  {e:'😴',t:'The Zen Homebody',s:'You love peaceful evenings and a tidy flat. Your ideal flatmate brings good chai and zero drama. We\'ve found your people!'},
+  {e:'🎶',t:'The Social Butterfly 🦋',s:'You thrive with energy around you — movie nights, shared cooking, laughter. Your vibe is absolutely contagious!'},
+  {e:'💻',t:'The Focused Professional',s:'Work-life balance is your religion. You need a flatmate who respects quiet hours and doesn\'t interrupt your flow state.'},
+  {e:'🦉',t:'The Night Owl',s:'You come alive at midnight and need someone who won\'t judge your 2am Maggi sessions. We know your kind — they\'re on GharSaathi!'},
+];
+function nextQ(step,btn){
+  btn.parentElement.querySelectorAll('.quiz-opt').forEach(o=>o.style.opacity='.5');
+  btn.style.opacity='1';btn.style.borderColor='var(--fire)';
+  setTimeout(()=>{document.getElementById('qS'+(step-1)).style.display='none';document.getElementById('qS'+step).style.display='block';document.getElementById('qBar').style.width=(step*25)+'%';},350);
+}
+function finishQuiz(idx){
+  setTimeout(()=>{
+    document.getElementById('qS4').style.display='none';
+    document.getElementById('qBar').style.display='none';
+    const r=qResults[idx];
+    document.getElementById('qrEmoji').textContent=r.e;
+    document.getElementById('qrTitle').textContent=r.t;
+    document.getElementById('qrSub').textContent=r.s;
+    document.getElementById('qRes').style.display='block';
+    confetti();
+  },350);
+}
+function restartQuiz(){
+  document.getElementById('qRes').style.display='none';
+  document.getElementById('qBar').style.display='block';
+  document.getElementById('qBar').style.width='25%';
+  for(let i=1;i<=4;i++){
+    const s=document.getElementById('qS'+i);
+    s.style.display=i===1?'block':'none';
+    s.querySelectorAll('.quiz-opt').forEach(o=>{o.style.opacity='';o.style.borderColor='';});
+  }
+}
+
+// ── KONAMI EASTER EGG ─────────────────────────
+const kk=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let ki=0;
+document.addEventListener('keydown',e=>{
+  if(e.key===kk[ki])ki++;else ki=0;
+  if(ki===kk.length){confetti();toast2('🎮 Konami Code! You absolute legend 🏆');ki=0;}
+});
+</script>
+<script src="api.js"></script>
+</body>
+</html>
