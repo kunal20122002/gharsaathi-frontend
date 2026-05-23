@@ -5,7 +5,7 @@
 
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:5000/api'
-  : '/api'; // Same-origin in production
+  : 'https://gharsaathi-backend-production.up.railway.app/api'; // Same-origin in production
 
 // ── TOKEN MANAGEMENT ───────────────────────────────────────
 const Auth = {
