@@ -971,11 +971,13 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚇 Near Metro</div>
       </div>
       <div class="form-section">📸 Flat Photos</div>
-      <div class="upload-zone" onclick="toast2('📸 Photo upload opens in the full app!')">
+      <div class="upload-zone" onclick="document.getElementById('photoInput').click()" id="uploadZone">
         <span class="ue">🖼️</span>
         <p>Drag &amp; drop or <span>click to browse</span></p>
         <p style="margin-top:6px;font-size:11px;">Min. 4 photos · JPG, PNG · Max 5MB each</p>
       </div>
+      <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(this)">
+      <div id="uploadedPhotos" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;"></div>
       <div class="form-section">💌 Departing Flatmate's Reference</div>
       <div class="form-grid">
         <div class="fg"><label>Outgoing Flatmate's Name</label><input type="text" placeholder="Their name (optional)"></div>
@@ -1316,7 +1318,51 @@ document.addEventListener('keydown',e=>{
   if(e.key===kk[ki])ki++;else ki=0;
   if(ki===kk.length){confetti();toast2('🎮 Konami Code! You absolute legend 🏆');ki=0;}
 });
+
+// ── PHOTO UPLOAD ─────────────────────────────────────
+window._uploadedPhotoUrls = [];
+
+async function handlePhotoUpload(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  const token = Auth.getToken();
+  if (!token) { showAuthModal('register'); return; }
+
+  toast2('📸 Uploading ' + files.length + ' photo(s)...');
+
+  for (const file of files) {
+    if (file.size > 5 * 1024 * 1024) { toast2('❌ ' + file.name + ' is too large (max 5MB)'); continue; }
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch(API_BASE + '/upload', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      const data = await res.json();
+      if (data.url) {
+        window._uploadedPhotoUrls.push(data.url);
+        const container = document.getElementById('uploadedPhotos');
+        const img = document.createElement('div');
+        img.style.cssText = 'position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1.5px solid var(--line)';
+        img.innerHTML = '<img src="' + data.url + '" style="width:100%;height:100%;object-fit:cover"><button onclick="removePhoto(this,\''+data.url+'\')" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>';
+        container.appendChild(img);
+      } else {
+        toast2('❌ Upload failed: ' + (data.error || 'Unknown error'));
+      }
+    } catch(e) {
+      toast2('❌ Upload failed: ' + e.message);
+    }
+  }
+  if (window._uploadedPhotoUrls.length > 0) toast2('✅ ' + window._uploadedPhotoUrls.length + ' photo(s) uploaded!');
+}
+
+function removePhoto(btn, url) {
+  window._uploadedPhotoUrls = window._uploadedPhotoUrls.filter(u => u !== url);
+  btn.closest('div').remove();
+}
+
 </script>
-<script src="api.js"></script>
 </body>
 </html>
