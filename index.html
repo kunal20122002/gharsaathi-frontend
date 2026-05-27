@@ -365,7 +365,6 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 .modal-tab.on{background:white;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .panel{display:none;}
 .panel.on{display:block;}
-/* detail modal */
 .detail-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:72px;border-radius:var(--r16);margin-bottom:24px;}
 .detail-price{font-family:'Instrument Serif',serif;font-size:32px;color:var(--fire);margin-bottom:4px;}
 .detail-price small{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dust);}
@@ -386,6 +385,64 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 /* ─── REVEAL ─────────────────────────────── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
 .reveal.in{opacity:1;transform:translateY(0);}
+
+/* ══════════════════════════════════════════
+   AUTH MODAL STYLES  ← NEW
+══════════════════════════════════════════ */
+.auth-overlay{display:none;position:fixed;inset:0;background:rgba(27,18,8,.72);z-index:700;align-items:center;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(8px);}
+.auth-overlay.open{display:flex;}
+.auth-modal{background:white;border-radius:var(--r24);width:100%;max-width:440px;padding:40px;position:relative;animation:modalIn .38s cubic-bezier(.34,1.2,.64,1) both;border:1.5px solid var(--line);box-shadow:0 32px 80px rgba(27,18,8,.22);}
+.auth-logo{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--ink);margin-bottom:4px;text-align:center;}
+.auth-logo sup{font-style:normal;font-family:'Syne',sans-serif;font-size:9px;color:var(--fire);}
+.auth-title{font-family:'Instrument Serif',serif;font-size:26px;text-align:center;margin-bottom:4px;}
+.auth-sub{font-size:13px;color:var(--dust);text-align:center;margin-bottom:28px;font-weight:300;}
+.auth-tab-bar{display:flex;background:var(--bone);border-radius:var(--r12);padding:4px;gap:4px;margin-bottom:24px;border:1.5px solid var(--line);}
+.auth-tab{flex:1;padding:10px;border-radius:9px;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;color:var(--dust);transition:all .2s;letter-spacing:.3px;}
+.auth-tab.on{background:white;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.auth-panel{display:none;}
+.auth-panel.on{display:block;}
+.auth-fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.auth-fg label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--dust);}
+.auth-fg input{padding:12px 15px;border:1.5px solid var(--line);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--bone);outline:none;transition:all .2s;cursor:text;}
+.auth-fg input:focus{border-color:var(--fire);background:white;box-shadow:0 0 0 3px rgba(232,68,10,.09);}
+.auth-fg input.err{border-color:#DC2626;box-shadow:0 0 0 3px rgba(220,38,38,.09);}
+.auth-err{font-size:11px;color:#DC2626;font-weight:600;margin-top:2px;display:none;}
+.auth-err.show{display:block;}
+.auth-submit{width:100%;background:var(--fire);color:white;border:none;padding:14px;border-radius:var(--r12);font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:none;transition:all .28s cubic-bezier(.34,1.56,.64,1);box-shadow:0 6px 20px rgba(232,68,10,.25);margin-top:8px;}
+.auth-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,68,10,.38);}
+.auth-submit:active{transform:scale(.97);}
+.auth-submit:disabled{opacity:.6;transform:none;cursor:not-allowed;}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--dust);font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--line);}
+.auth-social{display:flex;gap:10px;}
+.auth-social-btn{flex:1;padding:11px;border:1.5px solid var(--line);border-radius:var(--r12);background:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:none;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;color:var(--mink);}
+.auth-social-btn:hover{border-color:var(--fire);color:var(--fire);transform:translateY(-2px);}
+.auth-forgot{text-align:right;margin-bottom:4px;}
+.auth-forgot a{font-size:12px;color:var(--dust);cursor:none;transition:color .2s;font-weight:500;}
+.auth-forgot a:hover{color:var(--fire);}
+.auth-switch{text-align:center;font-size:13px;color:var(--dust);margin-top:16px;font-weight:300;}
+.auth-switch span{color:var(--fire);font-weight:700;cursor:none;}
+.auth-switch span:hover{text-decoration:underline;}
+.auth-close{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:white;cursor:none;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--dust);transition:all .22s;font-weight:700;}
+.auth-close:hover{border-color:var(--fire);color:var(--fire);transform:rotate(90deg);}
+.auth-gate-msg{background:#FFF5F2;border:1.5px solid rgba(232,68,10,.25);border-radius:var(--r12);padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--mink);line-height:1.55;font-weight:400;text-align:center;}
+.auth-gate-msg strong{color:var(--fire);}
+/* Nav user pill */
+.nav-user{display:flex;align-items:center;gap:8px;background:var(--warm);border:1.5px solid var(--line);border-radius:40px;padding:5px 14px 5px 6px;cursor:none;transition:all .22s;}
+.nav-user:hover{border-color:var(--fire);transform:translateY(-1px);}
+.nav-user-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--fire),var(--fire2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:white;}
+.nav-user-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--ink);}
+.nav-logout{border:1.5px solid var(--line);background:transparent;padding:7px 14px;border-radius:40px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--dust);cursor:none;transition:all .2s;}
+.nav-logout:hover{border-color:#DC2626;color:#DC2626;transform:translateY(-1px);}
+.pw-strength{height:3px;border-radius:3px;margin-top:6px;transition:all .3s;background:var(--line);}
+.pw-strength.weak{background:#DC2626;width:33%;}
+.pw-strength.medium{background:var(--gold);width:66%;}
+.pw-strength.strong{background:var(--jade2);width:100%;}
+@keyframes tickIn{from{transform:scale(0) rotate(-45deg);opacity:0;}to{transform:scale(1) rotate(0deg);opacity:1;}}
+.auth-success{text-align:center;padding:20px 0;}
+.auth-success .tick{font-size:56px;display:block;animation:tickIn .5s cubic-bezier(.34,1.56,.64,1) both;}
+.auth-success p{font-family:'Instrument Serif',serif;font-size:20px;margin-top:12px;}
+.auth-success small{font-size:13px;color:var(--dust);}
 
 /* ─── RESPONSIVE ─────────────────────────── */
 @media(max-width:900px){
@@ -432,7 +489,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
   </div>
 </div>
 
-<!-- NAV -->
+<!-- ══ NAV — UPDATED ══ -->
 <nav>
   <div class="logo" onclick="rain()">GharSaathi<sup>IN</sup></div>
   <ul class="nav-links">
@@ -441,9 +498,20 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <li><a href="#quiz">Take the Quiz ✨</a></li>
     <li><a href="#safety">Safety</a></li>
   </ul>
-  <div class="nav-cta">
-    <button class="btn-ghost" id="navLoginBtn">Log In</button>
-    <button class="btn-fire" onclick="openList()">+ List My Room</button>
+  <!-- UPDATED NAV CTA — shows logged-out or logged-in state -->
+  <div class="nav-cta" id="navCta">
+    <div id="navLoggedOut" style="display:flex;gap:10px;align-items:center;">
+      <button class="btn-ghost" onclick="openAuth('login')">Log In</button>
+      <button class="btn-fire" onclick="openAuth('signup')">Sign Up Free 🏠</button>
+    </div>
+    <div id="navLoggedIn" style="display:none;gap:10px;align-items:center;">
+      <div class="nav-user">
+        <div class="nav-user-av" id="navUserAv">U</div>
+        <span class="nav-user-name" id="navUserName">User</span>
+      </div>
+      <button class="nav-logout" onclick="logoutUser()">Log Out</button>
+      <button class="btn-fire" onclick="openListAuth()">+ List My Room</button>
+    </div>
   </div>
 </nav>
 
@@ -457,12 +525,8 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
   <div class="floatie" style="top:18%;right:5%;--fd:6s;--fdl:.5s">☕</div>
   <div class="floatie" style="top:78%;right:7%;--fd:8s;--fdl:2s">🛋️</div>
   <div class="floatie" style="top:48%;left:34%;--fd:9s;--fdl:1.5s">🔑</div>
-
   <div class="hero-content">
-    <div class="h-eyebrow">
-      <div class="live-dot"></div>
-      India's Safest Flatmate Finder
-    </div>
+    <div class="h-eyebrow"><div class="live-dot"></div>India's Safest Flatmate Finder</div>
     <h1>
       <div class="word-reveal"><span>Find</span></div>&nbsp;
       <div class="word-reveal"><span>your</span></div>&nbsp;
@@ -473,10 +537,10 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <p class="hero-sub">Your flatmate moved out? Don't panic. 😅 GharSaathi connects you with verified, vibe-matched people looking for exactly what you have — safely, quickly, joyfully.</p>
     <div class="hero-acts">
       <button class="btn-big" onclick="document.getElementById('browse').scrollIntoView({behavior:'smooth'});confetti()">Browse Rooms 🏠</button>
-      <button class="btn-outline-big" onclick="openList()">List My Room →</button>
+      <!-- UPDATED: auth-gated -->
+      <button class="btn-outline-big" onclick="openListAuth()">List My Room →</button>
     </div>
   </div>
-
   <div class="hero-visual">
     <div class="swipe-stage" id="swStage">
       <div class="swipe-card sw-bot"><div class="sw-img si-d"><span>☀️</span></div><div class="sw-body"><div class="sw-tag">3BHK · Bengaluru</div><div class="sw-name">Penthouse, HSR Layout</div></div></div>
@@ -489,13 +553,8 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
           <div class="sw-tag" id="topTag">2BHK · Bengaluru</div>
           <div class="sw-name" id="topName">Airy Flat, Indiranagar</div>
           <div class="sw-loc" id="topLoc">📍 3.2 km from MG Road metro</div>
-          <div class="sw-chips" id="topChips">
-            <div class="sw-chip">WiFi ✓</div><div class="sw-chip">Gym</div><div class="sw-chip">Metro 2 min</div>
-          </div>
-          <div class="sw-foot">
-            <div class="sw-price" id="topPrice">₹14,000<small>/mo</small></div>
-            <div class="sw-verified">✓ Verified</div>
-          </div>
+          <div class="sw-chips" id="topChips"><div class="sw-chip">WiFi ✓</div><div class="sw-chip">Gym</div><div class="sw-chip">Metro 2 min</div></div>
+          <div class="sw-foot"><div class="sw-price" id="topPrice">₹14,000<small>/mo</small></div><div class="sw-verified">✓ Verified</div></div>
         </div>
       </div>
     </div>
@@ -525,10 +584,8 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
   <div class="search-card">
     <div class="search-row">
       <div class="sf"><label>City / Area</label><input type="text" id="sLoc" placeholder="e.g. Koramangala, Bengaluru"></div>
-      <div class="sf"><label>Monthly Budget</label>
-        <select><option>Any Budget 😌</option><option>Under ₹8,000</option><option>₹8k – ₹15k</option><option>₹15k – ₹25k</option><option>₹25k+</option></select></div>
-      <div class="sf"><label>Flat Type</label>
-        <select><option>Any Type 🏠</option><option>1BHK</option><option>2BHK</option><option>3BHK</option><option>Studio</option></select></div>
+      <div class="sf"><label>Monthly Budget</label><select><option>Any Budget 😌</option><option>Under ₹8,000</option><option>₹8k – ₹15k</option><option>₹15k – ₹25k</option><option>₹25k+</option></select></div>
+      <div class="sf"><label>Flat Type</label><select><option>Any Type 🏠</option><option>1BHK</option><option>2BHK</option><option>3BHK</option><option>Studio</option></select></div>
       <button class="btn-search" onclick="doSearch()">Search →</button>
     </div>
     <div class="filter-strip">
@@ -566,22 +623,21 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <div class="card-img ci-a">
         <span class="big-emoji">🏠</span>
         <div class="card-badges"><span class="badge b-verified">✓ Verified</span><span class="badge b-new">🔥 New</span></div>
+        <!-- UPDATED: auth-gated -->
         <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Priya')">Show Interest 💌</button></div>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterestAuth('Priya')">Show Interest 💌</button></div>
       </div>
       <div class="card-body">
         <div class="card-top"><div class="card-price">₹14,000 <small>/month</small></div><div class="card-type">2BHK</div></div>
         <div class="card-title">Airy 2BHK, Indiranagar</div>
         <div class="card-loc">📍 Bengaluru · 3.2 km from MG Road metro</div>
         <div class="card-feats"><div class="feat">📶 WiFi</div><div class="feat">💪 Gym</div><div class="feat">🚇 Metro 2 min</div><div class="feat">🛋️ Furnished</div></div>
-        <div class="fnote">
-          <div class="fnote-label">💬 From outgoing flatmate</div>
-          <p>"<b>Priya is a dream to live with</b> — kitchen always spotless, pays rent early, makes the best chai. You're going to love her!" — <b>Sneha</b></p>
-        </div>
+        <div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"<b>Priya is a dream to live with</b> — kitchen always spotless, pays rent early, makes the best chai. You're going to love her!" — <b>Sneha</b></p></div>
         <div class="card-divider"></div>
         <div class="card-footer">
           <div class="poster-info"><div class="avatar av-fire">P</div><div><div class="poster-name">Priya Sharma</div><div class="poster-days">2 days ago · Aadhaar ✓ · LinkedIn ✓ · <span class="compat">92% match</span></div></div></div>
-          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Priya')">Interest 💌</button>
+          <!-- UPDATED: auth-gated -->
+          <button class="btn-interest" onclick="event.stopPropagation();openInterestAuth('Priya')">Interest 💌</button>
         </div>
       </div>
     </div>
@@ -592,21 +648,18 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <span class="big-emoji">🌿</span>
         <div class="card-badges"><span class="badge b-verified">✓ Verified</span></div>
         <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Rahul')">Show Interest 💌</button></div>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterestAuth('Rahul')">Show Interest 💌</button></div>
       </div>
       <div class="card-body">
         <div class="card-top"><div class="card-price">₹9,500 <small>/month</small></div><div class="card-type" style="background:var(--fire2);">1BHK</div></div>
         <div class="card-title">Peaceful 1BHK near IT Park</div>
         <div class="card-loc">📍 Pune · Near Hinjewadi Phase 1</div>
         <div class="card-feats"><div class="feat">🐾 Pet OK</div><div class="feat">🌱 Veg Pref</div><div class="feat">🌅 Balcony</div><div class="feat">🪴 Garden View</div></div>
-        <div class="fnote">
-          <div class="fnote-label">💬 From outgoing flatmate</div>
-          <p>"<b>Rahul = most organised human alive</b> 😂 Pays rent 2 days early, never leaves dishes in the sink. My bar for flatmates is now ruined." — <b>Ankit</b></p>
-        </div>
+        <div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"<b>Rahul = most organised human alive</b> 😂 Pays rent 2 days early, never leaves dishes in the sink. My bar for flatmates is now ruined." — <b>Ankit</b></p></div>
         <div class="card-divider"></div>
         <div class="card-footer">
           <div class="poster-info"><div class="avatar av-jade">R</div><div><div class="poster-name">Rahul Mehta</div><div class="poster-days">5 days ago · PAN ✓ · LinkedIn ✓ · <span class="compat">87% match</span></div></div></div>
-          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Rahul')">Interest 💌</button>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterestAuth('Rahul')">Interest 💌</button>
         </div>
       </div>
     </div>
@@ -617,21 +670,18 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <span class="big-emoji">🏙️</span>
         <div class="card-badges"><span class="badge b-verified">✓ Verified</span><span class="badge b-new">🔥 New</span></div>
         <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Kavya')">Show Interest 💌</button></div>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterestAuth('Kavya')">Show Interest 💌</button></div>
       </div>
       <div class="card-body">
         <div class="card-top"><div class="card-price">₹18,000 <small>/month</small></div><div class="card-type" style="background:var(--sky);">3BHK</div></div>
         <div class="card-title">Modern 3BHK, Bandra West</div>
         <div class="card-loc">📍 Mumbai · Walking distance to Bandra Station</div>
         <div class="card-feats"><div class="feat">❄️ AC</div><div class="feat">👩 Female Only</div><div class="feat">🔒 Security</div><div class="feat">🌊 Sea View</div></div>
-        <div class="fnote">
-          <div class="fnote-label">💬 From outgoing flatmate</div>
-          <p>"<b>Kavya has movie-night energy AND respects your space</b> 🎬 Super hygienic and genuinely kind. Bombay highlight for sure." — <b>Meera</b></p>
-        </div>
+        <div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"<b>Kavya has movie-night energy AND respects your space</b> 🎬 Super hygienic and genuinely kind. Bombay highlight for sure." — <b>Meera</b></p></div>
         <div class="card-divider"></div>
         <div class="card-footer">
           <div class="poster-info"><div class="avatar av-sky">K</div><div><div class="poster-name">Kavya Nair</div><div class="poster-days">Today · Aadhaar ✓ · LinkedIn ✓ · <span class="compat">95% match</span></div></div></div>
-          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Kavya')">Interest 💌</button>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterestAuth('Kavya')">Interest 💌</button>
         </div>
       </div>
     </div>
@@ -642,21 +692,18 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <span class="big-emoji">🎨</span>
         <div class="card-badges"><span class="badge b-verified">✓ Verified</span><span class="badge b-new">🔥 New</span></div>
         <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Aarav')">Show Interest 💌</button></div>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterestAuth('Aarav')">Show Interest 💌</button></div>
       </div>
       <div class="card-body">
         <div class="card-top"><div class="card-price">₹9,000 <small>/month</small></div><div class="card-type" style="background:var(--gold);color:var(--ink);">4BHK</div></div>
         <div class="card-title">Artistic 4BHK, Hauz Khas Village</div>
         <div class="card-loc">📍 New Delhi · Near HKV Social</div>
         <div class="card-feats"><div class="feat">🌿 Terrace</div><div class="feat">💻 WFH Zone</div><div class="feat">🌈 Any Gender</div><div class="feat">🎵 Chill Vibes</div></div>
-        <div class="fnote">
-          <div class="fnote-label">💬 From outgoing flatmate</div>
-          <p>"<b>Aarav is calm and has the best playlist</b> for any occasion. Works from home, zero drama. Super genuine!" — <b>Tanvi</b></p>
-        </div>
+        <div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"<b>Aarav is calm and has the best playlist</b> for any occasion. Works from home, zero drama. Super genuine!" — <b>Tanvi</b></p></div>
         <div class="card-divider"></div>
         <div class="card-footer">
           <div class="poster-info"><div class="avatar av-gold">A</div><div><div class="poster-name">Aarav Singh</div><div class="poster-days">3 days ago · Voter ID ✓ · LinkedIn ✓ · <span class="compat">89% match</span></div></div></div>
-          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Aarav')">Interest 💌</button>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterestAuth('Aarav')">Interest 💌</button>
         </div>
       </div>
     </div>
@@ -667,21 +714,18 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <span class="big-emoji">🌺</span>
         <div class="card-badges"><span class="badge b-verified">✓ Verified</span></div>
         <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Kavya R.')">Show Interest 💌</button></div>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterestAuth('Kavya R.')">Show Interest 💌</button></div>
       </div>
       <div class="card-body">
         <div class="card-top"><div class="card-price">₹13,000 <small>/month</small></div><div class="card-type">2BHK</div></div>
         <div class="card-title">Luxe 2BHK, Banjara Hills</div>
         <div class="card-loc">📍 Hyderabad · Banjara Hills Road No.12</div>
         <div class="card-feats"><div class="feat">🏊 Pool</div><div class="feat">🏋️ Gym</div><div class="feat">👩 Female Only</div><div class="feat">🔒 Gated</div></div>
-        <div class="fnote">
-          <div class="fnote-label">💬 From outgoing flatmate</div>
-          <p>"<b>Kavya = perfect flatmate</b> — quiet when needed, fun when you want. Makes the BEST pesarattu on Sundays 🫶" — <b>Meera</b></p>
-        </div>
+        <div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"<b>Kavya = perfect flatmate</b> — quiet when needed, fun when you want. Makes the BEST pesarattu on Sundays 🫶" — <b>Meera</b></p></div>
         <div class="card-divider"></div>
         <div class="card-footer">
           <div class="poster-info"><div class="avatar av-blush">K</div><div><div class="poster-name">Kavya Reddy</div><div class="poster-days">1 day ago · Aadhaar ✓ · LinkedIn ✓ · <span class="compat">93% match</span></div></div></div>
-          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Kavya R.')">Interest 💌</button>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterestAuth('Kavya R.')">Interest 💌</button>
         </div>
       </div>
     </div>
@@ -692,21 +736,18 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <span class="big-emoji">🏋️</span>
         <div class="card-badges"><span class="badge b-urgent">⚡ Urgent</span><span class="badge b-verified">✓ Verified</span></div>
         <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-        <div class="card-cta"><button onclick="event.stopPropagation();openInterest('Rohan')">Show Interest 💌</button></div>
+        <div class="card-cta"><button onclick="event.stopPropagation();openInterestAuth('Rohan')">Show Interest 💌</button></div>
       </div>
       <div class="card-body">
         <div class="card-top"><div class="card-price">₹8,500 <small>/month</small></div><div class="card-type" style="background:var(--jade);">3BHK</div></div>
         <div class="card-title">Chill 3BHK, Viman Nagar</div>
         <div class="card-loc">📍 Pune · Airport Road · 15 min from Airport</div>
         <div class="card-feats"><div class="feat">🏋️ Gym Nearby</div><div class="feat">👨 Male Only</div><div class="feat">🚲 2W Parking</div><div class="feat">✈️ Airport 15 min</div></div>
-        <div class="fnote">
-          <div class="fnote-label">💬 From outgoing flatmate</div>
-          <p>"<b>The boys here cook and gym together.</b> Rohan needs someone chill with good work ethic. You'll love it here, guaranteed!" — <b>Karan</b></p>
-        </div>
+        <div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"<b>The boys here cook and gym together.</b> Rohan needs someone chill with good work ethic. You'll love it here, guaranteed!" — <b>Karan</b></p></div>
         <div class="card-divider"></div>
         <div class="card-footer">
           <div class="poster-info"><div class="avatar av-ink">R</div><div><div class="poster-name">Rohan Kapoor</div><div class="poster-days">Today · PAN ✓ · LinkedIn ✓ · <span class="compat">84% match</span></div></div></div>
-          <button class="btn-interest" onclick="event.stopPropagation();openInterest('Rohan')">Interest 💌</button>
+          <button class="btn-interest" onclick="event.stopPropagation();openInterestAuth('Rohan')">Interest 💌</button>
         </div>
       </div>
     </div>
@@ -726,9 +767,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <span class="qr-emoji" id="qrEmoji">🏆</span>
         <div class="qr-title" id="qrTitle">The Zen Homebody</div>
         <div class="qr-sub" id="qrSub">You love peaceful evenings and a tidy flat. Your ideal flatmate brings good chai and zero drama. We've found your people!</div>
-        <div class="qr-cta">
-          <button class="btn-big" onclick="confetti();toast2('🔍 Showing your matched rooms!');document.getElementById('browse').scrollIntoView({behavior:'smooth'})">See My Matches 🔍</button>
-        </div>
+        <div class="qr-cta"><button class="btn-big" onclick="confetti();toast2('🔍 Showing your matched rooms!');document.getElementById('browse').scrollIntoView({behavior:'smooth'})">See My Matches 🔍</button></div>
         <br><button class="quiz-restart" onclick="restartQuiz()">↩ Retake Quiz</button>
       </div>
       <div class="quiz-prog"><div class="quiz-bar" id="qBar" style="width:25%"></div></div>
@@ -785,7 +824,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <div class="step-card reveal"><span class="step-icon">📋</span><div class="step-num">Step 01</div><div class="step-title">List or Search</div><p class="step-desc">Post your room or search by vibe, location, budget. No boring forms — we kept it human!</p></div>
     <div class="step-card reveal" style="transition-delay:.1s"><span class="step-icon">🛡️</span><div class="step-num">Step 02</div><div class="step-title">Get Verified</div><p class="step-desc">Upload Aadhaar, PAN or Passport + LinkedIn. One time. Trusted forever. 🔒</p></div>
     <div class="step-card reveal" style="transition-delay:.2s"><span class="step-icon">💌</span><div class="step-num">Step 03</div><div class="step-title">Mutual Match</div><p class="step-desc">Both show interest? Only then does contact unlock. Safe, smart, no ghosting. 🤝</p></div>
-    <div class="step-card reveal" style="transition-delay:.3s"><span class="step-icon">🏠</span><div class="step-num">Step 04</div><div class="step-title">Visit & Vibe</div><p class="step-desc">Schedule a flat visit via our platform. Meet the current flatmate. Get a feel for the home. ☕</p></div>
+    <div class="step-card reveal" style="transition-delay:.3s"><span class="step-icon">🏠</span><div class="step-num">Step 04</div><div class="step-title">Visit &amp; Vibe</div><p class="step-desc">Schedule a flat visit via our platform. Meet the current flatmate. Get a feel for the home. ☕</p></div>
     <div class="step-card reveal" style="transition-delay:.4s"><span class="step-icon">🎉</span><div class="step-num">Step 05</div><div class="step-title">Move In!</div><p class="step-desc">Agree, sign digitally, move in, leave a review. Welcome home! Your tribe awaits.</p></div>
   </div>
 </section>
@@ -794,7 +833,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 <section class="section alt">
   <div class="section-label">Mutual Safety Model</div>
   <h2 class="section-title">Both sides set <em>the rules.</em></h2>
-  <p class="section-sub">Nobody gets ghosted or spammed. Both must want each other first. Here's what each party commits to.</p>
+  <p class="section-sub">Nobody gets ghosted or spammed. Both must want each other first.</p>
   <div class="match-grid">
     <div class="bcard reveal">
       <div class="bcard-title seeker">🔍 Room Seeker Must Provide</div>
@@ -876,26 +915,17 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <div class="review-card reveal">
       <div class="review-stars">★★★★★</div>
       <div class="review-text">"Found my flatmate in 3 days! The goodbye note from the outgoing flatmate made me feel so sure about moving in. The most thoughtful feature I've seen on any platform."</div>
-      <div class="review-author">
-        <div class="avatar av-fire" style="width:36px;height:36px;">NK</div>
-        <div><div class="review-name">Naina Kapoor</div><div class="review-city">Bengaluru · Software Engineer</div></div>
-      </div>
+      <div class="review-author"><div class="avatar av-fire" style="width:36px;height:36px;">NK</div><div><div class="review-name">Naina Kapoor</div><div class="review-city">Bengaluru · Software Engineer</div></div></div>
     </div>
     <div class="review-card reveal" style="transition-delay:.1s">
       <div class="review-stars">★★★★★</div>
       <div class="review-text">"As someone relocating to Mumbai alone, I was genuinely scared. The DigiLocker verification gave me so much confidence. My flatmate is now one of my closest friends."</div>
-      <div class="review-author">
-        <div class="avatar av-sky" style="width:36px;height:36px;">VR</div>
-        <div><div class="review-name">Vikram Rao</div><div class="review-city">Mumbai · Product Manager</div></div>
-      </div>
+      <div class="review-author"><div class="avatar av-sky" style="width:36px;height:36px;">VR</div><div><div class="review-name">Vikram Rao</div><div class="review-city">Mumbai · Product Manager</div></div></div>
     </div>
     <div class="review-card reveal" style="transition-delay:.2s">
       <div class="review-stars">★★★★★</div>
-      <div class="review-text">"The compatibility score is shockingly accurate! Matched with someone who has the exact same sleep schedule, work vibe, and obsession with rajma rice. Couldn't have designed a better flatmate."</div>
-      <div class="review-author">
-        <div class="avatar av-jade" style="width:36px;height:36px;">SM</div>
-        <div><div class="review-name">Shreya Mishra</div><div class="review-city">Pune · UX Designer</div></div>
-      </div>
+      <div class="review-text">"The compatibility score is shockingly accurate! Matched with someone who has the exact same sleep schedule, work vibe, and obsession with rajma rice."</div>
+      <div class="review-author"><div class="avatar av-jade" style="width:36px;height:36px;">SM</div><div><div class="review-name">Shreya Mishra</div><div class="review-city">Pune · UX Designer</div></div></div>
     </div>
   </div>
 </section>
@@ -907,7 +937,8 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
   </div>
   <h2>Your flatmate left.<br>That's actually <em>great news.</em></h2>
   <p>List your room in under 5 minutes. Let your ex-flatmate vouch for you.<br>Find someone even better. It's your glow-up era. 🌟</p>
-  <button class="btn-white" onclick="openList();confetti()">List My Room for Free →</button>
+  <!-- UPDATED: auth-gated -->
+  <button class="btn-white" onclick="openListAuth();confetti()">List My Room for Free →</button>
 </section>
 
 <!-- FOOTER -->
@@ -941,8 +972,6 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <button class="modal-tab on" onclick="switchPanel(this,'lPanel')">🏠 I'm Listing a Room</button>
       <button class="modal-tab" onclick="switchPanel(this,'sPanel')">🔍 I'm Looking for a Room</button>
     </div>
-
-    <!-- LISTER PANEL -->
     <div id="lPanel" class="panel on">
       <div class="form-section">🏠 Flat Details</div>
       <div class="form-grid">
@@ -984,7 +1013,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <div class="fg"><label>LinkedIn URL (Optional but 🔥)</label><input type="url" placeholder="https://linkedin.com/in/you"></div>
         <div class="fg span2"><label>Their Message About Current Flatmate ✍️</label><textarea rows="3" placeholder="Ask them to write something genuine about the current resident's habits, cleanliness, vibe, personality..."></textarea></div>
       </div>
-      <div class="tip">💡 <strong>Tip:</strong> Listings with a departing flatmate note get <strong>3× more matches!</strong> It's the single most trusted signal on GharSaathi. Don't skip it. 🙏</div>
+      <div class="tip">💡 <strong>Tip:</strong> Listings with a departing flatmate note get <strong>3× more matches!</strong> Don't skip it. 🙏</div>
       <div class="form-section">🛡️ Your Verification</div>
       <div class="form-grid">
         <div class="fg"><label>Govt. ID Type</label><select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
@@ -997,8 +1026,6 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <button class="btn-modal-sub" onclick="submitList()">Submit Listing 🚀</button>
       </div>
     </div>
-
-    <!-- SEEKER PANEL -->
     <div id="sPanel" class="panel">
       <div class="form-section">👤 About You</div>
       <div class="form-grid">
@@ -1010,7 +1037,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <div class="fg"><label>Move-in Timeline</label><select><option>Immediately 🔥</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option></select></div>
         <div class="fg"><label>Stay Duration</label><select><option>3-6 months</option><option>6-12 months</option><option>1 year+</option><option>Flexible</option></select></div>
         <div class="fg"><label>LinkedIn URL (strongly 🔥)</label><input type="url" placeholder="https://linkedin.com/in/..."></div>
-        <div class="fg span2"><label>Introduce Yourself (visible after mutual match)</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy, 10pm bedtime... 😴 Tell them who you are!"></textarea></div>
+        <div class="fg span2"><label>Introduce Yourself</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy..."></textarea></div>
       </div>
       <div class="form-section">🌙 Your Lifestyle</div>
       <div class="toggle-grid">
@@ -1046,7 +1073,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <div class="modal-sub">They'll see your profile before deciding to connect. Make it count! ✨</div>
     <div class="form-section">👤 About You</div>
     <div class="form-grid">
-      <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+      <div class="fg"><label>Your Name</label><input type="text" id="intNameField" placeholder="Full name"></div>
       <div class="fg"><label>Occupation</label><select><option>Working Professional</option><option>Student</option><option>Freelancer</option><option>Other</option></select></div>
       <div class="fg"><label>Why are you looking?</label><select><option>New job in the city</option><option>College admission</option><option>Relocating cities</option><option>Lease ending</option><option>Other</option></select></div>
       <div class="fg"><label>Move-in Timeline</label><select><option>Immediately 🔥</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option></select></div>
@@ -1058,7 +1085,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <div class="fg span2"><label>LinkedIn URL</label><input type="url" placeholder="https://linkedin.com/in/..."></div>
     </div>
     <div class="form-section">💬 Your Intro</div>
-    <div class="fg"><label>Introduce yourself (visible only after mutual match)</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy, 10pm bedtime person 😴..."></textarea></div>
+    <div class="fg"><label>Introduce yourself (visible only after mutual match)</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser..."></textarea></div>
     <div class="form-section">🌙 Your Habits</div>
     <div class="toggle-grid">
       <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚭 Non-Smoker</div>
@@ -1081,13 +1108,8 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <button class="modal-close" onclick="document.getElementById('detailModal').classList.remove('open');document.body.style.overflow=''">✕</button>
     <div class="detail-img" id="dImg">🏠</div>
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-      <div>
-        <div style="font-size:12px;color:var(--dust);margin-bottom:4px;" id="dLoc"></div>
-        <div style="font-family:'Instrument Serif',serif;font-size:22px;" id="dName"></div>
-      </div>
-      <div style="text-align:right;">
-        <div class="detail-price" id="dPrice"></div>
-      </div>
+      <div><div style="font-size:12px;color:var(--dust);margin-bottom:4px;" id="dLoc"></div><div style="font-family:'Instrument Serif',serif;font-size:22px;" id="dName"></div></div>
+      <div style="text-align:right;"><div class="detail-price" id="dPrice"></div></div>
     </div>
     <div class="info-grid">
       <div class="info-item"><div class="info-key">Flat Type</div><div class="info-val" id="dType"></div></div>
@@ -1101,8 +1123,94 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <div style="font-size:11px;color:var(--dust);margin-top:6px;font-style:normal;font-weight:600;" id="dNoteFrom"></div>
     </div>
     <div class="contact-btns">
+      <!-- UPDATED: auth-gated -->
       <button class="btn-contact-p" id="dInterestBtn">💌 Show Interest</button>
       <button class="btn-contact-s" onclick="toast2('📅 Visit request sent! They\'ll confirm timing.')">📅 Schedule Visit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     AUTH MODAL — NEW
+══════════════════════════════════════════ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal" id="authModalBox">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-logo">GharSaathi<sup>IN</sup></div>
+    <!-- Gate message shown when redirected from protected action -->
+    <div class="auth-gate-msg" id="authGateMsg" style="display:none">
+      <strong>🔐 Login required</strong><br>
+      <span id="authGateMsgText">Please log in or create an account to continue.</span>
+    </div>
+    <!-- Tab bar -->
+    <div class="auth-tab-bar" id="authTabBar">
+      <button class="auth-tab on" id="authTabLogin" onclick="switchAuthTab('login')">Log In</button>
+      <button class="auth-tab" id="authTabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- LOGIN PANEL -->
+    <div class="auth-panel on" id="authPanelLogin">
+      <div class="auth-title">Welcome back 👋</div>
+      <div class="auth-sub">Log in to your GharSaathi account</div>
+      <div class="auth-fg">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" oninput="clearAuthErr('loginEmailErr')">
+        <span class="auth-err" id="loginEmailErr"></span>
+      </div>
+      <div class="auth-fg">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Your password" oninput="clearAuthErr('loginPassErr')" onkeydown="if(event.key==='Enter')submitLogin()">
+        <span class="auth-err" id="loginPassErr"></span>
+      </div>
+      <div class="auth-forgot"><a onclick="handleForgotPassword()">Forgot password?</a></div>
+      <div class="auth-err" id="loginGeneralErr" style="text-align:center;font-size:13px;margin-bottom:10px;"></div>
+      <button class="auth-submit" id="loginSubmitBtn" onclick="submitLogin()">Log In →</button>
+      <div class="auth-divider">or continue with</div>
+      <div class="auth-social">
+        <button class="auth-social-btn" onclick="socialLogin('Google')">🌐 Google</button>
+        <button class="auth-social-btn" onclick="socialLogin('LinkedIn')">💼 LinkedIn</button>
+      </div>
+      <div class="auth-switch">Don't have an account? <span onclick="switchAuthTab('signup')">Sign up free</span></div>
+    </div>
+
+    <!-- SIGNUP PANEL -->
+    <div class="auth-panel" id="authPanelSignup">
+      <div class="auth-title">Join GharSaathi 🏠</div>
+      <div class="auth-sub">Find your perfect flatmate. Free forever.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="auth-fg"><label>First Name</label><input type="text" id="signupFirstName" placeholder="Priya" oninput="clearAuthErr('signupNameErr')"></div>
+        <div class="auth-fg"><label>Last Name</label><input type="text" id="signupLastName" placeholder="Sharma"></div>
+      </div>
+      <span class="auth-err" id="signupNameErr"></span>
+      <div class="auth-fg"><label>Email Address</label><input type="email" id="signupEmail" placeholder="you@example.com" oninput="clearAuthErr('signupEmailErr')"><span class="auth-err" id="signupEmailErr"></span></div>
+      <div class="auth-fg"><label>Phone Number</label><input type="tel" id="signupPhone" placeholder="+91 98765 43210" oninput="clearAuthErr('signupPhoneErr')"><span class="auth-err" id="signupPhoneErr"></span></div>
+      <div class="auth-fg">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Min. 8 characters" oninput="checkPasswordStrength(this.value);clearAuthErr('signupPassErr')">
+        <div class="pw-strength" id="pwStrengthBar"></div>
+        <span class="auth-err" id="signupPassErr"></span>
+      </div>
+      <div class="auth-fg"><label>Confirm Password</label><input type="password" id="signupConfirmPassword" placeholder="Repeat password" oninput="clearAuthErr('signupConfirmErr')" onkeydown="if(event.key==='Enter')submitSignup()"><span class="auth-err" id="signupConfirmErr"></span></div>
+      <div style="font-size:11px;color:var(--dust);margin-bottom:14px;line-height:1.6;">By signing up you agree to our <a href="#" style="color:var(--fire);font-weight:600;">Terms</a> and <a href="#" style="color:var(--fire);font-weight:600;">Privacy Policy</a>.</div>
+      <div class="auth-err" id="signupGeneralErr" style="text-align:center;font-size:13px;margin-bottom:10px;"></div>
+      <button class="auth-submit" id="signupSubmitBtn" onclick="submitSignup()">Create Account 🎉</button>
+      <div class="auth-divider">or continue with</div>
+      <div class="auth-social">
+        <button class="auth-social-btn" onclick="socialLogin('Google')">🌐 Google</button>
+        <button class="auth-social-btn" onclick="socialLogin('LinkedIn')">💼 LinkedIn</button>
+      </div>
+      <div class="auth-switch">Already have an account? <span onclick="switchAuthTab('login')">Log in</span></div>
+    </div>
+
+    <!-- SUCCESS PANEL -->
+    <div class="auth-panel" id="authPanelSuccess">
+      <div class="auth-success">
+        <span class="tick">🎉</span>
+        <p id="authSuccessTitle">Welcome to GharSaathi!</p>
+        <small id="authSuccessSub">You're now logged in. Let's find your perfect ghar!</small>
+        <br><br>
+        <button class="auth-submit" onclick="closeAuth()">Continue Exploring 🏠</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1110,12 +1218,196 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 <div class="toast" id="toast"></div>
 
 <script>
+// ════════════════════════════════════════════════════════
+//  AUTH SYSTEM  (localStorage-based, no backend needed)
+// ════════════════════════════════════════════════════════
+const Auth = {
+  K: { USER:'gs_user', TOKEN:'gs_token', USERS:'gs_users_db' },
+  getUser(){ try{return JSON.parse(localStorage.getItem(this.K.USER));}catch(e){return null;} },
+  isLoggedIn(){ return !!this.getUser() && !!localStorage.getItem(this.K.TOKEN); },
+  getToken(){ return localStorage.getItem(this.K.TOKEN); },
+  getUsers(){ try{return JSON.parse(localStorage.getItem(this.K.USERS))||[];}catch(e){return[];} },
+  saveUsers(u){ localStorage.setItem(this.K.USERS, JSON.stringify(u)); },
+  genToken(e){ return btoa(e+':'+Date.now()+':'+Math.random().toString(36)); },
+  register({firstName,lastName,email,phone,password}){
+    const users=this.getUsers();
+    if(users.find(u=>u.email.toLowerCase()===email.toLowerCase()))
+      return{success:false,error:'email_exists',message:'This email is already registered. Please log in.'};
+    const nu={id:'u_'+Date.now(),firstName,lastName,email,phone,
+      passwordHash:btoa(password),createdAt:new Date().toISOString(),
+      avatar:(firstName.charAt(0)+(lastName?lastName.charAt(0):'')).toUpperCase()};
+    users.push(nu); this.saveUsers(users);
+    const safe={id:nu.id,firstName,lastName,email,phone,avatar:nu.avatar};
+    const token=this.genToken(email);
+    localStorage.setItem(this.K.USER,JSON.stringify(safe));
+    localStorage.setItem(this.K.TOKEN,token);
+    return{success:true,user:safe};
+  },
+  login({email,password}){
+    const users=this.getUsers();
+    const user=users.find(u=>u.email.toLowerCase()===email.toLowerCase());
+    if(!user) return{success:false,error:'not_found',message:'No account found with this email. Please sign up.'};
+    if(user.passwordHash!==btoa(password)) return{success:false,error:'wrong_pass',message:'Incorrect password. Please try again.'};
+    const safe={id:user.id,firstName:user.firstName,lastName:user.lastName,email:user.email,phone:user.phone,avatar:user.avatar};
+    const token=this.genToken(email);
+    localStorage.setItem(this.K.USER,JSON.stringify(safe));
+    localStorage.setItem(this.K.TOKEN,token);
+    return{success:true,user:safe};
+  },
+  logout(){ localStorage.removeItem(this.K.USER); localStorage.removeItem(this.K.TOKEN); }
+};
+
+// ── Auth UI ──────────────────────────────────
+let _afterAuthAction=null;
+
+function openAuth(tab='login',gateMessage=null,afterAction=null){
+  _afterAuthAction=afterAction;
+  const gm=document.getElementById('authGateMsg');
+  if(gateMessage){document.getElementById('authGateMsgText').textContent=gateMessage;gm.style.display='block';}
+  else gm.style.display='none';
+  switchAuthTab(tab);
+  document.getElementById('authOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  clearAllAuthErrors();
+}
+function closeAuth(){
+  document.getElementById('authOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  _afterAuthAction=null;
+  clearAllAuthErrors();
+  resetAuthForms();
+}
+function switchAuthTab(tab){
+  document.querySelectorAll('.auth-panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('on'));
+  if(tab==='login'){document.getElementById('authPanelLogin').classList.add('on');document.getElementById('authTabLogin').classList.add('on');}
+  else if(tab==='signup'){document.getElementById('authPanelSignup').classList.add('on');document.getElementById('authTabSignup').classList.add('on');}
+  else if(tab==='success'){document.getElementById('authPanelSuccess').classList.add('on');document.getElementById('authTabBar').style.display='none';}
+}
+function submitLogin(){
+  clearAllAuthErrors();
+  const email=document.getElementById('loginEmail').value.trim();
+  const password=document.getElementById('loginPassword').value;
+  let hasErr=false;
+  if(!email||!isValidEmail(email)){showAuthErr('loginEmailErr','Please enter a valid email address.');document.getElementById('loginEmail').classList.add('err');hasErr=true;}
+  if(!password){showAuthErr('loginPassErr','Please enter your password.');document.getElementById('loginPassword').classList.add('err');hasErr=true;}
+  if(hasErr)return;
+  const btn=document.getElementById('loginSubmitBtn');btn.disabled=true;btn.textContent='Logging in...';
+  setTimeout(()=>{
+    const result=Auth.login({email,password});
+    btn.disabled=false;btn.textContent='Log In →';
+    if(result.success){
+      updateNavForUser(result.user);
+      showAuthSuccess('Welcome back! 🎉',`Hey ${result.user.firstName}, great to see you again!`);
+      confetti();
+      setTimeout(()=>{closeAuth();if(_afterAuthAction){_afterAuthAction();_afterAuthAction=null;}},1800);
+    }else{showAuthErr('loginGeneralErr',result.message);}
+  },600);
+}
+function submitSignup(){
+  clearAllAuthErrors();
+  const firstName=document.getElementById('signupFirstName').value.trim();
+  const lastName=document.getElementById('signupLastName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const phone=document.getElementById('signupPhone').value.trim();
+  const password=document.getElementById('signupPassword').value;
+  const confirmPw=document.getElementById('signupConfirmPassword').value;
+  let hasErr=false;
+  if(!firstName){showAuthErr('signupNameErr','Please enter your first name.');document.getElementById('signupFirstName').classList.add('err');hasErr=true;}
+  if(!email||!isValidEmail(email)){showAuthErr('signupEmailErr','Please enter a valid email address.');document.getElementById('signupEmail').classList.add('err');hasErr=true;}
+  if(phone&&!isValidPhone(phone)){showAuthErr('signupPhoneErr','Please enter a valid Indian phone number.');document.getElementById('signupPhone').classList.add('err');hasErr=true;}
+  if(!password||password.length<8){showAuthErr('signupPassErr','Password must be at least 8 characters.');document.getElementById('signupPassword').classList.add('err');hasErr=true;}
+  if(password!==confirmPw){showAuthErr('signupConfirmErr','Passwords do not match.');document.getElementById('signupConfirmPassword').classList.add('err');hasErr=true;}
+  if(hasErr)return;
+  const btn=document.getElementById('signupSubmitBtn');btn.disabled=true;btn.textContent='Creating account...';
+  setTimeout(()=>{
+    const result=Auth.register({firstName,lastName,email,phone,password});
+    btn.disabled=false;btn.textContent='Create Account 🎉';
+    if(result.success){
+      updateNavForUser(result.user);
+      showAuthSuccess(`Welcome, ${result.user.firstName}! 🎉`,'Your account is ready. Let\'s find your perfect ghar!');
+      confetti();
+      setTimeout(()=>{closeAuth();if(_afterAuthAction){_afterAuthAction();_afterAuthAction=null;}},1800);
+    }else{
+      if(result.error==='email_exists'){showAuthErr('signupEmailErr',result.message);document.getElementById('signupEmail').classList.add('err');}
+      else{showAuthErr('signupGeneralErr',result.message);}
+    }
+  },700);
+}
+function socialLogin(provider){toast2(`🔗 ${provider} login coming soon! Use email for now.`);}
+function handleForgotPassword(){
+  const email=document.getElementById('loginEmail').value.trim();
+  if(!email||!isValidEmail(email)){toast2('📧 Enter your email first, then click "Forgot password"');document.getElementById('loginEmail').focus();return;}
+  toast2(`📬 Reset link sent to ${email}! (Demo mode)`);
+}
+function showAuthSuccess(title,sub){
+  document.getElementById('authSuccessTitle').textContent=title;
+  document.getElementById('authSuccessSub').textContent=sub;
+  document.getElementById('authTabBar').style.display='none';
+  document.querySelectorAll('.auth-panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('authPanelSuccess').classList.add('on');
+}
+function updateNavForUser(user){
+  if(user){
+    document.getElementById('navLoggedOut').style.display='none';
+    document.getElementById('navLoggedIn').style.display='flex';
+    document.getElementById('navUserName').textContent=user.firstName;
+    document.getElementById('navUserAv').textContent=user.avatar||(user.firstName.charAt(0)+(user.lastName?user.lastName.charAt(0):'')).toUpperCase();
+  }else{
+    document.getElementById('navLoggedOut').style.display='flex';
+    document.getElementById('navLoggedIn').style.display='none';
+  }
+}
+function logoutUser(){Auth.logout();updateNavForUser(null);toast2('👋 Logged out successfully. Come back soon!');confetti();}
+function checkPasswordStrength(pw){
+  const bar=document.getElementById('pwStrengthBar');
+  if(!pw){bar.className='pw-strength';return;}
+  const strong=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}/.test(pw);
+  const medium=/^(?=.*[a-zA-Z])(?=.*\d).{8,}/.test(pw);
+  if(strong)bar.className='pw-strength strong';
+  else if(medium)bar.className='pw-strength medium';
+  else bar.className='pw-strength weak';
+}
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+function isValidPhone(p){return /^(\+91|0)?[6-9]\d{9}$/.test(p.replace(/\s/g,''));}
+function showAuthErr(id,msg){const el=document.getElementById(id);if(el){el.textContent=msg;el.classList.add('show');}}
+function clearAuthErr(id){
+  const el=document.getElementById(id);
+  if(el){el.classList.remove('show');}
+  const inp=el&&el.previousElementSibling;
+  if(inp&&inp.tagName==='INPUT')inp.classList.remove('err');
+}
+function clearAllAuthErrors(){
+  document.querySelectorAll('.auth-err').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('.auth-fg input.err').forEach(i=>i.classList.remove('err'));
+}
+function resetAuthForms(){
+  ['loginEmail','loginPassword','signupFirstName','signupLastName','signupEmail','signupPhone','signupPassword','signupConfirmPassword'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('pwStrengthBar').className='pw-strength';
+  document.getElementById('authTabBar').style.display='';
+}
+// Auth-gated action wrapper
+function requireAuth(action,gateMsg){
+  if(Auth.isLoggedIn())action();
+  else openAuth('login',gateMsg,action);
+}
+function openListAuth(){requireAuth(()=>openList(),'🏠 Please log in to list your room on GharSaathi.');}
+function openInterestAuth(name){requireAuth(()=>openInterest(name),`💌 Please log in to show interest in ${name}'s room.`);}
+// Close auth overlay on backdrop click
+document.getElementById('authOverlay').addEventListener('click',function(e){if(e.target===this)closeAuth();});
+// Init nav on page load
+(function initAuth(){const user=Auth.getUser();if(user)updateNavForUser(user);})();
+
+// ════════════════════════════════════════════
+//  ORIGINAL SITE SCRIPTS
+// ════════════════════════════════════════════
+
 // ── CURSOR ──────────────────────────────────
 const cur=document.getElementById('C'),cur2=document.getElementById('C2');
 let mx=0,my=0,lx=0,ly=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
 setInterval(()=>{lx+=(mx-lx)*.12;ly+=(my-ly)*.12;cur2.style.left=lx+'px';cur2.style.top=ly+'px';},16);
-const hoverEls='button,a,.chip,.quiz-opt,.toggle-item,.lcard,.step-card,.safe-card,.bcard,.sw-btn,.review-card';
+const hoverEls='button,a,.chip,.quiz-opt,.toggle-item,.lcard,.step-card,.safe-card,.bcard,.sw-btn,.review-card,.auth-tab,.auth-social-btn,.auth-switch span,.nav-user,.nav-logout';
 document.querySelectorAll(hoverEls).forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
@@ -1154,6 +1446,8 @@ function closeList(){document.getElementById('listModal').classList.remove('open
 function openInterest(name){
   document.getElementById('intTitle').textContent=`Show Interest — ${name}'s Room 💌`;
   document.getElementById('intModal').classList.add('open');document.body.style.overflow='hidden';
+  const user=Auth.getUser();
+  if(user){const nf=document.getElementById('intNameField');if(nf)nf.value=user.firstName+' '+(user.lastName||'');}
 }
 function closeInt(){document.getElementById('intModal').classList.remove('open');document.body.style.overflow='';}
 function submitList(){closeList();confetti();setTimeout(()=>toast2('🎉 Room listed! Verified & published within 24 hrs.'),400);}
@@ -1165,8 +1459,7 @@ document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{
 function openDetail(emoji,name,loc,price,type,addr,rooms,flmates,resident,note,noteFrom,colorClass){
   const m=document.getElementById('detailModal');
   const img=document.getElementById('dImg');
-  img.textContent=emoji;
-  img.className='detail-img '+colorClass;
+  img.textContent=emoji;img.className='detail-img '+colorClass;
   document.getElementById('dName').textContent=name;
   document.getElementById('dLoc').textContent=loc;
   document.getElementById('dPrice').innerHTML=price+' <small style="font-family:\'DM Sans\',sans-serif;font-size:14px;color:var(--dust)">/month</small>';
@@ -1176,14 +1469,18 @@ function openDetail(emoji,name,loc,price,type,addr,rooms,flmates,resident,note,n
   document.getElementById('dFlmates').textContent=flmates;
   document.getElementById('dNote').innerHTML='"'+note+'"';
   document.getElementById('dNoteFrom').textContent='— '+noteFrom;
-  document.getElementById('dInterestBtn').onclick=()=>{document.getElementById('detailModal').classList.remove('open');document.body.style.overflow='';openInterest(resident);};
+  // Auth-gated interest button
+  document.getElementById('dInterestBtn').onclick=()=>{
+    document.getElementById('detailModal').classList.remove('open');
+    document.body.style.overflow='';
+    openInterestAuth(resident);
+  };
   m.classList.add('open');document.body.style.overflow='hidden';
 }
 
 // ── PANEL SWITCH (LIST MODAL) ─────────────────
 function switchPanel(btn,panelId){
-  document.querySelectorAll('.modal-tab').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
+  document.querySelectorAll('.modal-tab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.getElementById(panelId).classList.add('on');
 }
@@ -1197,7 +1494,11 @@ function switchTab(btn){document.querySelectorAll('.tab').forEach(b=>b.classList
 function doSearch(){const v=document.getElementById('sLoc').value.trim();toast2(v?`🔍 Searching in ${v}...`:'🔍 Showing all rooms!');setTimeout(()=>document.getElementById('browse').scrollIntoView({behavior:'smooth'}),400);}
 
 // ── LOVE / HEART ─────────────────────────────
-function loveCard(btn){const on=btn.classList.toggle('loved');btn.textContent=on?'♥':'♡';if(on){miniConf(btn);toast2('❤️ Saved to favourites!');}}
+function loveCard(btn){
+  if(!Auth.isLoggedIn()){openAuth('login','💛 Log in to save rooms to your favourites!');return;}
+  const on=btn.classList.toggle('loved');btn.textContent=on?'♥':'♡';
+  if(on){miniConf(btn);toast2('❤️ Saved to favourites!');}
+}
 
 // ── SWIPE STACK ──────────────────────────────
 const swData=[
@@ -1236,14 +1537,17 @@ document.addEventListener('touchend',()=>{
   else{tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;}dcx=0;
 });
 function doSwipe(dir){
+  if((dir==='right'||dir==='super')&&!Auth.isLoggedIn()){
+    tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;
+    openAuth('login','💚 Log in to like and match with rooms!');return;
+  }
   swIdx=(swIdx+1)%swData.length;const d=swData[swIdx];
   if(dir==='right'){tc.classList.add('fly-right');miniConf(tc);toast2('💚 Liked! They\'ll be notified.');}
   else if(dir==='left'){tc.classList.add('fly-left');toast2('👋 Passed on this one.');}
   else{tc.classList.add('fly-right');confetti();toast2('⭐ Super Liked! They\'ll definitely see this!');}
   setTimeout(()=>{
     tc.classList.remove('fly-right','fly-left');tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;
-    const ti=document.getElementById('topImg');
-    ti.className='sw-img '+d.ci;
+    const ti=document.getElementById('topImg');ti.className='sw-img '+d.ci;
     document.getElementById('topEmoji').textContent=d.e;
     document.getElementById('topTag').textContent=d.tag;
     document.getElementById('topName').textContent=d.name;
@@ -1281,7 +1585,7 @@ const qResults=[
   {e:'😴',t:'The Zen Homebody',s:'You love peaceful evenings and a tidy flat. Your ideal flatmate brings good chai and zero drama. We\'ve found your people!'},
   {e:'🎶',t:'The Social Butterfly 🦋',s:'You thrive with energy around you — movie nights, shared cooking, laughter. Your vibe is absolutely contagious!'},
   {e:'💻',t:'The Focused Professional',s:'Work-life balance is your religion. You need a flatmate who respects quiet hours and doesn\'t interrupt your flow state.'},
-  {e:'🦉',t:'The Night Owl',s:'You come alive at midnight and need someone who won\'t judge your 2am Maggi sessions. We know your kind — they\'re on GharSaathi!'},
+  {e:'🦉',t:'The Night Owl',s:'You come alive at midnight and need someone who won\'t judge your 2am Maggi sessions. We know your kind!'},
 ];
 function nextQ(step,btn){
   btn.parentElement.querySelectorAll('.quiz-opt').forEach(o=>o.style.opacity='.5');
@@ -1319,50 +1623,27 @@ document.addEventListener('keydown',e=>{
   if(ki===kk.length){confetti();toast2('🎮 Konami Code! You absolute legend 🏆');ki=0;}
 });
 
-// ── PHOTO UPLOAD ─────────────────────────────────────
-window._uploadedPhotoUrls = [];
-
-async function handlePhotoUpload(input) {
-  const files = Array.from(input.files);
-  if (!files.length) return;
-  const token = Auth.getToken();
-  if (!token) { showAuthModal('register'); return; }
-
-  toast2('📸 Uploading ' + files.length + ' photo(s)...');
-
-  for (const file of files) {
-    if (file.size > 5 * 1024 * 1024) { toast2('❌ ' + file.name + ' is too large (max 5MB)'); continue; }
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch(API_BASE + '/upload', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token },
-        body: formData
-      });
-      const data = await res.json();
-      if (data.url) {
-        window._uploadedPhotoUrls.push(data.url);
-        const container = document.getElementById('uploadedPhotos');
-        const img = document.createElement('div');
-        img.style.cssText = 'position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1.5px solid var(--line)';
-        img.innerHTML = '<img src="' + data.url + '" style="width:100%;height:100%;object-fit:cover"><button onclick="removePhoto(this,\''+data.url+'\')" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>';
-        container.appendChild(img);
-      } else {
-        toast2('❌ Upload failed: ' + (data.error || 'Unknown error'));
-      }
-    } catch(e) {
-      toast2('❌ Upload failed: ' + e.message);
-    }
-  }
-  if (window._uploadedPhotoUrls.length > 0) toast2('✅ ' + window._uploadedPhotoUrls.length + ' photo(s) uploaded!');
+// ── PHOTO UPLOAD ─────────────────────────────
+window._uploadedPhotoUrls=[];
+function handlePhotoUpload(input){
+  const files=Array.from(input.files);
+  if(!files.length)return;
+  if(!Auth.isLoggedIn()){openAuth('login','📸 Log in to upload photos for your listing.');return;}
+  toast2('📸 '+files.length+' photo(s) selected!');
+  files.forEach(file=>{
+    if(file.size>5*1024*1024){toast2('❌ '+file.name+' is too large (max 5MB)');return;}
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      window._uploadedPhotoUrls.push(e.target.result);
+      const container=document.getElementById('uploadedPhotos');
+      const div=document.createElement('div');
+      div.style.cssText='position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1.5px solid var(--line)';
+      div.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover"><button onclick="this.closest('div').remove()" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer">✕</button>`;
+      container.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
 }
-
-function removePhoto(btn, url) {
-  window._uploadedPhotoUrls = window._uploadedPhotoUrls.filter(u => u !== url);
-  btn.closest('div').remove();
-}
-
 </script>
 </body>
 </html>
