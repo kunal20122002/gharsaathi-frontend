@@ -387,31 +387,6 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
 .reveal.in{opacity:1;transform:translateY(0);}
 
-/* ─── AUTH MODAL ─────────────────────────── */
-.auth-tabs{display:flex;background:var(--bone);border-radius:12px;padding:4px;gap:4px;margin-bottom:28px;border:1.5px solid var(--line);}
-.auth-tab{flex:1;padding:10px;border-radius:9px;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;color:var(--dust);transition:all .2s;letter-spacing:.3px;}
-.auth-tab.on{background:white;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08);}
-.auth-panel{display:none;}
-.auth-panel.on{display:block;}
-.auth-divider{text-align:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--dust);margin:18px 0;position:relative;}
-.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:42%;height:1.5px;background:var(--line);}
-.auth-divider::before{left:0;}
-.auth-divider::after{right:0;}
-.btn-full{width:100%;padding:13px;border-radius:40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;border:none;cursor:pointer;transition:all .25s;margin-top:6px;}
-.btn-full.fire{background:var(--fire);color:white;box-shadow:0 6px 18px rgba(232,68,10,.28);}
-.btn-full.fire:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,68,10,.4);}
-.btn-full.ghost{background:transparent;color:var(--mink);border:1.5px solid var(--line);}
-.btn-full.ghost:hover{border-color:var(--ink);}
-.auth-switch{text-align:center;font-size:13px;color:var(--dust);margin-top:16px;font-weight:300;}
-.auth-switch b{color:var(--fire);cursor:pointer;font-weight:700;}
-.auth-switch b:hover{text-decoration:underline;}
-.nav-user{display:flex;align-items:center;gap:8px;}
-.nav-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--fire),var(--fire2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:white;cursor:pointer;border:2px solid white;box-shadow:0 2px 8px rgba(232,68,10,.25);}
-.nav-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--ink);}
-.input-err{border-color:#e74c3c !important;box-shadow:0 0 0 3px rgba(231,76,60,.09) !important;}
-.field-err{font-size:11px;color:#e74c3c;font-family:'Syne',sans-serif;margin-top:3px;display:none;}
-.field-err.show{display:block;}
-
 /* ─── RESPONSIVE ─────────────────────────── */
 @media(max-width:900px){
   .hero{flex-direction:column;gap:44px;padding:44px 5%;min-height:auto;}
@@ -427,9 +402,35 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
   .fg.span2{grid-column:span 1;}
   .info-grid{grid-template-columns:1fr;}
 }
+
+/* ─── AUTH MODAL ─────────────────────────── */
+.auth-tabs{display:flex;background:var(--bone);border-radius:12px;padding:4px;gap:4px;margin-bottom:28px;border:1.5px solid var(--line);}
+.auth-tab{flex:1;padding:10px;border-radius:9px;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;color:var(--dust);transition:all .2s;letter-spacing:.3px;}
+.auth-tab.on{background:white;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.auth-panel{display:none;}
+.auth-panel.on{display:block;}
+.btn-full{width:100%;padding:13px;border-radius:40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;border:none;cursor:pointer;transition:all .25s;margin-top:6px;}
+.btn-full.fire{background:var(--fire);color:white;box-shadow:0 6px 18px rgba(232,68,10,.28);}
+.btn-full.fire:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,68,10,.4);}
+.auth-switch{text-align:center;font-size:13px;color:var(--dust);margin-top:16px;font-weight:300;}
+.auth-switch b{color:var(--fire);cursor:pointer;font-weight:700;}
+.auth-switch b:hover{text-decoration:underline;}
+.nav-user{display:flex;align-items:center;gap:8px;}
+.nav-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--fire),var(--fire2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:white;cursor:pointer;border:2px solid white;box-shadow:0 2px 8px rgba(232,68,10,.25);}
+.nav-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--ink);}
+.input-err{border-color:#e74c3c !important;box-shadow:0 0 0 3px rgba(231,76,60,.09) !important;}
+.field-err{font-size:11px;color:#e74c3c;font-family:'Syne',sans-serif;margin-top:3px;display:none;}
+.field-err.show{display:block;}
 </style>
 </head>
 <body>
+
+<!-- BETA BANNER -->
+<div id="betaBanner" style="background:#111;color:rgba(255,255,255,.8);text-align:center;padding:9px 16px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.8px;display:flex;align-items:center;justify-content:center;gap:14px;position:relative;z-index:200;">
+  🚧 BETA — We're just getting started. Bugs welcome.&nbsp;
+  <a href="mailto:aggkunal100@gmail.com" style="color:#FF8C5A;text-decoration:none;border-bottom:1px solid rgba(255,140,90,.4);">Send feedback →</a>
+  <button onclick="document.getElementById('betaBanner').remove()" style="position:absolute;right:14px;background:none;border:none;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer;line-height:1;">✕</button>
+</div>
 
 <!-- CURSOR -->
 <div id="C"></div>
@@ -585,7 +586,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     </div>
   </div>
   <div class="grid-3" id="listingsGrid">
-    <!-- listings loaded dynamically from database -->
+    <!-- listings loaded dynamically from the database -->
   </div>
 </section>
 
@@ -812,12 +813,10 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
     <div class="modal-title" id="authTitle">Welcome back 👋</div>
     <div class="modal-sub" id="authSub">Log in to GharSaathi to browse, list &amp; connect.</div>
-
     <div class="auth-tabs">
       <button class="auth-tab on" id="tabLogin" onclick="switchAuthTab('login')">Log In</button>
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Sign Up</button>
     </div>
-
     <!-- LOGIN PANEL -->
     <div class="auth-panel on" id="authLogin">
       <div style="display:flex;flex-direction:column;gap:13px;">
@@ -831,12 +830,11 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
           <input type="password" id="loginPassword" placeholder="Your password" autocomplete="current-password">
           <span class="field-err" id="loginPassErr">Password is required.</span>
         </div>
-        <div class="field-err show" id="loginApiErr" style="font-size:12px;margin:0;"></div>
+        <span class="field-err" id="loginApiErr" style="font-size:12px;"></span>
         <button class="btn-full fire" id="loginBtn" onclick="doLogin()">Log In →</button>
       </div>
       <div class="auth-switch">Don't have an account? <b onclick="switchAuthTab('register')">Sign up free</b></div>
     </div>
-
     <!-- REGISTER PANEL -->
     <div class="auth-panel" id="authRegister">
       <div style="display:flex;flex-direction:column;gap:13px;">
@@ -872,7 +870,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
             <option value="other">Other</option>
           </select>
         </div>
-        <div class="field-err show" id="regApiErr" style="font-size:12px;margin:0;"></div>
+        <span class="field-err" id="regApiErr" style="font-size:12px;"></span>
         <button class="btn-full fire" id="registerBtn" onclick="doRegister()">Create Account 🎉</button>
       </div>
       <div class="auth-switch">Already have an account? <b onclick="switchAuthTab('login')">Log in</b></div>
@@ -895,14 +893,14 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <div id="lPanel" class="panel on">
       <div class="form-section">🏠 Flat Details</div>
       <div class="form-grid">
-        <div class="fg"><label>City</label><input type="text" placeholder="e.g. Bengaluru"></div>
-        <div class="fg"><label>Locality / Area</label><input type="text" placeholder="e.g. Koramangala 5th Block"></div>
-        <div class="fg"><label>Flat Type</label><select><option>1BHK</option><option>2BHK</option><option>3BHK</option><option>Studio</option><option>4BHK+</option></select></div>
-        <div class="fg"><label>Monthly Rent (₹)</label><input type="number" placeholder="e.g. 12000"></div>
-        <div class="fg"><label>Security Deposit (₹)</label><input type="number" placeholder="e.g. 24000"></div>
+        <div class="fg"><label>City <span style="color:var(--fire)">*</span></label><input type="text" id="listCity" placeholder="e.g. Bengaluru"></div>
+        <div class="fg"><label>Locality / Area <span style="color:var(--fire)">*</span></label><input type="text" id="listLocality" placeholder="e.g. Koramangala 5th Block"></div>
+        <div class="fg"><label>Flat Type</label><select id="listFlatType"><option>1BHK</option><option>2BHK</option><option>3BHK</option><option>Studio</option><option>4BHK+</option></select></div>
+        <div class="fg"><label>Monthly Rent (₹) <span style="color:var(--fire)">*</span></label><input type="number" id="listRent" placeholder="e.g. 12000"></div>
+        <div class="fg"><label>Security Deposit (₹)</label><input type="number" id="listDeposit" placeholder="e.g. 24000"></div>
         <div class="fg"><label>Available From</label><input type="date"></div>
         <div class="fg span2"><label>Vacancy Reason</label><select><option>Flatmate moved to another city</option><option>Flatmate got married</option><option>Flatmate shifted flats</option><option>New flat — first listing</option><option>Other</option></select></div>
-        <div class="fg span2"><label>Flat Description &amp; Vibe ✍️</label><textarea rows="3" placeholder="Tell us about the flat, neighbourhood, current flatmates, house culture..."></textarea></div>
+        <div class="fg span2"><label>Flat Description &amp; Vibe ✍️</label><textarea rows="3" id="listDesc" placeholder="Tell us about the flat, neighbourhood, current flatmates, house culture..."></textarea></div>
       </div>
       <div class="form-section">⚡ Amenities &amp; Rules</div>
       <div class="toggle-grid">
@@ -929,9 +927,9 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <div id="uploadedPhotos" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;"></div>
       <div class="form-section">💌 Departing Flatmate's Reference</div>
       <div class="form-grid">
-        <div class="fg"><label>Outgoing Flatmate's Name</label><input type="text" placeholder="Their name (optional)"></div>
+        <div class="fg"><label>Outgoing Flatmate's Name</label><input type="text" id="noteAuthor" placeholder="Their name (optional)"></div>
         <div class="fg"><label>LinkedIn URL (Optional but 🔥)</label><input type="url" placeholder="https://linkedin.com/in/you"></div>
-        <div class="fg span2"><label>Their Message About Current Flatmate ✍️</label><textarea rows="3" placeholder="Ask them to write something genuine about the current resident's habits, cleanliness, vibe, personality..."></textarea></div>
+        <div class="fg span2"><label>Their Message About Current Flatmate ✍️</label><textarea rows="3" id="noteText" placeholder="Ask them to write something genuine about the current resident's habits, cleanliness, vibe, personality..."></textarea></div>
       </div>
       <div class="tip">💡 <strong>Tip:</strong> Listings with a departing flatmate note get <strong>3× more matches!</strong> It's the single most trusted signal on GharSaathi. Don't skip it. 🙏</div>
       <div class="form-section">🛡️ Your Verification</div>
@@ -1059,186 +1057,6 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── CONFIG ───────────────────────────────────
-const API_BASE = 'https://gharsaathi-backend-production.up.railway.app';
-
-// ── AUTH ─────────────────────────────────────
-const Auth = {
-  getToken()   { return localStorage.getItem('gs_token'); },
-  getRefresh() { return localStorage.getItem('gs_refresh'); },
-  getUser()    { try { return JSON.parse(localStorage.getItem('gs_user')); } catch { return null; } },
-  isLoggedIn() { return !!this.getToken(); },
-  save(data) {
-    localStorage.setItem('gs_token',   data.access_token);
-    localStorage.setItem('gs_refresh', data.refresh_token);
-    localStorage.setItem('gs_user',    JSON.stringify(data.user));
-  },
-  clear() {
-    localStorage.removeItem('gs_token');
-    localStorage.removeItem('gs_refresh');
-    localStorage.removeItem('gs_user');
-  }
-};
-
-function updateNavForAuth() {
-  const cta = document.querySelector('.nav-cta');
-  const user = Auth.getUser();
-  if (Auth.isLoggedIn() && user) {
-    const initials = (user.full_name || user.email || '?').charAt(0).toUpperCase();
-    cta.innerHTML = `
-      <div class="nav-user">
-        <div class="nav-avatar" title="${user.full_name || ''}" onclick="doLogout()">${initials}</div>
-        <span class="nav-name">${(user.full_name||'').split(' ')[0]}</span>
-        <button class="btn-ghost" onclick="doLogout()" style="font-size:11px;padding:6px 14px;">Log Out</button>
-      </div>`;
-  } else {
-    cta.innerHTML = `
-      <button class="btn-ghost" onclick="showAuthModal('login')">Log In</button>
-      <button class="btn-fire" onclick="openList()">+ List My Room</button>`;
-  }
-}
-
-function showAuthModal(tab = 'login') {
-  switchAuthTab(tab);
-  document.getElementById('authModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeAuthModal() {
-  document.getElementById('authModal').classList.remove('open');
-  document.body.style.overflow = '';
-  // clear errors
-  ['loginApiErr','regApiErr'].forEach(id => { const el=document.getElementById(id); if(el){el.textContent='';} });
-}
-
-function switchAuthTab(tab) {
-  document.getElementById('tabLogin').classList.toggle('on', tab==='login');
-  document.getElementById('tabRegister').classList.toggle('on', tab==='register');
-  document.getElementById('authLogin').classList.toggle('on', tab==='login');
-  document.getElementById('authRegister').classList.toggle('on', tab==='register');
-  if (tab === 'login') {
-    document.getElementById('authTitle').textContent = 'Welcome back 👋';
-    document.getElementById('authSub').textContent = 'Log in to GharSaathi to browse, list & connect.';
-  } else {
-    document.getElementById('authTitle').textContent = 'Join GharSaathi 🏠';
-    document.getElementById('authSub').textContent = 'Create your free account in under a minute.';
-  }
-}
-
-function setFieldErr(inputId, errId, show) {
-  const inp = document.getElementById(inputId);
-  const err = document.getElementById(errId);
-  if (!inp || !err) return;
-  inp.classList.toggle('input-err', show);
-  err.classList.toggle('show', show);
-}
-
-async function doLogin() {
-  const email    = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const errEl    = document.getElementById('loginApiErr');
-  errEl.textContent = '';
-
-  let valid = true;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  setFieldErr('loginEmail', 'loginEmailErr', !emailOk);
-  if (!emailOk) valid = false;
-  setFieldErr('loginPassword', 'loginPassErr', !password);
-  if (!password) valid = false;
-  if (!valid) return;
-
-  const btn = document.getElementById('loginBtn');
-  btn.textContent = 'Logging in...';
-  btn.disabled = true;
-
-  try {
-    const res  = await fetch(API_BASE + '/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      Auth.save(data);
-      closeAuthModal();
-      updateNavForAuth();
-      confetti();
-      toast2('👋 Welcome back, ' + (data.user.full_name || 'friend') + '!');
-    } else {
-      errEl.textContent = '❌ ' + (data.error || 'Login failed. Check your email & password.');
-    }
-  } catch (e) {
-    errEl.textContent = '❌ Network error. Please try again.';
-  } finally {
-    btn.textContent = 'Log In →';
-    btn.disabled = false;
-  }
-}
-
-async function doRegister() {
-  const full_name  = document.getElementById('regName').value.trim();
-  const email      = document.getElementById('regEmail').value.trim();
-  const phoneRaw   = document.getElementById('regPhone').value.replace(/\s/g,'');
-  const password   = document.getElementById('regPassword').value;
-  const occupation = document.getElementById('regOccupation').value;
-  const phone      = '+91' + phoneRaw;
-  const errEl      = document.getElementById('regApiErr');
-  errEl.textContent = '';
-
-  let valid = true;
-  setFieldErr('regName',     'regNameErr',  !full_name);                              if (!full_name) valid = false;
-  setFieldErr('regEmail',    'regEmailErr', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) valid = false;
-  setFieldErr('regPhone',    'regPhoneErr', !/^[6-9]\d{9}$/.test(phoneRaw));          if (!/^[6-9]\d{9}$/.test(phoneRaw)) valid = false;
-  setFieldErr('regPassword', 'regPassErr',  password.length < 8);                     if (password.length < 8) valid = false;
-  if (!valid) return;
-
-  const btn = document.getElementById('registerBtn');
-  btn.textContent = 'Creating account...';
-  btn.disabled = true;
-
-  try {
-    const res  = await fetch(API_BASE + '/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ full_name, email, phone, password, occupation })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      Auth.save(data);
-      closeAuthModal();
-      updateNavForAuth();
-      confetti();
-      toast2('🎉 Welcome to GharSaathi, ' + full_name.split(' ')[0] + '!');
-    } else {
-      // show field-level errors from backend if available
-      if (data.errors && data.errors.length) {
-        errEl.textContent = '❌ ' + data.errors.map(e => e.msg).join(' · ');
-      } else {
-        errEl.textContent = '❌ ' + (data.error || 'Registration failed. Please try again.');
-      }
-    }
-  } catch (e) {
-    errEl.textContent = '❌ Network error. Please try again.';
-  } finally {
-    btn.textContent = 'Create Account 🎉';
-    btn.disabled = false;
-  }
-}
-
-async function doLogout() {
-  const token   = Auth.getToken();
-  const refresh = Auth.getRefresh();
-  try {
-    await fetch(API_BASE + '/auth/logout', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
-      body: JSON.stringify({ refresh_token: refresh })
-    });
-  } catch (_) {}
-  Auth.clear();
-  updateNavForAuth();
-  toast2('👋 Logged out. See you soon!');
-}
-
 // ── CURSOR ──────────────────────────────────
 const cur=document.getElementById('C'),cur2=document.getElementById('C2');
 let mx=0,my=0,lx=0,ly=0;
@@ -1278,9 +1096,158 @@ function rain(){confetti();toast2('🎉 Click the logo for confetti anytime! �
 const mq=document.getElementById('MQ');mq.innerHTML+=mq.innerHTML;
 
 // ── MODALS ───────────────────────────────────
+// ── CONFIG ─────────────────────────────────────
+const API_BASE = 'https://gharsaathi-backend-production.up.railway.app/api';
+
+// ── AUTH ────────────────────────────────────────
+const Auth = {
+  getToken()   { return localStorage.getItem('gs_token'); },
+  getRefresh() { return localStorage.getItem('gs_refresh'); },
+  getUser()    { try { return JSON.parse(localStorage.getItem('gs_user')); } catch { return null; } },
+  isLoggedIn() { return !!this.getToken(); },
+  save(data) {
+    localStorage.setItem('gs_token',   data.access_token);
+    localStorage.setItem('gs_refresh', data.refresh_token);
+    localStorage.setItem('gs_user',    JSON.stringify(data.user));
+  },
+  clear() {
+    localStorage.removeItem('gs_token');
+    localStorage.removeItem('gs_refresh');
+    localStorage.removeItem('gs_user');
+  }
+};
+
+function updateNavForAuth() {
+  const cta = document.querySelector('.nav-cta');
+  if (!cta) return;
+  const user = Auth.getUser();
+  if (Auth.isLoggedIn() && user) {
+    const initials = (user.full_name || user.email || '?').charAt(0).toUpperCase();
+    const firstName = (user.full_name || '').split(' ')[0];
+    cta.innerHTML = `
+      <div class="nav-user">
+        <div class="nav-avatar" title="Logged in as ${user.full_name || ''}">${initials}</div>
+        <span class="nav-name">${firstName}</span>
+        <button class="btn-ghost" onclick="doLogout()" style="font-size:11px;padding:6px 14px;">Log Out</button>
+      </div>`;
+  } else {
+    cta.innerHTML = `
+      <button class="btn-ghost" onclick="showAuthModal('login')">Log In</button>
+      <button class="btn-fire" onclick="openList()">+ List My Room</button>`;
+  }
+}
+
+function showAuthModal(tab = 'login') {
+  switchAuthTab(tab);
+  document.getElementById('authModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuthModal() {
+  document.getElementById('authModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('loginApiErr').textContent = '';
+  document.getElementById('regApiErr').textContent = '';
+}
+function switchAuthTab(tab) {
+  document.getElementById('tabLogin').classList.toggle('on', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('on', tab === 'register');
+  document.getElementById('authLogin').classList.toggle('on', tab === 'login');
+  document.getElementById('authRegister').classList.toggle('on', tab === 'register');
+  document.getElementById('authTitle').textContent = tab === 'login' ? 'Welcome back 👋' : 'Join GharSaathi 🏠';
+  document.getElementById('authSub').textContent   = tab === 'login'
+    ? 'Log in to browse, list & connect safely.'
+    : 'Create your free account in under a minute.';
+}
+function setFieldErr(inputId, errId, show) {
+  const inp = document.getElementById(inputId);
+  const err = document.getElementById(errId);
+  if (inp) inp.classList.toggle('input-err', show);
+  if (err) err.classList.toggle('show', show);
+}
+
+async function doLogin() {
+  const email    = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl    = document.getElementById('loginApiErr');
+  errEl.textContent = '';
+  let valid = true;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  setFieldErr('loginEmail', 'loginEmailErr', !emailOk); if (!emailOk) valid = false;
+  setFieldErr('loginPassword', 'loginPassErr', !password); if (!password) valid = false;
+  if (!valid) return;
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = 'Logging in...'; btn.disabled = true;
+  try {
+    const res  = await fetch(API_BASE + '/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      Auth.save(data); closeAuthModal(); updateNavForAuth(); confetti();
+      toast2('👋 Welcome back, ' + (data.user.full_name || 'friend').split(' ')[0] + '!');
+    } else {
+      errEl.classList.add('show');
+      errEl.textContent = '❌ ' + (data.error || 'Login failed. Check your email & password.');
+    }
+  } catch (e) {
+    errEl.classList.add('show');
+    errEl.textContent = '❌ Network error. Is the server up?';
+  } finally { btn.textContent = 'Log In →'; btn.disabled = false; }
+}
+
+async function doRegister() {
+  const full_name  = document.getElementById('regName').value.trim();
+  const email      = document.getElementById('regEmail').value.trim();
+  const phoneRaw   = document.getElementById('regPhone').value.replace(/\D/g,'');
+  const password   = document.getElementById('regPassword').value;
+  const occupation = document.getElementById('regOccupation').value;
+  const phone      = '+91' + phoneRaw;
+  const errEl      = document.getElementById('regApiErr');
+  errEl.textContent = '';
+  let valid = true;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  setFieldErr('regName',     'regNameErr',  !full_name);    if (!full_name)    valid = false;
+  setFieldErr('regEmail',    'regEmailErr', !emailOk);      if (!emailOk)      valid = false;
+  setFieldErr('regPhone',    'regPhoneErr', !/^[6-9]\d{9}$/.test(phoneRaw)); if (!/^[6-9]\d{9}$/.test(phoneRaw)) valid = false;
+  setFieldErr('regPassword', 'regPassErr',  password.length < 8); if (password.length < 8) valid = false;
+  if (!valid) return;
+  const btn = document.getElementById('registerBtn');
+  btn.textContent = 'Creating account...'; btn.disabled = true;
+  try {
+    const res  = await fetch(API_BASE + '/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ full_name, email, phone, password, occupation })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      Auth.save(data); closeAuthModal(); updateNavForAuth(); confetti();
+      toast2('🎉 Welcome to GharSaathi, ' + full_name.split(' ')[0] + '!');
+    } else {
+      errEl.classList.add('show');
+      errEl.textContent = '❌ ' + (data.errors ? data.errors.map(e=>e.msg).join(' · ') : (data.error || 'Registration failed.'));
+    }
+  } catch (e) {
+    errEl.classList.add('show');
+    errEl.textContent = '❌ Network error. Please try again.';
+  } finally { btn.textContent = 'Create Account 🎉'; btn.disabled = false; }
+}
+
+async function doLogout() {
+  try {
+    await fetch(API_BASE + '/auth/logout', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+Auth.getToken() },
+      body: JSON.stringify({ refresh_token: Auth.getRefresh() })
+    });
+  } catch (_) {}
+  Auth.clear(); updateNavForAuth(); toast2('👋 Logged out. See you soon!');
+}
+
+// ── MODALS ──────────────────────────────────────
 function openList(){
-  if(!Auth.isLoggedIn()){ showAuthModal('register'); toast2('👋 Sign up first to list your room!'); return; }
-  document.getElementById('listModal').classList.add('open');document.body.style.overflow='hidden';
+  if (!Auth.isLoggedIn()) { showAuthModal('register'); toast2('👋 Sign up first to list your room!'); return; }
+  document.getElementById('listModal').classList.add('open'); document.body.style.overflow='hidden';
 }
 function closeList(){document.getElementById('listModal').classList.remove('open');document.body.style.overflow='';}
 function openInterest(name){
@@ -1290,53 +1257,38 @@ function openInterest(name){
 function closeInt(){document.getElementById('intModal').classList.remove('open');document.body.style.overflow='';}
 async function submitList(){
   const token = Auth.getToken();
-  if(!token){ closeList(); showAuthModal('register'); return; }
-
-  const inputs  = document.querySelectorAll('#lPanel input, #lPanel select, #lPanel textarea');
-  const city        = inputs[0]?.value.trim();
-  const locality    = inputs[1]?.value.trim();
-  const flat_type_raw = inputs[2]?.value || '2BHK';
-  const monthly_rent  = inputs[3]?.value;
-  const security_deposit = inputs[4]?.value || 0;
-  const description   = inputs[6]?.value.trim() || '';
-  const flatmate_note_author = inputs[7]?.value.trim() || '';
-  const flatmate_note_text   = inputs[9]?.value.trim() || '';
-  const title = (flat_type_raw + ' in ' + locality + ', ' + city).trim();
-
-  const flat_type_map = {'1BHK':'1bhk','2BHK':'2bhk','3BHK':'3bhk','Studio':'studio','4BHK+':'4bhk'};
-  const flat_type = flat_type_map[flat_type_raw] || 'other';
-
-  if(!city || !locality || !monthly_rent){
-    toast2('⚠️ Please fill in City, Locality and Monthly Rent.');
-    return;
-  }
-
-  // Collect toggled amenities
+  if (!token) { closeList(); showAuthModal('register'); return; }
+  const city        = document.getElementById('listCity')?.value.trim();
+  const locality    = document.getElementById('listLocality')?.value.trim();
+  const flat_type_raw = document.getElementById('listFlatType')?.value || '2BHK';
+  const monthly_rent  = document.getElementById('listRent')?.value;
+  const security_deposit = document.getElementById('listDeposit')?.value || 0;
+  const description   = document.getElementById('listDesc')?.value.trim() || '';
+  const flatmate_note_author = document.getElementById('noteAuthor')?.value.trim() || '';
+  const flatmate_note_text   = document.getElementById('noteText')?.value.trim() || '';
+  const ftMap = {'1BHK':'1bhk','2BHK':'2bhk','3BHK':'3bhk','Studio':'studio','4BHK+':'4bhk'};
+  const flat_type = ftMap[flat_type_raw] || 'other';
+  const title = flat_type_raw + ' in ' + (locality||'') + ', ' + (city||'');
+  if (!city || !locality || !monthly_rent) { toast2('⚠️ City, Locality and Rent are required.'); return; }
   const amenities = {};
   document.querySelectorAll('#lPanel .toggle-item.on').forEach(el => {
-    const label = el.textContent.trim().replace(/^✓\s*/,'');
-    amenities[label] = true;
+    amenities[el.textContent.trim().replace(/^✓\s*/,'')] = true;
   });
-
   const btn = document.querySelector('#lPanel .btn-modal-sub');
-  btn.textContent = 'Submitting...';
-  btn.disabled = true;
-
+  btn.textContent = 'Submitting...'; btn.disabled = true;
   try {
     const res = await fetch(API_BASE + '/listings', {
       method: 'POST',
       headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
-      body: JSON.stringify({
-        title, city, locality, monthly_rent: parseInt(monthly_rent),
+      body: JSON.stringify({ title, city, locality, monthly_rent: parseInt(monthly_rent),
         security_deposit: parseInt(security_deposit), flat_type, description,
-        flatmate_note_text, flatmate_note_author, amenities
-      })
+        flatmate_note_text, flatmate_note_author, amenities })
     });
     const data = await res.json();
-    if(res.ok){
-      if(window._uploadedPhotoUrls && window._uploadedPhotoUrls.length){
-        for(const url of window._uploadedPhotoUrls){
-          await fetch(API_BASE+'/listings/'+data.listing.id+'/photos',{
+    if (res.ok) {
+      if (window._uploadedPhotoUrls?.length) {
+        for (const url of window._uploadedPhotoUrls) {
+          await fetch(API_BASE+'/listings/'+data.listing.id+'/photos', {
             method:'POST',
             headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
             body: JSON.stringify({url, is_primary: window._uploadedPhotoUrls.indexOf(url)===0})
@@ -1345,131 +1297,109 @@ async function submitList(){
         window._uploadedPhotoUrls = [];
         document.getElementById('uploadedPhotos').innerHTML = '';
       }
-      closeList();
-      confetti();
-      setTimeout(()=>{ toast2('🎉 Room listed! Loading your listing now...'); loadListings(); },400);
-    } else {
-      toast2('❌ '+(data.error||'Failed to submit. Please try again.'));
-    }
-  } catch(e){
-    toast2('❌ Network error: '+e.message);
-  } finally {
-    btn.textContent = 'Submit Listing 🚀';
-    btn.disabled = false;
-  }
+      closeList(); confetti();
+      setTimeout(()=>{ toast2('🎉 Room listed! It's now live.'); loadListings(); }, 400);
+    } else { toast2('❌ ' + (data.error || 'Failed to submit. Try again.')); }
+  } catch(e) { toast2('❌ Network error: ' + e.message); }
+  finally { btn.textContent = 'Submit Listing 🚀'; btn.disabled = false; }
 }
-
 function submitSeeker(){closeList();confetti();setTimeout(()=>toast2('🎉 Profile created! Matching you now...'),400);}
 
-// ── LISTINGS ─────────────────────────────────
-const CARD_COLORS = ['ci-a','ci-b','ci-c','ci-d','ci-e','ci-f'];
-const CARD_EMOJIS = ['🏠','🌿','🏙️','☀️','🌺','🏋️','🪴','✨','🏡','🌟'];
-const AVATAR_COLORS = ['av-fire','av-jade','av-sky','av-gold','av-blush','av-ink'];
+// ── LISTINGS ────────────────────────────────────
+const CARD_COLORS  = ['ci-a','ci-b','ci-c','ci-d','ci-e','ci-f'];
+const CARD_EMOJIS  = ['🏠','🌿','🏙️','☀️','🌺','🏋️','🪴','✨','🏡','🌟'];
+const AVATAR_CLRS  = ['av-fire','av-jade','av-sky','av-gold','av-blush','av-ink'];
 
-function timeAgo(dateStr){
-  const diff=Date.now()-new Date(dateStr).getTime(), days=Math.floor(diff/86400000);
-  if(days===0)return'Today'; if(days===1)return'1 day ago'; if(days<30)return days+' days ago';
-  return Math.floor(days/30)+' months ago';
+function timeAgo(d){
+  const days=Math.floor((Date.now()-new Date(d))/86400000);
+  return days===0?'Today':days===1?'1 day ago':days<30?days+' days ago':Math.floor(days/30)+' months ago';
 }
 
-function buildCard(l,idx){
-  const color=CARD_COLORS[idx%CARD_COLORS.length];
-  const emoji=l.primary_photo?'':CARD_EMOJIS[idx%CARD_EMOJIS.length];
+function buildCard(l,i){
+  const cc=CARD_COLORS[i%6], ce=CARD_EMOJIS[i%10], ac=AVATAR_CLRS[i%6];
   const imgStyle=l.primary_photo?`background:url('${l.primary_photo}') center/cover no-repeat;`:'';
-  const avatarColor=AVATAR_COLORS[idx%AVATAR_COLORS.length];
-  const initials=(l.lister_name||'?').charAt(0).toUpperCase();
-  const typeLabel=(l.flat_type||'room').toUpperCase();
-  const verBadge=l.lister_verified?'<span class="badge b-verified">✓ Verified</span>':'';
-  const urgBadge=l.is_urgent?'<span class="badge b-urgent">⚡ Urgent</span>':'';
-  const newBadge=(Date.now()-new Date(l.created_at))<3*86400000?'<span class="badge b-new">🔥 New</span>':'';
-  const noteHtml=l.flatmate_note?`<div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"${l.flatmate_note}"${l.note_author?' — <b>'+l.note_author+'</b>':''}</p></div>`:'';
-  const amenities=typeof l.amenities==='object'&&l.amenities
-    ?Object.entries(l.amenities).filter(([,v])=>v).slice(0,4).map(([k])=>`<div class="feat">${k}</div>`).join(''):'';
-  const lJson=JSON.stringify(l).replace(/"/g,'&quot;');
-  const listerName=(l.lister_name||'').replace(/'/g,"\\'");
-  return `
-  <div class="lcard reveal" style="transition-delay:${idx*0.08}s" onclick="openDetailFromDB(JSON.parse(this.dataset.l)))" data-l="${lJson}">
-    <div class="card-img ${color}" style="${imgStyle}">
-      ${emoji?`<span class="big-emoji">${emoji}</span>`:''}
-      <div class="card-badges">${verBadge}${urgBadge}${newBadge}</div>
+  const init=(l.lister_name||'?').charAt(0).toUpperCase();
+  const type=(l.flat_type||'room').toUpperCase();
+  const vBadge=l.lister_verified?'<span class="badge b-verified">✓ Verified</span>':'';
+  const uBadge=l.is_urgent?'<span class="badge b-urgent">⚡ Urgent</span>':'';
+  const nBadge=(Date.now()-new Date(l.created_at))<3*86400000?'<span class="badge b-new">🔥 New</span>':'';
+  const note=l.flatmate_note?`<div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"${l.flatmate_note}"${l.note_author?' — <b>'+l.note_author+'</b>':''}</p></div>`:'';
+  const amen=typeof l.amenities==='object'?Object.entries(l.amenities||{}).filter(([,v])=>v).slice(0,4).map(([k])=>`<div class="feat">${k}</div>`).join(''):'';
+  const name=(l.lister_name||'').replace(/'/g,"\'");
+  const lEsc=JSON.stringify(l).replace(/"/g,'&quot;');
+  return `<div class="lcard reveal" style="transition-delay:${i*.08}s" onclick="openDetailFromDB(JSON.parse(this.dataset.l))" data-l="${lEsc}">
+    <div class="card-img ${cc}" style="${imgStyle}">${imgStyle?'':'<span class="big-emoji">'+ce+'</span>'}
+      <div class="card-badges">${vBadge}${uBadge}${nBadge}</div>
       <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-      <div class="card-cta"><button onclick="event.stopPropagation();openInterest('${listerName}')">Show Interest 💌</button></div>
+      <div class="card-cta"><button onclick="event.stopPropagation();openInterest('${name}')">Show Interest 💌</button></div>
     </div>
     <div class="card-body">
-      <div class="card-top">
-        <div class="card-price">₹${Number(l.monthly_rent).toLocaleString('en-IN')} <small>/month</small></div>
-        <div class="card-type">${typeLabel}</div>
-      </div>
+      <div class="card-top"><div class="card-price">₹${Number(l.monthly_rent).toLocaleString('en-IN')} <small>/month</small></div><div class="card-type">${type}</div></div>
       <div class="card-title">${l.title}</div>
       <div class="card-loc">📍 ${(l.city||'').charAt(0).toUpperCase()+(l.city||'').slice(1)} · ${l.locality}</div>
-      <div class="card-feats">${amenities}</div>
-      ${noteHtml}
+      <div class="card-feats">${amen}</div>
+      ${note}
       <div class="card-divider"></div>
       <div class="card-footer">
-        <div class="poster-info">
-          <div class="avatar ${avatarColor}">${initials}</div>
-          <div>
-            <div class="poster-name">${l.lister_name||'Lister'}</div>
-            <div class="poster-days">${timeAgo(l.created_at)}${l.lister_verified?' · ID ✓':''}</div>
-          </div>
-        </div>
-        <button class="btn-interest" onclick="event.stopPropagation();openInterest('${listerName}')">Interest 💌</button>
+        <div class="poster-info"><div class="avatar ${ac}">${init}</div><div>
+          <div class="poster-name">${l.lister_name||'Lister'}</div>
+          <div class="poster-days">${timeAgo(l.created_at)}${l.lister_verified?' · ID ✓':''}</div>
+        </div></div>
+        <button class="btn-interest" onclick="event.stopPropagation();openInterest('${name}')">Interest 💌</button>
       </div>
     </div>
   </div>`;
 }
 
 function openDetailFromDB(l){
-  const color=CARD_COLORS[0];
-  openDetail(
-    l.primary_photo?'🏠':'🏠',
-    l.title,
-    '📍 '+l.locality+', '+(l.city||''),
+  openDetail('🏠',l.title,'📍 '+l.locality+', '+(l.city||''),
     '₹'+Number(l.monthly_rent).toLocaleString('en-IN'),
-    (l.flat_type||'room').toUpperCase()+' · '+(l.furnishing||''),
-    l.address_line||l.locality,
-    (l.rooms_available||1)+' room(s)',
-    (l.existing_flatmates||0)+' existing',
-    l.lister_name||'Lister',
-    l.flatmate_note||'No note added yet.',
-    l.note_author||'Outgoing flatmate',
-    color
-  );
+    (l.flat_type||'room').toUpperCase(),l.address_line||l.locality,
+    (l.rooms_available||1)+' room(s)',(l.existing_flatmates||0)+' existing',
+    l.lister_name||'Lister',l.flatmate_note||'No note added yet.',
+    l.note_author||'Outgoing flatmate','ci-a');
 }
 
 async function loadListings(){
   const grid=document.getElementById('listingsGrid');
   if(!grid)return;
-  grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dust);"><div style="font-size:40px;margin-bottom:12px;">⏳</div><p style="font-family:'Syne',sans-serif;font-size:13px;letter-spacing:1px;">Loading rooms...</p></div>`;
+  grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dust);">
+    <div style="font-size:40px;margin-bottom:12px;">⏳</div>
+    <p style="font-family:'Syne',sans-serif;font-size:13px;letter-spacing:1px;">Loading rooms...</p></div>`;
   try{
     const res=await fetch(API_BASE+'/listings');
     const data=await res.json();
-    const listings=data.listings||[];
-    if(!listings.length){
+    const list=data.listings||[];
+    if(!list.length){
       grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:70px 20px;">
         <div style="font-size:64px;margin-bottom:16px;">🏠</div>
         <h3 style="font-family:'Instrument Serif',serif;font-size:26px;margin-bottom:10px;color:var(--ink);">No listings yet</h3>
-        <p style="color:var(--dust);font-size:15px;margin-bottom:28px;max-width:360px;margin-left:auto;margin-right:auto;">GharSaathi is just getting started! Be the first to list your room. 🎉</p>
-        <button onclick="openList();confetti()" style="background:var(--fire);color:white;border:none;padding:14px 32px;border-radius:40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;cursor:pointer;box-shadow:0 8px 24px rgba(232,68,10,.28);">+ List My Room for Free</button>
-      </div>`;
+        <p style="color:var(--dust);font-size:15px;margin-bottom:28px;max-width:360px;margin-inline:auto;">
+          GharSaathi is brand new! Be the first to list your room. 🎉</p>
+        <button onclick="openList()" style="background:var(--fire);color:white;border:none;padding:14px 32px;
+          border-radius:40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;
+          box-shadow:0 8px 24px rgba(232,68,10,.28);">+ List My Room for Free</button></div>`;
       return;
     }
-    grid.innerHTML=listings.map((l,i)=>buildCard(l,i)).join('');
+    grid.innerHTML=list.map((l,i)=>buildCard(l,i)).join('');
     grid.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
   }catch(e){
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e74c3c;"><div style="font-size:40px;margin-bottom:12px;">⚠️</div><p style="font-family:'Syne',sans-serif;font-size:13px;">Could not load listings. <a href="#" onclick="loadListings();return false;" style="color:var(--fire);text-decoration:underline;">Retry</a></p></div>`;
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e74c3c;">
+      <div style="font-size:40px;margin-bottom:12px;">⚠️</div>
+      <p style="font-family:'Syne',sans-serif;font-size:13px;">Could not load listings.
+      <a href="#" onclick="loadListings();return false;" style="color:var(--fire);text-decoration:underline;">Retry</a></p></div>`;
   }
 }
-window.addEventListener('DOMContentLoaded',()=>{ updateNavForAuth(); loadListings(); });
 function submitInt(){closeInt();confetti();setTimeout(()=>toast2('💌 Interest sent! You\'ll hear back when they respond.'),400);}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');document.body.style.overflow='';}}));
-
-// Init auth state on page load
 updateNavForAuth();
-
-// Allow Enter key to submit login/register
-document.getElementById('loginPassword').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-document.getElementById('regPassword').addEventListener('keydown',   e=>{ if(e.key==='Enter') doRegister(); });
+loadListings();
+document.addEventListener('DOMContentLoaded', () => {
+  const lp = document.getElementById('loginPassword');
+  const rp = document.getElementById('regPassword');
+  if (lp) lp.addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+  if (rp) rp.addEventListener('keydown', e=>{ if(e.key==='Enter') doRegister(); });
+});
 
 // ── DETAIL MODAL ──────────────────────────────
 function openDetail(emoji,name,loc,price,type,addr,rooms,flmates,resident,note,noteFrom,colorClass){
