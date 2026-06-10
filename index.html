@@ -414,7 +414,6 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 .btn-full.fire:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,68,10,.4);}
 .auth-switch{text-align:center;font-size:13px;color:var(--dust);margin-top:16px;font-weight:300;}
 .auth-switch b{color:var(--fire);cursor:pointer;font-weight:700;}
-.auth-switch b:hover{text-decoration:underline;}
 .nav-user{display:flex;align-items:center;gap:8px;}
 .nav-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--fire),var(--fire2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:white;cursor:pointer;border:2px solid white;box-shadow:0 2px 8px rgba(232,68,10,.25);}
 .nav-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--ink);}
@@ -439,21 +438,21 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 <!-- MARQUEE -->
 <div class="marq">
   <div class="marq-inner" id="MQ">
-    <div class="mi">🏠 12,400+ Rooms Listed <span>✦</span></div>
-    <div class="mi">✅ Aadhaar &amp; PAN Verified <span>✦</span></div>
-    <div class="mi">🇮🇳 38 Cities Covered <span>✦</span></div>
+    <div class="mi">🚀 Now in Beta <span>✦</span></div>
+    <div class="mi">🏠 Be an Early Lister <span>✦</span></div>
+    <div class="mi">✅ Verified Listings Only <span>✦</span></div>
     <div class="mi">🤝 Mutual Match System <span>✦</span></div>
-    <div class="mi">⭐ 4.8 Trust Score <span>✦</span></div>
     <div class="mi">💌 Departing Flatmate Notes <span>✦</span></div>
-    <div class="mi">🔒 DigiLocker Verified <span>✦</span></div>
+    <div class="mi">🇮🇳 Made for India <span>✦</span></div>
+    <div class="mi">🔒 Safe &amp; Verified <span>✦</span></div>
     <div class="mi">🎉 Your Ghar Is Waiting <span>✦</span></div>
-    <div class="mi">🏠 12,400+ Rooms Listed <span>✦</span></div>
-    <div class="mi">✅ Aadhaar &amp; PAN Verified <span>✦</span></div>
-    <div class="mi">🇮🇳 38 Cities Covered <span>✦</span></div>
+    <div class="mi">🚀 Now in Beta <span>✦</span></div>
+    <div class="mi">🏠 Be an Early Lister <span>✦</span></div>
+    <div class="mi">✅ Verified Listings Only <span>✦</span></div>
     <div class="mi">🤝 Mutual Match System <span>✦</span></div>
-    <div class="mi">⭐ 4.8 Trust Score <span>✦</span></div>
     <div class="mi">💌 Departing Flatmate Notes <span>✦</span></div>
-    <div class="mi">🔒 DigiLocker Verified <span>✦</span></div>
+    <div class="mi">🇮🇳 Made for India <span>✦</span></div>
+    <div class="mi">🔒 Safe &amp; Verified <span>✦</span></div>
     <div class="mi">🎉 Your Ghar Is Waiting <span>✦</span></div>
   </div>
 </div>
@@ -467,7 +466,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <li><a href="#quiz">Take the Quiz ✨</a></li>
     <li><a href="#safety">Safety</a></li>
   </ul>
-  <div class="nav-cta">
+  <div class="nav-cta" id="navCta">
     <button class="btn-ghost" onclick="showAuthModal('login')">Log In</button>
     <button class="btn-fire" onclick="openList()">+ List My Room</button>
   </div>
@@ -586,7 +585,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     </div>
   </div>
   <div class="grid-3" id="listingsGrid">
-    <!-- listings loaded dynamically from the database -->
+    <!-- listings loaded dynamically -->
   </div>
 </section>
 
@@ -817,59 +816,43 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <button class="auth-tab on" id="tabLogin" onclick="switchAuthTab('login')">Log In</button>
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Sign Up</button>
     </div>
-    <!-- LOGIN PANEL -->
     <div class="auth-panel on" id="authLogin">
       <div style="display:flex;flex-direction:column;gap:13px;">
-        <div class="fg">
-          <label>Email Address</label>
+        <div class="fg"><label>Email Address</label>
           <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
-          <span class="field-err" id="loginEmailErr">Please enter a valid email.</span>
-        </div>
-        <div class="fg">
-          <label>Password</label>
+          <span class="field-err" id="loginEmailErr">Please enter a valid email.</span></div>
+        <div class="fg"><label>Password</label>
           <input type="password" id="loginPassword" placeholder="Your password" autocomplete="current-password">
-          <span class="field-err" id="loginPassErr">Password is required.</span>
-        </div>
+          <span class="field-err" id="loginPassErr">Password is required.</span></div>
         <span class="field-err" id="loginApiErr" style="font-size:12px;"></span>
         <button class="btn-full fire" id="loginBtn" onclick="doLogin()">Log In →</button>
       </div>
       <div class="auth-switch">Don't have an account? <b onclick="switchAuthTab('register')">Sign up free</b></div>
     </div>
-    <!-- REGISTER PANEL -->
     <div class="auth-panel" id="authRegister">
       <div style="display:flex;flex-direction:column;gap:13px;">
-        <div class="fg">
-          <label>Full Name</label>
+        <div class="fg"><label>Full Name</label>
           <input type="text" id="regName" placeholder="Your full name" autocomplete="name">
-          <span class="field-err" id="regNameErr">Name is required.</span>
-        </div>
-        <div class="fg">
-          <label>Email Address</label>
+          <span class="field-err" id="regNameErr">Name is required.</span></div>
+        <div class="fg"><label>Email Address</label>
           <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
-          <span class="field-err" id="regEmailErr">Please enter a valid email.</span>
-        </div>
-        <div class="fg">
-          <label>Phone Number</label>
+          <span class="field-err" id="regEmailErr">Please enter a valid email.</span></div>
+        <div class="fg"><label>Phone Number</label>
           <div style="display:flex;gap:8px;align-items:center;">
             <span style="padding:11px 12px;background:var(--warm);border:1.5px solid var(--line);border-radius:var(--r12);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--mink);white-space:nowrap;">+91</span>
-            <input type="tel" id="regPhone" placeholder="98765 43210" maxlength="10" autocomplete="tel" style="flex:1;">
+            <input type="tel" id="regPhone" placeholder="98765 43210" maxlength="10" style="flex:1;">
           </div>
-          <span class="field-err" id="regPhoneErr">Enter a valid 10-digit mobile number.</span>
-        </div>
-        <div class="fg">
-          <label>Password</label>
+          <span class="field-err" id="regPhoneErr">Enter a valid 10-digit mobile number.</span></div>
+        <div class="fg"><label>Password</label>
           <input type="password" id="regPassword" placeholder="Min. 8 characters" autocomplete="new-password">
-          <span class="field-err" id="regPassErr">Password must be at least 8 characters.</span>
-        </div>
-        <div class="fg">
-          <label>I am a...</label>
+          <span class="field-err" id="regPassErr">Password must be at least 8 characters.</span></div>
+        <div class="fg"><label>I am a...</label>
           <select id="regOccupation">
             <option value="working_professional">Working Professional</option>
             <option value="student">Student</option>
             <option value="freelancer">Freelancer</option>
             <option value="other">Other</option>
-          </select>
-        </div>
+          </select></div>
         <span class="field-err" id="regApiErr" style="font-size:12px;"></span>
         <button class="btn-full fire" id="registerBtn" onclick="doRegister()">Create Account 🎉</button>
       </div>
@@ -903,19 +886,19 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <div class="fg span2"><label>Flat Description &amp; Vibe ✍️</label><textarea rows="3" id="listDesc" placeholder="Tell us about the flat, neighbourhood, current flatmates, house culture..."></textarea></div>
       </div>
       <div class="form-section">⚡ Amenities &amp; Rules</div>
-      <div class="toggle-grid">
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 📶 WiFi Included</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🛋️ Fully Furnished</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🫧 Washing Machine</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> ❄️ Air Conditioning</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚭 No Smoking</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🥗 Vegetarian Preferred</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🐾 Pet Friendly</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 👩 Female Only</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 💪 Gym Access</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚗 Parking Available</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> ⚡ Power Backup</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚇 Near Metro</div>
+      <div class="toggle-grid" id="amenitiesGrid">
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="WiFi"><span class="tick">✓</span> 📶 WiFi Included</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Furnished"><span class="tick">✓</span> 🛋️ Fully Furnished</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Washing Machine"><span class="tick">✓</span> 🫧 Washing Machine</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="AC"><span class="tick">✓</span> ❄️ Air Conditioning</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="No Smoking"><span class="tick">✓</span> 🚭 No Smoking</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Vegetarian"><span class="tick">✓</span> 🥗 Vegetarian Preferred</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Pet Friendly"><span class="tick">✓</span> 🐾 Pet Friendly</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Female Only"><span class="tick">✓</span> 👩 Female Only</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Gym"><span class="tick">✓</span> 💪 Gym Access</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Parking"><span class="tick">✓</span> 🚗 Parking Available</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Power Backup"><span class="tick">✓</span> ⚡ Power Backup</div>
+        <div class="toggle-item" onclick="togItem(this)" data-amenity="Near Metro"><span class="tick">✓</span> 🚇 Near Metro</div>
       </div>
       <div class="form-section">📸 Flat Photos</div>
       <div class="upload-zone" onclick="document.getElementById('photoInput').click()" id="uploadZone">
@@ -931,7 +914,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
         <div class="fg"><label>LinkedIn URL (Optional but 🔥)</label><input type="url" placeholder="https://linkedin.com/in/you"></div>
         <div class="fg span2"><label>Their Message About Current Flatmate ✍️</label><textarea rows="3" id="noteText" placeholder="Ask them to write something genuine about the current resident's habits, cleanliness, vibe, personality..."></textarea></div>
       </div>
-      <div class="tip">💡 <strong>Tip:</strong> Listings with a departing flatmate note get <strong>3× more matches!</strong> It's the single most trusted signal on GharSaathi. Don't skip it. 🙏</div>
+      <div class="tip">💡 <strong>Tip:</strong> Listings with a departing flatmate note get <strong>3× more matches!</strong> It is the single most trusted signal on GharSaathi. Don't skip it. 🙏</div>
       <div class="form-section">🛡️ Your Verification</div>
       <div class="form-grid">
         <div class="fg"><label>Govt. ID Type</label><select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
@@ -1049,7 +1032,7 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     </div>
     <div class="contact-btns">
       <button class="btn-contact-p" id="dInterestBtn">💌 Show Interest</button>
-      <button class="btn-contact-s" onclick="toast2('📅 Visit request sent! They\'ll confirm timing.')">📅 Schedule Visit</button>
+      <button class="btn-contact-s" onclick="toast2('📅 Visit request sent! They will confirm timing.')">📅 Schedule Visit</button>
     </div>
   </div>
 </div>
@@ -1057,60 +1040,21 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── CURSOR ──────────────────────────────────
-const cur=document.getElementById('C'),cur2=document.getElementById('C2');
-let mx=0,my=0,lx=0,ly=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-setInterval(()=>{lx+=(mx-lx)*.12;ly+=(my-ly)*.12;cur2.style.left=lx+'px';cur2.style.top=ly+'px';},16);
-const hoverEls='button,a,.chip,.quiz-opt,.toggle-item,.lcard,.step-card,.safe-card,.bcard,.sw-btn,.review-card';
-document.querySelectorAll(hoverEls).forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-});
-
-// ── TOAST ────────────────────────────────────
-function toast2(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3500);}
-
-// ── CONFETTI ─────────────────────────────────
-function confetti(cx){
-  const cols=['#E8440A','#FF4D8D','#7C4DFF','#F5A623','#1FC99A','#2563EB','#FF6B35'];
-  for(let i=0;i<72;i++){
-    const p=document.createElement('div');p.className='cf';
-    const sz=5+Math.random()*8,dur=1.2+Math.random()*1.5;
-    p.style.cssText=`left:${cx!=null?cx:Math.random()*100}vw;width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};animation-duration:${dur}s;animation-delay:${Math.random()*.4}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
-    document.body.appendChild(p);setTimeout(()=>p.remove(),(dur+.6)*1000);
-  }
-}
-function miniConf(el){
-  const r=el.getBoundingClientRect(),cols=['#E8440A','#FF4D8D','#1FC99A','#F5A623','#7C4DFF'];
-  for(let i=0;i<14;i++){
-    const p=document.createElement('div');p.className='cf';
-    const sz=4+Math.random()*6,dur=.7+Math.random()*.6;
-    p.style.cssText=`left:${r.left+r.width/2}px;top:${r.top}px;width:${sz}px;height:${sz}px;background:${cols[i%5]};animation-duration:${dur}s;border-radius:50%;`;
-    document.body.appendChild(p);setTimeout(()=>p.remove(),1500);
-  }
-}
-function rain(){confetti();toast2('🎉 Click the logo for confetti anytime! 🥳');}
-
-// ── MARQUEE CLONE ────────────────────────────
-const mq=document.getElementById('MQ');mq.innerHTML+=mq.innerHTML;
-
-// ── MODALS ───────────────────────────────────
 // ── CONFIG ─────────────────────────────────────
-const API_BASE = 'https://gharsaathi-backend-production.up.railway.app/api';
+var API_BASE = 'https://gharsaathi-backend-production.up.railway.app/api';
 
 // ── AUTH ────────────────────────────────────────
-const Auth = {
-  getToken()   { return localStorage.getItem('gs_token'); },
-  getRefresh() { return localStorage.getItem('gs_refresh'); },
-  getUser()    { try { return JSON.parse(localStorage.getItem('gs_user')); } catch { return null; } },
-  isLoggedIn() { return !!this.getToken(); },
-  save(data) {
+var Auth = {
+  getToken:   function() { return localStorage.getItem('gs_token'); },
+  getRefresh: function() { return localStorage.getItem('gs_refresh'); },
+  getUser:    function() { try { return JSON.parse(localStorage.getItem('gs_user')); } catch(e) { return null; } },
+  isLoggedIn: function() { return !!this.getToken(); },
+  save: function(data) {
     localStorage.setItem('gs_token',   data.access_token);
     localStorage.setItem('gs_refresh', data.refresh_token);
     localStorage.setItem('gs_user',    JSON.stringify(data.user));
   },
-  clear() {
+  clear: function() {
     localStorage.removeItem('gs_token');
     localStorage.removeItem('gs_refresh');
     localStorage.removeItem('gs_user');
@@ -1118,26 +1062,27 @@ const Auth = {
 };
 
 function updateNavForAuth() {
-  const cta = document.querySelector('.nav-cta');
+  var cta = document.getElementById('navCta');
   if (!cta) return;
-  const user = Auth.getUser();
+  var user = Auth.getUser();
   if (Auth.isLoggedIn() && user) {
-    const initials = (user.full_name || user.email || '?').charAt(0).toUpperCase();
-    const firstName = (user.full_name || '').split(' ')[0];
-    cta.innerHTML = `
-      <div class="nav-user">
-        <div class="nav-avatar" title="Logged in as ${user.full_name || ''}">${initials}</div>
-        <span class="nav-name">${firstName}</span>
-        <button class="btn-ghost" onclick="doLogout()" style="font-size:11px;padding:6px 14px;">Log Out</button>
-      </div>`;
+    var initials = (user.full_name || user.email || '?').charAt(0).toUpperCase();
+    var firstName = (user.full_name || '').split(' ')[0];
+    cta.innerHTML =
+      '<div class="nav-user">' +
+        '<div class="nav-avatar" title="Logged in as ' + (user.full_name || '') + '">' + initials + '</div>' +
+        '<span class="nav-name">' + firstName + '</span>' +
+        '<button class="btn-ghost" onclick="doLogout()" style="font-size:11px;padding:6px 14px;">Log Out</button>' +
+      '</div>';
   } else {
-    cta.innerHTML = `
-      <button class="btn-ghost" onclick="showAuthModal('login')">Log In</button>
-      <button class="btn-fire" onclick="openList()">+ List My Room</button>`;
+    cta.innerHTML =
+      '<button class="btn-ghost" onclick="showAuthModal(\'login\')">Log In</button>' +
+      '<button class="btn-fire" onclick="openList()">+ List My Room</button>';
   }
 }
 
-function showAuthModal(tab = 'login') {
+function showAuthModal(tab) {
+  tab = tab || 'login';
   switchAuthTab(tab);
   document.getElementById('authModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1145,8 +1090,10 @@ function showAuthModal(tab = 'login') {
 function closeAuthModal() {
   document.getElementById('authModal').classList.remove('open');
   document.body.style.overflow = '';
-  document.getElementById('loginApiErr').textContent = '';
-  document.getElementById('regApiErr').textContent = '';
+  var e1 = document.getElementById('loginApiErr');
+  var e2 = document.getElementById('regApiErr');
+  if (e1) { e1.textContent = ''; e1.classList.remove('show'); }
+  if (e2) { e2.textContent = ''; e2.classList.remove('show'); }
 }
 function switchAuthTab(tab) {
   document.getElementById('tabLogin').classList.toggle('on', tab === 'login');
@@ -1159,32 +1106,36 @@ function switchAuthTab(tab) {
     : 'Create your free account in under a minute.';
 }
 function setFieldErr(inputId, errId, show) {
-  const inp = document.getElementById(inputId);
-  const err = document.getElementById(errId);
+  var inp = document.getElementById(inputId);
+  var err = document.getElementById(errId);
   if (inp) inp.classList.toggle('input-err', show);
   if (err) err.classList.toggle('show', show);
 }
 
 async function doLogin() {
-  const email    = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const errEl    = document.getElementById('loginApiErr');
-  errEl.textContent = '';
-  let valid = true;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  setFieldErr('loginEmail', 'loginEmailErr', !emailOk); if (!emailOk) valid = false;
-  setFieldErr('loginPassword', 'loginPassErr', !password); if (!password) valid = false;
+  var email    = document.getElementById('loginEmail').value.trim();
+  var password = document.getElementById('loginPassword').value;
+  var errEl    = document.getElementById('loginApiErr');
+  errEl.textContent = ''; errEl.classList.remove('show');
+  var valid = true;
+  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  setFieldErr('loginEmail',    'loginEmailErr', !emailOk);    if (!emailOk)    valid = false;
+  setFieldErr('loginPassword', 'loginPassErr',  !password);   if (!password)   valid = false;
   if (!valid) return;
-  const btn = document.getElementById('loginBtn');
+  var btn = document.getElementById('loginBtn');
   btn.textContent = 'Logging in...'; btn.disabled = true;
   try {
-    const res  = await fetch(API_BASE + '/auth/login', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+    var res  = await fetch(API_BASE + '/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password })
     });
-    const data = await res.json();
+    var data = await res.json();
     if (res.ok) {
-      Auth.save(data); closeAuthModal(); updateNavForAuth(); confetti();
+      Auth.save(data);
+      closeAuthModal();
+      updateNavForAuth();
+      confetti();
       toast2('👋 Welcome back, ' + (data.user.full_name || 'friend').split(' ')[0] + '!');
     } else {
       errEl.classList.add('show');
@@ -1193,416 +1144,606 @@ async function doLogin() {
   } catch (e) {
     errEl.classList.add('show');
     errEl.textContent = '❌ Network error. Is the server up?';
-  } finally { btn.textContent = 'Log In →'; btn.disabled = false; }
+  } finally {
+    btn.textContent = 'Log In →'; btn.disabled = false;
+  }
 }
 
 async function doRegister() {
-  const full_name  = document.getElementById('regName').value.trim();
-  const email      = document.getElementById('regEmail').value.trim();
-  const phoneRaw   = document.getElementById('regPhone').value.replace(/\D/g,'');
-  const password   = document.getElementById('regPassword').value;
-  const occupation = document.getElementById('regOccupation').value;
-  const phone      = '+91' + phoneRaw;
-  const errEl      = document.getElementById('regApiErr');
-  errEl.textContent = '';
-  let valid = true;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  setFieldErr('regName',     'regNameErr',  !full_name);    if (!full_name)    valid = false;
-  setFieldErr('regEmail',    'regEmailErr', !emailOk);      if (!emailOk)      valid = false;
-  setFieldErr('regPhone',    'regPhoneErr', !/^[6-9]\d{9}$/.test(phoneRaw)); if (!/^[6-9]\d{9}$/.test(phoneRaw)) valid = false;
-  setFieldErr('regPassword', 'regPassErr',  password.length < 8); if (password.length < 8) valid = false;
+  var full_name  = document.getElementById('regName').value.trim();
+  var email      = document.getElementById('regEmail').value.trim();
+  var phoneRaw   = document.getElementById('regPhone').value.replace(/\D/g,'');
+  var password   = document.getElementById('regPassword').value;
+  var occupation = document.getElementById('regOccupation').value;
+  var phone      = '+91' + phoneRaw;
+  var errEl      = document.getElementById('regApiErr');
+  errEl.textContent = ''; errEl.classList.remove('show');
+  var valid = true;
+  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  var phoneOk = /^[6-9]\d{9}$/.test(phoneRaw);
+  setFieldErr('regName',     'regNameErr',  !full_name);           if (!full_name)        valid = false;
+  setFieldErr('regEmail',    'regEmailErr', !emailOk);             if (!emailOk)          valid = false;
+  setFieldErr('regPhone',    'regPhoneErr', !phoneOk);             if (!phoneOk)          valid = false;
+  setFieldErr('regPassword', 'regPassErr',  password.length < 8);  if (password.length < 8) valid = false;
   if (!valid) return;
-  const btn = document.getElementById('registerBtn');
+  var btn = document.getElementById('registerBtn');
   btn.textContent = 'Creating account...'; btn.disabled = true;
   try {
-    const res  = await fetch(API_BASE + '/auth/register', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ full_name, email, phone, password, occupation })
+    var res  = await fetch(API_BASE + '/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ full_name: full_name, email: email, phone: phone, password: password, occupation: occupation })
     });
-    const data = await res.json();
+    var data = await res.json();
     if (res.ok) {
-      Auth.save(data); closeAuthModal(); updateNavForAuth(); confetti();
+      Auth.save(data);
+      closeAuthModal();
+      updateNavForAuth();
+      confetti();
       toast2('🎉 Welcome to GharSaathi, ' + full_name.split(' ')[0] + '!');
     } else {
       errEl.classList.add('show');
-      errEl.textContent = '❌ ' + (data.errors ? data.errors.map(e=>e.msg).join(' · ') : (data.error || 'Registration failed.'));
+      errEl.textContent = '❌ ' + (data.errors ? data.errors.map(function(e){return e.msg;}).join(' · ') : (data.error || 'Registration failed.'));
     }
   } catch (e) {
     errEl.classList.add('show');
     errEl.textContent = '❌ Network error. Please try again.';
-  } finally { btn.textContent = 'Create Account 🎉'; btn.disabled = false; }
+  } finally {
+    btn.textContent = 'Create Account 🎉'; btn.disabled = false;
+  }
 }
 
 async function doLogout() {
   try {
     await fetch(API_BASE + '/auth/logout', {
       method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+Auth.getToken() },
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + Auth.getToken() },
       body: JSON.stringify({ refresh_token: Auth.getRefresh() })
     });
   } catch (_) {}
-  Auth.clear(); updateNavForAuth(); toast2('👋 Logged out. See you soon!');
+  Auth.clear();
+  updateNavForAuth();
+  toast2('👋 Logged out. See you soon!');
 }
 
 // ── MODALS ──────────────────────────────────────
-function openList(){
-  if (!Auth.isLoggedIn()) { showAuthModal('register'); toast2('👋 Sign up first to list your room!'); return; }
-  document.getElementById('listModal').classList.add('open'); document.body.style.overflow='hidden';
+function openList() {
+  if (!Auth.isLoggedIn()) {
+    showAuthModal('register');
+    toast2('👋 Sign up first to list your room!');
+    return;
+  }
+  document.getElementById('listModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-function closeList(){document.getElementById('listModal').classList.remove('open');document.body.style.overflow='';}
-function openInterest(name){
-  document.getElementById('intTitle').textContent=`Show Interest — ${name}'s Room 💌`;
-  document.getElementById('intModal').classList.add('open');document.body.style.overflow='hidden';
+function closeList() {
+  document.getElementById('listModal').classList.remove('open');
+  document.body.style.overflow = '';
 }
-function closeInt(){document.getElementById('intModal').classList.remove('open');document.body.style.overflow='';}
-async function submitList(){
-  const token = Auth.getToken();
-  if (!token) { closeList(); showAuthModal('register'); return; }
-  const city        = document.getElementById('listCity')?.value.trim();
-  const locality    = document.getElementById('listLocality')?.value.trim();
-  const flat_type_raw = document.getElementById('listFlatType')?.value || '2BHK';
-  const monthly_rent  = document.getElementById('listRent')?.value;
-  const security_deposit = document.getElementById('listDeposit')?.value || 0;
-  const description   = document.getElementById('listDesc')?.value.trim() || '';
-  const flatmate_note_author = document.getElementById('noteAuthor')?.value.trim() || '';
-  const flatmate_note_text   = document.getElementById('noteText')?.value.trim() || '';
-  const ftMap = {'1BHK':'1bhk','2BHK':'2bhk','3BHK':'3bhk','Studio':'studio','4BHK+':'4bhk'};
-  const flat_type = ftMap[flat_type_raw] || 'other';
-  const title = flat_type_raw + ' in ' + (locality||'') + ', ' + (city||'');
-  if (!city || !locality || !monthly_rent) { toast2('⚠️ City, Locality and Rent are required.'); return; }
-  const amenities = {};
-  document.querySelectorAll('#lPanel .toggle-item.on').forEach(el => {
-    amenities[el.textContent.trim().replace(/^✓\s*/,'')] = true;
-  });
-  const btn = document.querySelector('#lPanel .btn-modal-sub');
-  btn.textContent = 'Submitting...'; btn.disabled = true;
+function openInterest(name) {
+  document.getElementById('intTitle').textContent = 'Show Interest — ' + name + "'s Room 💌";
+  document.getElementById('intModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeInt() {
+  document.getElementById('intModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── TOAST ──────────────────────────────────────
+function toast2(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.classList.remove('show'); }, 3500);
+}
+
+// ── CONFETTI ───────────────────────────────────
+function confetti(cx) {
+  var cols = ['#E8440A','#FF4D8D','#7C4DFF','#F5A623','#1FC99A','#2563EB','#FF6B35'];
+  for (var i = 0; i < 72; i++) {
+    var p = document.createElement('div'); p.className = 'cf';
+    var sz = 5 + Math.random() * 8, dur = 1.2 + Math.random() * 1.5;
+    p.style.cssText = 'left:' + (cx != null ? cx : Math.random() * 100) + 'vw;width:' + sz + 'px;height:' + sz + 'px;background:' + cols[i % cols.length] + ';animation-duration:' + dur + 's;animation-delay:' + (Math.random() * .4) + 's;border-radius:' + (Math.random() > .5 ? '50%' : '3px') + ';';
+    document.body.appendChild(p);
+    setTimeout(function(){ p.remove(); }, (dur + .6) * 1000);
+  }
+}
+function miniConf(el) {
+  var r = el.getBoundingClientRect(), cols = ['#E8440A','#FF4D8D','#1FC99A','#F5A623','#7C4DFF'];
+  for (var i = 0; i < 14; i++) {
+    var p = document.createElement('div'); p.className = 'cf';
+    var sz = 4 + Math.random() * 6, dur = .7 + Math.random() * .6;
+    p.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + sz + 'px;height:' + sz + 'px;background:' + cols[i % 5] + ';animation-duration:' + dur + 's;border-radius:50%;';
+    document.body.appendChild(p);
+    setTimeout(function(){ p.remove(); }, 1500);
+  }
+}
+function rain() { confetti(); toast2('🎉 Click the logo for confetti anytime! 🥳'); }
+
+// ── CURSOR ─────────────────────────────────────
+var cur = document.getElementById('C'), cur2 = document.getElementById('C2');
+var mx = 0, my = 0, lx = 0, ly = 0;
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+setInterval(function() {
+  lx += (mx - lx) * .12; ly += (my - ly) * .12;
+  cur2.style.left = lx + 'px'; cur2.style.top = ly + 'px';
+}, 16);
+document.addEventListener('mouseover', function(e) {
+  if (e.target.closest('button,a,.chip,.quiz-opt,.toggle-item,.lcard,.step-card,.safe-card,.bcard,.sw-btn,.review-card')) {
+    document.body.classList.add('hov');
+  } else {
+    document.body.classList.remove('hov');
+  }
+});
+
+// ── MARQUEE CLONE ───────────────────────────────
+var mq = document.getElementById('MQ'); mq.innerHTML += mq.innerHTML;
+
+// ── LISTINGS ────────────────────────────────────
+var CARD_COLORS = ['ci-a','ci-b','ci-c','ci-d','ci-e','ci-f'];
+var CARD_EMOJIS = ['🏠','🌳','🏙️','☀️','🌺','🏋️','🪴','✨','🏡','🌟'];
+var AVATAR_CLRS = ['av-fire','av-jade','av-sky','av-gold','av-blush','av-ink'];
+
+function timeAgo(d) {
+  var days = Math.floor((Date.now() - new Date(d)) / 86400000);
+  return days === 0 ? 'Today' : days === 1 ? '1 day ago' : days < 30 ? days + ' days ago' : Math.floor(days / 30) + ' months ago';
+}
+
+function buildCard(l, i) {
+  var cc = CARD_COLORS[i % 6];
+  var ce = CARD_EMOJIS[i % 10];
+  var ac = AVATAR_CLRS[i % 6];
+  var imgStyle = l.primary_photo ? 'background:url(' + JSON.stringify(l.primary_photo) + ') center/cover no-repeat;' : '';
+  var init = (l.lister_name || '?').charAt(0).toUpperCase();
+  var type = (l.flat_type || 'room').toUpperCase();
+  var vBadge = l.lister_verified ? '<span class="badge b-verified">✓ Verified</span>' : '';
+  var uBadge = l.is_urgent ? '<span class="badge b-urgent">⚡ Urgent</span>' : '';
+  var nBadge = (Date.now() - new Date(l.created_at)) < 3 * 86400000 ? '<span class="badge b-new">🔥 New</span>' : '';
+  var note = l.flatmate_note
+    ? '<div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>' +
+      escHtml(l.flatmate_note) + (l.note_author ? ' — <b>' + escHtml(l.note_author) + '</b>' : '') +
+      '</p></div>'
+    : '';
+  var amen = '';
+  if (l.amenities && typeof l.amenities === 'object') {
+    amen = Object.entries(l.amenities).filter(function(kv){ return kv[1]; }).slice(0, 4)
+      .map(function(kv){ return '<div class="feat">' + escHtml(kv[0]) + '</div>'; }).join('');
+  }
+  // Store listing data as JSON in a data attribute — using base64 to avoid quote escaping issues
+  var lJson = JSON.stringify(l);
+  var lB64  = btoa(unescape(encodeURIComponent(lJson)));
+  var listerName = escHtml(l.lister_name || 'Lister');
+
+  return '<div class="lcard reveal" style="transition-delay:' + (i * .08) + 's" onclick="openDetailFromDB(this)" data-lb="' + lB64 + '">' +
+    '<div class="card-img ' + cc + '" style="' + imgStyle + '">' +
+    (imgStyle ? '' : '<span class="big-emoji">' + ce + '</span>') +
+    '<div class="card-badges">' + vBadge + uBadge + nBadge + '</div>' +
+    '<button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>' +
+    '<div class="card-cta"><button onclick="event.stopPropagation();openInterestFromCard(this)">Show Interest 💌</button></div>' +
+    '</div>' +
+    '<div class="card-body">' +
+    '<div class="card-top">' +
+    '<div class="card-price">₹' + Number(l.monthly_rent).toLocaleString('en-IN') + ' <small>/month</small></div>' +
+    '<div class="card-type">' + type + '</div>' +
+    '</div>' +
+    '<div class="card-title">' + escHtml(l.title) + '</div>' +
+    '<div class="card-loc">📍 ' + escHtml((l.city || '').charAt(0).toUpperCase() + (l.city || '').slice(1)) + ' · ' + escHtml(l.locality) + '</div>' +
+    '<div class="card-feats">' + amen + '</div>' +
+    note +
+    '<div class="card-divider"></div>' +
+    '<div class="card-footer">' +
+    '<div class="poster-info">' +
+    '<div class="avatar ' + ac + '">' + init + '</div>' +
+    '<div><div class="poster-name">' + listerName + '</div>' +
+    '<div class="poster-days">' + timeAgo(l.created_at) + (l.lister_verified ? ' · ID ✓' : '') + '</div>' +
+    '</div></div>' +
+    '<button class="btn-interest" onclick="event.stopPropagation();openInterestFromCard(this)">Interest 💌</button>' +
+    '</div></div></div>';
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// Get listing data from card element (uses base64 to avoid quote issues)
+function getCardListing(el) {
+  var card = el.closest ? el.closest('.lcard') : el;
+  var b64 = card.dataset.lb;
+  try { return JSON.parse(decodeURIComponent(escape(atob(b64)))); } catch(e) { return {}; }
+}
+
+function openInterestFromCard(btn) {
+  var l = getCardListing(btn);
+  openInterest(l.lister_name || 'this');
+}
+
+function openDetailFromDB(cardEl) {
+  var l = getCardListing(cardEl);
+  var cc = CARD_COLORS[0];
+  openDetail('🏠', l.title, '📍 ' + l.locality + ', ' + (l.city || ''),
+    '₹' + Number(l.monthly_rent).toLocaleString('en-IN'),
+    (l.flat_type || 'room').toUpperCase(),
+    l.address_line || l.locality,
+    (l.rooms_available || 1) + ' room(s)',
+    (l.existing_flatmates || 0) + ' existing',
+    l.lister_name || 'Lister',
+    l.flatmate_note || 'No note added yet.',
+    l.note_author || 'Outgoing flatmate',
+    cc);
+}
+
+async function loadListings() {
+  var grid = document.getElementById('listingsGrid');
+  if (!grid) return;
+  grid.innerHTML =
+    '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dust);">' +
+    '<div style="font-size:40px;margin-bottom:12px;">⏳</div>' +
+    '<p style="font-family:Syne,sans-serif;font-size:13px;letter-spacing:1px;">Loading rooms...</p></div>';
   try {
-    const res = await fetch(API_BASE + '/listings', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
-      body: JSON.stringify({ title, city, locality, monthly_rent: parseInt(monthly_rent),
-        security_deposit: parseInt(security_deposit), flat_type, description,
-        flatmate_note_text, flatmate_note_author, amenities })
+    var res = await fetch(API_BASE + '/listings');
+    var data = await res.json();
+    var list = data.listings || [];
+    if (!list.length) {
+      grid.innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:70px 20px;">' +
+        '<div style="font-size:64px;margin-bottom:16px;">🏠</div>' +
+        '<h3 style="font-family:\'Instrument Serif\',serif;font-size:26px;margin-bottom:10px;color:var(--ink);">No listings yet</h3>' +
+        '<p style="color:var(--dust);font-size:15px;margin-bottom:28px;max-width:360px;margin-inline:auto;">GharSaathi is brand new! Be the first to list your room. 🎉</p>' +
+        '<button onclick="openList()" style="background:var(--fire);color:white;border:none;padding:14px 32px;border-radius:40px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(232,68,10,.28);">+ List My Room for Free</button></div>';
+      return;
+    }
+    grid.innerHTML = list.map(buildCard).join('');
+    grid.querySelectorAll('.reveal').forEach(function(el){ rObs.observe(el); });
+    grid.querySelectorAll('.lcard').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - .5;
+        var y = (e.clientY - r.top)  / r.height - .5;
+        card.style.transform = 'translateY(-8px) scale(1.014) rotateX(' + (-y * 5) + 'deg) rotateY(' + (x * 5) + 'deg)';
+        card.style.transformStyle = 'preserve-3d';
+      });
+      card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
     });
-    const data = await res.json();
+  } catch(e) {
+    grid.innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e74c3c;">' +
+      '<div style="font-size:40px;margin-bottom:12px;">⚠️</div>' +
+      '<p style="font-family:Syne,sans-serif;font-size:13px;">Could not load listings. ' +
+      '<a href="#" onclick="loadListings();return false;" style="color:var(--fire);text-decoration:underline;">Retry</a></p></div>';
+  }
+}
+
+async function submitList() {
+  var token = Auth.getToken();
+  if (!token) { closeList(); showAuthModal('register'); return; }
+
+  var city             = document.getElementById('listCity').value.trim();
+  var locality         = document.getElementById('listLocality').value.trim();
+  var flat_type_raw    = document.getElementById('listFlatType').value || '2BHK';
+  var monthly_rent     = document.getElementById('listRent').value;
+  var security_deposit = document.getElementById('listDeposit').value || 0;
+  var description      = document.getElementById('listDesc').value.trim() || '';
+  var note_author      = document.getElementById('noteAuthor').value.trim() || '';
+  var note_text        = document.getElementById('noteText').value.trim() || '';
+
+  var ftMap = {'1BHK':'1bhk','2BHK':'2bhk','3BHK':'3bhk','Studio':'studio','4BHK+':'4bhk'};
+  var flat_type = ftMap[flat_type_raw] || 'other';
+  var title = flat_type_raw + ' in ' + (locality || '') + ', ' + (city || '');
+
+  if (!city || !locality || !monthly_rent) {
+    toast2('⚠️ City, Locality and Rent are required.'); return;
+  }
+
+  // Read amenities via data-amenity attribute — avoids tick/emoji text issues
+  var amenities = {};
+  document.querySelectorAll('#amenitiesGrid .toggle-item.on').forEach(function(el) {
+    var key = el.getAttribute('data-amenity');
+    if (key) amenities[key] = true;
+  });
+
+  var btn = document.querySelector('#lPanel .btn-modal-sub');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  try {
+    var res = await fetch(API_BASE + '/listings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({
+        title: title, city: city, locality: locality,
+        monthly_rent: parseInt(monthly_rent),
+        security_deposit: parseInt(security_deposit),
+        flat_type: flat_type, description: description,
+        flatmate_note_text: note_text, flatmate_note_author: note_author,
+        amenities: amenities
+      })
+    });
+    var data = await res.json();
     if (res.ok) {
-      if (window._uploadedPhotoUrls?.length) {
-        for (const url of window._uploadedPhotoUrls) {
-          await fetch(API_BASE+'/listings/'+data.listing.id+'/photos', {
-            method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-            body: JSON.stringify({url, is_primary: window._uploadedPhotoUrls.indexOf(url)===0})
-          });
+      // Upload photos if any
+      if (window._uploadedPhotoUrls && window._uploadedPhotoUrls.length) {
+        for (var i = 0; i < window._uploadedPhotoUrls.length; i++) {
+          try {
+            await fetch(API_BASE + '/listings/' + data.listing.id + '/photos', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+              body: JSON.stringify({ url: window._uploadedPhotoUrls[i], is_primary: i === 0 })
+            });
+          } catch(pe) { /* photo upload failure is non-fatal */ }
         }
         window._uploadedPhotoUrls = [];
         document.getElementById('uploadedPhotos').innerHTML = '';
       }
-      closeList(); confetti();
-      setTimeout(()=>{ toast2('🎉 Room listed! It's now live.'); loadListings(); }, 400);
-    } else { toast2('❌ ' + (data.error || 'Failed to submit. Try again.')); }
-  } catch(e) { toast2('❌ Network error: ' + e.message); }
-  finally { btn.textContent = 'Submit Listing 🚀'; btn.disabled = false; }
-}
-function submitSeeker(){closeList();confetti();setTimeout(()=>toast2('🎉 Profile created! Matching you now...'),400);}
-
-// ── LISTINGS ────────────────────────────────────
-const CARD_COLORS  = ['ci-a','ci-b','ci-c','ci-d','ci-e','ci-f'];
-const CARD_EMOJIS  = ['🏠','🌿','🏙️','☀️','🌺','🏋️','🪴','✨','🏡','🌟'];
-const AVATAR_CLRS  = ['av-fire','av-jade','av-sky','av-gold','av-blush','av-ink'];
-
-function timeAgo(d){
-  const days=Math.floor((Date.now()-new Date(d))/86400000);
-  return days===0?'Today':days===1?'1 day ago':days<30?days+' days ago':Math.floor(days/30)+' months ago';
-}
-
-function buildCard(l,i){
-  const cc=CARD_COLORS[i%6], ce=CARD_EMOJIS[i%10], ac=AVATAR_CLRS[i%6];
-  const imgStyle=l.primary_photo?`background:url('${l.primary_photo}') center/cover no-repeat;`:'';
-  const init=(l.lister_name||'?').charAt(0).toUpperCase();
-  const type=(l.flat_type||'room').toUpperCase();
-  const vBadge=l.lister_verified?'<span class="badge b-verified">✓ Verified</span>':'';
-  const uBadge=l.is_urgent?'<span class="badge b-urgent">⚡ Urgent</span>':'';
-  const nBadge=(Date.now()-new Date(l.created_at))<3*86400000?'<span class="badge b-new">🔥 New</span>':'';
-  const note=l.flatmate_note?`<div class="fnote"><div class="fnote-label">💬 From outgoing flatmate</div><p>"${l.flatmate_note}"${l.note_author?' — <b>'+l.note_author+'</b>':''}</p></div>`:'';
-  const amen=typeof l.amenities==='object'?Object.entries(l.amenities||{}).filter(([,v])=>v).slice(0,4).map(([k])=>`<div class="feat">${k}</div>`).join(''):'';
-  const name=(l.lister_name||'').replace(/'/g,"\'");
-  const lEsc=JSON.stringify(l).replace(/"/g,'&quot;');
-  return `<div class="lcard reveal" style="transition-delay:${i*.08}s" onclick="openDetailFromDB(JSON.parse(this.dataset.l))" data-l="${lEsc}">
-    <div class="card-img ${cc}" style="${imgStyle}">${imgStyle?'':'<span class="big-emoji">'+ce+'</span>'}
-      <div class="card-badges">${vBadge}${uBadge}${nBadge}</div>
-      <button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>
-      <div class="card-cta"><button onclick="event.stopPropagation();openInterest('${name}')">Show Interest 💌</button></div>
-    </div>
-    <div class="card-body">
-      <div class="card-top"><div class="card-price">₹${Number(l.monthly_rent).toLocaleString('en-IN')} <small>/month</small></div><div class="card-type">${type}</div></div>
-      <div class="card-title">${l.title}</div>
-      <div class="card-loc">📍 ${(l.city||'').charAt(0).toUpperCase()+(l.city||'').slice(1)} · ${l.locality}</div>
-      <div class="card-feats">${amen}</div>
-      ${note}
-      <div class="card-divider"></div>
-      <div class="card-footer">
-        <div class="poster-info"><div class="avatar ${ac}">${init}</div><div>
-          <div class="poster-name">${l.lister_name||'Lister'}</div>
-          <div class="poster-days">${timeAgo(l.created_at)}${l.lister_verified?' · ID ✓':''}</div>
-        </div></div>
-        <button class="btn-interest" onclick="event.stopPropagation();openInterest('${name}')">Interest 💌</button>
-      </div>
-    </div>
-  </div>`;
-}
-
-function openDetailFromDB(l){
-  openDetail('🏠',l.title,'📍 '+l.locality+', '+(l.city||''),
-    '₹'+Number(l.monthly_rent).toLocaleString('en-IN'),
-    (l.flat_type||'room').toUpperCase(),l.address_line||l.locality,
-    (l.rooms_available||1)+' room(s)',(l.existing_flatmates||0)+' existing',
-    l.lister_name||'Lister',l.flatmate_note||'No note added yet.',
-    l.note_author||'Outgoing flatmate','ci-a');
-}
-
-async function loadListings(){
-  const grid=document.getElementById('listingsGrid');
-  if(!grid)return;
-  grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dust);">
-    <div style="font-size:40px;margin-bottom:12px;">⏳</div>
-    <p style="font-family:'Syne',sans-serif;font-size:13px;letter-spacing:1px;">Loading rooms...</p></div>`;
-  try{
-    const res=await fetch(API_BASE+'/listings');
-    const data=await res.json();
-    const list=data.listings||[];
-    if(!list.length){
-      grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:70px 20px;">
-        <div style="font-size:64px;margin-bottom:16px;">🏠</div>
-        <h3 style="font-family:'Instrument Serif',serif;font-size:26px;margin-bottom:10px;color:var(--ink);">No listings yet</h3>
-        <p style="color:var(--dust);font-size:15px;margin-bottom:28px;max-width:360px;margin-inline:auto;">
-          GharSaathi is brand new! Be the first to list your room. 🎉</p>
-        <button onclick="openList()" style="background:var(--fire);color:white;border:none;padding:14px 32px;
-          border-radius:40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;
-          box-shadow:0 8px 24px rgba(232,68,10,.28);">+ List My Room for Free</button></div>`;
-      return;
+      closeList();
+      confetti();
+      setTimeout(function(){ toast2('🎉 Room listed! It is now live.'); loadListings(); }, 400);
+    } else {
+      toast2('❌ ' + (data.error || 'Failed to submit. Try again.'));
     }
-    grid.innerHTML=list.map((l,i)=>buildCard(l,i)).join('');
-    grid.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
-  }catch(e){
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e74c3c;">
-      <div style="font-size:40px;margin-bottom:12px;">⚠️</div>
-      <p style="font-family:'Syne',sans-serif;font-size:13px;">Could not load listings.
-      <a href="#" onclick="loadListings();return false;" style="color:var(--fire);text-decoration:underline;">Retry</a></p></div>`;
+  } catch(e) {
+    toast2('❌ Network error: ' + e.message);
+  } finally {
+    btn.textContent = 'Submit Listing 🚀'; btn.disabled = false;
   }
 }
-function submitInt(){closeInt();confetti();setTimeout(()=>toast2('💌 Interest sent! You\'ll hear back when they respond.'),400);}
-document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');document.body.style.overflow='';}}));
-updateNavForAuth();
-loadListings();
-document.addEventListener('DOMContentLoaded', () => {
-  const lp = document.getElementById('loginPassword');
-  const rp = document.getElementById('regPassword');
-  if (lp) lp.addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-  if (rp) rp.addEventListener('keydown', e=>{ if(e.key==='Enter') doRegister(); });
-});
+
+function submitSeeker() { closeList(); confetti(); setTimeout(function(){ toast2('🎉 Profile created! Matching you now...'); }, 400); }
+function submitInt()    { closeInt();  confetti(); setTimeout(function(){ toast2('💌 Interest sent! You will hear back when they respond.'); }, 400); }
 
 // ── DETAIL MODAL ──────────────────────────────
-function openDetail(emoji,name,loc,price,type,addr,rooms,flmates,resident,note,noteFrom,colorClass){
-  const m=document.getElementById('detailModal');
-  const img=document.getElementById('dImg');
-  img.textContent=emoji;
-  img.className='detail-img '+colorClass;
-  document.getElementById('dName').textContent=name;
-  document.getElementById('dLoc').textContent=loc;
-  document.getElementById('dPrice').innerHTML=price+' <small style="font-family:\'DM Sans\',sans-serif;font-size:14px;color:var(--dust)">/month</small>';
-  document.getElementById('dType').textContent=type;
-  document.getElementById('dAddr').textContent=addr;
-  document.getElementById('dRooms').textContent=rooms;
-  document.getElementById('dFlmates').textContent=flmates;
-  document.getElementById('dNote').innerHTML='"'+note+'"';
-  document.getElementById('dNoteFrom').textContent='— '+noteFrom;
-  document.getElementById('dInterestBtn').onclick=()=>{document.getElementById('detailModal').classList.remove('open');document.body.style.overflow='';openInterest(resident);};
-  m.classList.add('open');document.body.style.overflow='hidden';
+function openDetail(emoji, name, loc, price, type, addr, rooms, flmates, resident, note, noteFrom, colorClass) {
+  var m = document.getElementById('detailModal');
+  var img = document.getElementById('dImg');
+  img.textContent = emoji; img.className = 'detail-img ' + colorClass;
+  document.getElementById('dName').textContent  = name;
+  document.getElementById('dLoc').textContent   = loc;
+  document.getElementById('dPrice').innerHTML   = price + ' <small style="font-family:DM Sans,sans-serif;font-size:14px;color:var(--dust)">/month</small>';
+  document.getElementById('dType').textContent  = type;
+  document.getElementById('dAddr').textContent  = addr;
+  document.getElementById('dRooms').textContent = rooms;
+  document.getElementById('dFlmates').textContent = flmates;
+  document.getElementById('dNote').textContent  = note;
+  document.getElementById('dNoteFrom').textContent = '— ' + noteFrom;
+  document.getElementById('dInterestBtn').onclick = function() {
+    document.getElementById('detailModal').classList.remove('open');
+    document.body.style.overflow = '';
+    openInterest(resident);
+  };
+  m.classList.add('open'); document.body.style.overflow = 'hidden';
 }
 
-// ── PANEL SWITCH (LIST MODAL) ─────────────────
-function switchPanel(btn,panelId){
-  document.querySelectorAll('.modal-tab').forEach(b=>b.classList.remove('on'));
+// ── PANEL SWITCH ────────────────────────────────
+function switchPanel(btn, panelId) {
+  document.querySelectorAll('.modal-tab').forEach(function(b){ b.classList.remove('on'); });
   btn.classList.add('on');
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
   document.getElementById(panelId).classList.add('on');
 }
 
-// ── CHIPS / TABS ─────────────────────────────
-function togChip(el){document.querySelectorAll('.filter-strip .chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');toast2('🔍 Filter: '+el.textContent.trim());}
-function togItem(el){el.classList.toggle('on');}
-function switchTab(btn){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');toast2('📋 '+btn.textContent.trim());}
+// ── CHIPS / TABS ───────────────────────────────
+function togChip(el) {
+  document.querySelectorAll('.filter-strip .chip').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+  toast2('🔍 Filter: ' + el.textContent.trim());
+}
+function togItem(el) { el.classList.toggle('on'); }
+function switchTab(btn) {
+  document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  toast2('📋 ' + btn.textContent.trim());
+}
 
-// ── SEARCH ───────────────────────────────────
-function doSearch(){const v=document.getElementById('sLoc').value.trim();toast2(v?`🔍 Searching in ${v}...`:'🔍 Showing all rooms!');setTimeout(()=>document.getElementById('browse').scrollIntoView({behavior:'smooth'}),400);}
+// ── SEARCH ─────────────────────────────────────
+function doSearch() {
+  var v = document.getElementById('sLoc').value.trim();
+  toast2(v ? '🔍 Searching in ' + v + '...' : '🔍 Showing all rooms!');
+  setTimeout(function(){ document.getElementById('browse').scrollIntoView({behavior:'smooth'}); }, 400);
+}
 
-// ── LOVE / HEART ─────────────────────────────
-function loveCard(btn){const on=btn.classList.toggle('loved');btn.textContent=on?'♥':'♡';if(on){miniConf(btn);toast2('❤️ Saved to favourites!');}}
+// ── LOVE / HEART ──────────────────────────────
+function loveCard(btn) {
+  var on = btn.classList.toggle('loved');
+  btn.textContent = on ? '♥' : '♡';
+  if (on) { miniConf(btn); toast2('❤️ Saved to favourites!'); }
+}
 
-// ── SWIPE STACK ──────────────────────────────
-const swData=[
+// ── SWIPE STACK ───────────────────────────────
+var swData = [
   {e:'🏠',ci:'si-a',tag:'2BHK · Bengaluru',name:'Airy Flat, Indiranagar',loc:'3.2 km from MG Road metro',chips:['WiFi ✓','Gym','Metro 2 min'],price:'₹14,000'},
-  {e:'🌿',ci:'si-b',tag:'1BHK · Pune',name:'Peaceful Near IT Park',loc:'Hinjewadi Phase 1',chips:['Pet OK 🐾','Balcony 🌅','Veg'],price:'₹9,500'},
+  {e:'🌳',ci:'si-b',tag:'1BHK · Pune',name:'Peaceful Near IT Park',loc:'Hinjewadi Phase 1',chips:['Pet OK 🐾','Balcony 🌅','Veg'],price:'₹9,500'},
   {e:'🏙️',ci:'si-c',tag:'3BHK · Mumbai',name:'Modern Flat, Bandra',loc:'Walk to Bandra Station',chips:['AC ❄️','Female Only 👩','Pool'],price:'₹18,000'},
-  {e:'☀️',ci:'si-d',tag:'4BHK · New Delhi',name:'Artistic HKV Flat',loc:'Hauz Khas Village',chips:['Terrace 🌿','WFH Zone','Any Gender'],price:'₹9,000'},
+  {e:'☀️',ci:'si-d',tag:'4BHK · New Delhi',name:'Artistic HKV Flat',loc:'Hauz Khas Village',chips:['Terrace 🌳','WFH Zone','Any Gender'],price:'₹9,000'},
   {e:'🌺',ci:'si-e',tag:'2BHK · Hyderabad',name:'Luxe Banjara Hills Flat',loc:'Banjara Hills Rd No. 12',chips:['Pool 🏊','Gym','Female Only 👩'],price:'₹13,000'},
   {e:'🏋️',ci:'si-f',tag:'3BHK · Pune',name:'Chill Viman Nagar Flat',loc:'Airport Road, Pune',chips:['Gym Nearby','Male Only 👨','Airport 15 min'],price:'₹8,500'},
 ];
-let swIdx=0,drag=false,sx=0,dcx=0;
-const tc=document.getElementById('topCard');
-const swLike=document.getElementById('swLike'),swNope=document.getElementById('swNope');
-tc.addEventListener('mousedown',e=>{drag=true;sx=e.clientX;tc.style.transition='none';});
-document.addEventListener('mousemove',e=>{
-  if(!drag)return;dcx=e.clientX-sx;const rot=dcx*.08;
-  tc.style.transform=`translateX(${dcx}px) rotate(${rot}deg)`;
-  swLike.style.opacity=dcx>30?Math.min((dcx-30)/60,1):0;
-  swNope.style.opacity=dcx<-30?Math.min((-dcx-30)/60,1):0;
+var swIdx = 0, isDrag = false, swStartX = 0, swDcx = 0;
+var topCard   = document.getElementById('topCard');
+var swLikeEl  = document.getElementById('swLike');
+var swNopeEl  = document.getElementById('swNope');
+
+topCard.addEventListener('mousedown', function(e){ isDrag = true; swStartX = e.clientX; topCard.style.transition = 'none'; });
+document.addEventListener('mousemove', function(e){
+  if (!isDrag) return;
+  swDcx = e.clientX - swStartX;
+  var rot = swDcx * .08;
+  topCard.style.transform = 'translateX(' + swDcx + 'px) rotate(' + rot + 'deg)';
+  swLikeEl.style.opacity = swDcx >  30 ? Math.min((swDcx - 30) / 60, 1) : 0;
+  swNopeEl.style.opacity = swDcx < -30 ? Math.min((-swDcx - 30) / 60, 1) : 0;
 });
-document.addEventListener('mouseup',()=>{
-  if(!drag)return;drag=false;tc.style.transition='';
-  if(dcx>80)doSwipe('right');else if(dcx<-80)doSwipe('left');
-  else{tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;}dcx=0;
+document.addEventListener('mouseup', function(){
+  if (!isDrag) return; isDrag = false; topCard.style.transition = '';
+  if      (swDcx >  80) doSwipe('right');
+  else if (swDcx < -80) doSwipe('left');
+  else { topCard.style.transform = ''; swLikeEl.style.opacity = 0; swNopeEl.style.opacity = 0; }
+  swDcx = 0;
 });
-tc.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].clientX;tc.style.transition='none';},{passive:true});
-document.addEventListener('touchmove',e=>{
-  if(!drag)return;dcx=e.touches[0].clientX-sx;
-  tc.style.transform=`translateX(${dcx}px) rotate(${dcx*.08}deg)`;
-  swLike.style.opacity=dcx>30?Math.min((dcx-30)/60,1):0;
-  swNope.style.opacity=dcx<-30?Math.min((-dcx-30)/60,1):0;
-},{passive:true});
-document.addEventListener('touchend',()=>{
-  if(!drag)return;drag=false;tc.style.transition='';
-  if(dcx>80)doSwipe('right');else if(dcx<-80)doSwipe('left');
-  else{tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;}dcx=0;
+topCard.addEventListener('touchstart', function(e){ isDrag = true; swStartX = e.touches[0].clientX; topCard.style.transition = 'none'; }, {passive:true});
+document.addEventListener('touchmove', function(e){
+  if (!isDrag) return;
+  swDcx = e.touches[0].clientX - swStartX;
+  topCard.style.transform = 'translateX(' + swDcx + 'px) rotate(' + (swDcx * .08) + 'deg)';
+  swLikeEl.style.opacity = swDcx >  30 ? Math.min((swDcx - 30) / 60, 1) : 0;
+  swNopeEl.style.opacity = swDcx < -30 ? Math.min((-swDcx - 30) / 60, 1) : 0;
+}, {passive:true});
+document.addEventListener('touchend', function(){
+  if (!isDrag) return; isDrag = false; topCard.style.transition = '';
+  if      (swDcx >  80) doSwipe('right');
+  else if (swDcx < -80) doSwipe('left');
+  else { topCard.style.transform = ''; swLikeEl.style.opacity = 0; swNopeEl.style.opacity = 0; }
+  swDcx = 0;
 });
-function doSwipe(dir){
-  swIdx=(swIdx+1)%swData.length;const d=swData[swIdx];
-  if(dir==='right'){tc.classList.add('fly-right');miniConf(tc);toast2('💚 Liked! They\'ll be notified.');}
-  else if(dir==='left'){tc.classList.add('fly-left');toast2('👋 Passed on this one.');}
-  else{tc.classList.add('fly-right');confetti();toast2('⭐ Super Liked! They\'ll definitely see this!');}
-  setTimeout(()=>{
-    tc.classList.remove('fly-right','fly-left');tc.style.transform='';swLike.style.opacity=0;swNope.style.opacity=0;
-    const ti=document.getElementById('topImg');
-    ti.className='sw-img '+d.ci;
-    document.getElementById('topEmoji').textContent=d.e;
-    document.getElementById('topTag').textContent=d.tag;
-    document.getElementById('topName').textContent=d.name;
-    document.getElementById('topLoc').textContent='📍 '+d.loc;
-    document.getElementById('topChips').innerHTML=d.chips.map(c=>`<div class="sw-chip">${c}</div>`).join('');
-    document.getElementById('topPrice').innerHTML=d.price+'<small>/mo</small>';
-  },440);
+
+function doSwipe(dir) {
+  swIdx = (swIdx + 1) % swData.length;
+  var d = swData[swIdx];
+  if      (dir === 'right') { topCard.classList.add('fly-right'); miniConf(topCard); toast2('💚 Liked! They will be notified.'); }
+  else if (dir === 'left')  { topCard.classList.add('fly-left');  toast2('👋 Passed on this one.'); }
+  else                      { topCard.classList.add('fly-right'); confetti(); toast2('⭐ Super Liked! They will definitely see this!'); }
+  setTimeout(function(){
+    topCard.classList.remove('fly-right','fly-left');
+    topCard.style.transform = ''; swLikeEl.style.opacity = 0; swNopeEl.style.opacity = 0;
+    document.getElementById('topImg').className = 'sw-img ' + d.ci;
+    document.getElementById('topEmoji').textContent = d.e;
+    document.getElementById('topTag').textContent   = d.tag;
+    document.getElementById('topName').textContent  = d.name;
+    document.getElementById('topLoc').textContent   = '📍 ' + d.loc;
+    document.getElementById('topChips').innerHTML   = d.chips.map(function(c){ return '<div class="sw-chip">' + c + '</div>'; }).join('');
+    document.getElementById('topPrice').innerHTML   = d.price + '<small>/mo</small>';
+  }, 440);
 }
 
-// ── COUNTERS ─────────────────────────────────
-function animCount(el){
-  const target=parseInt(el.dataset.target),dur=1800,s=performance.now();
-  const tick=now=>{const p=Math.min((now-s)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(target*ease).toLocaleString('en-IN');if(p<1)requestAnimationFrame(tick);};
+// ── COUNTERS ──────────────────────────────────
+function animCount(el) {
+  var target = parseInt(el.dataset.target), dur = 1800, s = performance.now();
+  function tick(now) {
+    var p = Math.min((now - s) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * ease).toLocaleString('en-IN');
+    if (p < 1) requestAnimationFrame(tick);
+  }
   requestAnimationFrame(tick);
 }
-const cObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){animCount(e.target);cObs.unobserve(e.target);}}),{threshold:.5});
-document.querySelectorAll('.counter').forEach(el=>cObs.observe(el));
+var cObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if (e.isIntersecting){ animCount(e.target); cObs.unobserve(e.target); } });
+}, {threshold:.5});
+document.querySelectorAll('.counter').forEach(function(el){ cObs.observe(el); });
 
 // ── SCROLL REVEAL ─────────────────────────────
-const rObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
+var rObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){ rObs.observe(el); });
 
-// ── 3D TILT CARDS ─────────────────────────────
-document.querySelectorAll('.lcard').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-    card.style.cssText+=`transform:translateY(-8px) scale(1.014) rotateX(${-y*5}deg) rotateY(${x*5}deg);transform-style:preserve-3d;`;
+// ── 3D TILT (static cards) ────────────────────
+document.querySelectorAll('.step-card,.safe-card,.bcard,.review-card').forEach(function(card){
+  card.addEventListener('mousemove', function(e){
+    var r = card.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width - .5;
+    var y = (e.clientY - r.top)  / r.height - .5;
+    card.style.transform = 'translateY(-4px) rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 4) + 'deg)';
+    card.style.transformStyle = 'preserve-3d';
   });
-  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+  card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
 });
 
 // ── QUIZ ──────────────────────────────────────
-const qResults=[
-  {e:'😴',t:'The Zen Homebody',s:'You love peaceful evenings and a tidy flat. Your ideal flatmate brings good chai and zero drama. We\'ve found your people!'},
-  {e:'🎶',t:'The Social Butterfly 🦋',s:'You thrive with energy around you — movie nights, shared cooking, laughter. Your vibe is absolutely contagious!'},
-  {e:'💻',t:'The Focused Professional',s:'Work-life balance is your religion. You need a flatmate who respects quiet hours and doesn\'t interrupt your flow state.'},
-  {e:'🦉',t:'The Night Owl',s:'You come alive at midnight and need someone who won\'t judge your 2am Maggi sessions. We know your kind — they\'re on GharSaathi!'},
+var qResults = [
+  {e:'😴', t:'The Zen Homebody',       s:'You love peaceful evenings and a tidy flat. Your ideal flatmate brings good chai and zero drama. We have found your people!'},
+  {e:'🎶', t:'The Social Butterfly',   s:'You thrive with energy around you — movie nights, shared cooking, laughter. Your vibe is absolutely contagious!'},
+  {e:'💻', t:'The Focused Professional',s:'Work-life balance is your religion. You need a flatmate who respects quiet hours and does not interrupt your flow state.'},
+  {e:'🦉', t:'The Night Owl',          s:'You come alive at midnight and need someone who will not judge your 2am Maggi sessions. We know your kind!'},
 ];
-function nextQ(step,btn){
-  btn.parentElement.querySelectorAll('.quiz-opt').forEach(o=>o.style.opacity='.5');
-  btn.style.opacity='1';btn.style.borderColor='var(--fire)';
-  setTimeout(()=>{document.getElementById('qS'+(step-1)).style.display='none';document.getElementById('qS'+step).style.display='block';document.getElementById('qBar').style.width=(step*25)+'%';},350);
+function nextQ(step, btn) {
+  btn.parentElement.querySelectorAll('.quiz-opt').forEach(function(o){ o.style.opacity = '.5'; });
+  btn.style.opacity = '1'; btn.style.borderColor = 'var(--fire)';
+  setTimeout(function(){
+    document.getElementById('qS' + (step - 1)).style.display = 'none';
+    document.getElementById('qS' + step).style.display = 'block';
+    document.getElementById('qBar').style.width = (step * 25) + '%';
+  }, 350);
 }
-function finishQuiz(idx){
-  setTimeout(()=>{
-    document.getElementById('qS4').style.display='none';
-    document.getElementById('qBar').style.display='none';
-    const r=qResults[idx];
-    document.getElementById('qrEmoji').textContent=r.e;
-    document.getElementById('qrTitle').textContent=r.t;
-    document.getElementById('qrSub').textContent=r.s;
-    document.getElementById('qRes').style.display='block';
+function finishQuiz(idx) {
+  setTimeout(function(){
+    document.getElementById('qS4').style.display = 'none';
+    document.getElementById('qBar').style.display = 'none';
+    var r = qResults[idx];
+    document.getElementById('qrEmoji').textContent = r.e;
+    document.getElementById('qrTitle').textContent = r.t;
+    document.getElementById('qrSub').textContent   = r.s;
+    document.getElementById('qRes').style.display  = 'block';
     confetti();
-  },350);
+  }, 350);
 }
-function restartQuiz(){
-  document.getElementById('qRes').style.display='none';
-  document.getElementById('qBar').style.display='block';
-  document.getElementById('qBar').style.width='25%';
-  for(let i=1;i<=4;i++){
-    const s=document.getElementById('qS'+i);
-    s.style.display=i===1?'block':'none';
-    s.querySelectorAll('.quiz-opt').forEach(o=>{o.style.opacity='';o.style.borderColor='';});
+function restartQuiz() {
+  document.getElementById('qRes').style.display  = 'none';
+  document.getElementById('qBar').style.display  = 'block';
+  document.getElementById('qBar').style.width    = '25%';
+  for (var i = 1; i <= 4; i++) {
+    var s = document.getElementById('qS' + i);
+    s.style.display = i === 1 ? 'block' : 'none';
+    s.querySelectorAll('.quiz-opt').forEach(function(o){ o.style.opacity = ''; o.style.borderColor = ''; });
   }
 }
 
-// ── KONAMI EASTER EGG ─────────────────────────
-const kk=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-let ki=0;
-document.addEventListener('keydown',e=>{
-  if(e.key===kk[ki])ki++;else ki=0;
-  if(ki===kk.length){confetti();toast2('🎮 Konami Code! You absolute legend 🏆');ki=0;}
+// ── KONAMI ────────────────────────────────────
+var kk = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'], ki = 0;
+document.addEventListener('keydown', function(e){
+  if (e.key === kk[ki]) ki++; else ki = 0;
+  if (ki === kk.length) { confetti(); toast2('🎮 Konami Code! You absolute legend 🏆'); ki = 0; }
 });
 
-// ── PHOTO UPLOAD ─────────────────────────────────────
+// ── PHOTO UPLOAD ──────────────────────────────
 window._uploadedPhotoUrls = [];
-
 async function handlePhotoUpload(input) {
-  const files = Array.from(input.files);
+  var files = Array.from(input.files);
   if (!files.length) return;
-  const token = Auth.getToken();
+  var token = Auth.getToken();
   if (!token) { showAuthModal('register'); return; }
-
   toast2('📸 Uploading ' + files.length + ' photo(s)...');
-
-  for (const file of files) {
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
     if (file.size > 5 * 1024 * 1024) { toast2('❌ ' + file.name + ' is too large (max 5MB)'); continue; }
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch(API_BASE + '/upload', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token },
-        body: formData
-      });
-      const data = await res.json();
+      var formData = new FormData(); formData.append('file', file);
+      var res  = await fetch(API_BASE + '/upload', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token }, body: formData });
+      var data = await res.json();
       if (data.url) {
         window._uploadedPhotoUrls.push(data.url);
-        const container = document.getElementById('uploadedPhotos');
-        const img = document.createElement('div');
-        img.style.cssText = 'position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1.5px solid var(--line)';
-        img.innerHTML = '<img src="' + data.url + '" style="width:100%;height:100%;object-fit:cover"><button onclick="removePhoto(this,\''+data.url+'\')" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>';
-        container.appendChild(img);
+        var container = document.getElementById('uploadedPhotos');
+        var div = document.createElement('div');
+        div.style.cssText = 'position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1.5px solid var(--line)';
+        div.dataset.photoUrl = data.url;
+        div.innerHTML = '<img src="' + data.url + '" style="width:100%;height:100%;object-fit:cover">' +
+          '<button onclick="removePhoto(this)" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer">✕</button>';
+        container.appendChild(div);
       } else {
         toast2('❌ Upload failed: ' + (data.error || 'Unknown error'));
       }
-    } catch(e) {
-      toast2('❌ Upload failed: ' + e.message);
+    } catch(err) {
+      toast2('❌ Upload failed: ' + err.message);
     }
   }
   if (window._uploadedPhotoUrls.length > 0) toast2('✅ ' + window._uploadedPhotoUrls.length + ' photo(s) uploaded!');
 }
-
-function removePhoto(btn, url) {
-  window._uploadedPhotoUrls = window._uploadedPhotoUrls.filter(u => u !== url);
-  btn.closest('div').remove();
+function removePhoto(btn) {
+  var div = btn.closest('div');
+  var url = div.dataset.photoUrl;
+  window._uploadedPhotoUrls = window._uploadedPhotoUrls.filter(function(u){ return u !== url; });
+  div.remove();
 }
 
+// ── OVERLAY CLOSE + INIT ──────────────────────
+document.querySelectorAll('.overlay').forEach(function(o){
+  o.addEventListener('click', function(e){ if (e.target === o){ o.classList.remove('open'); document.body.style.overflow = ''; } });
+});
+document.getElementById('loginPassword').addEventListener('keydown', function(e){ if (e.key === 'Enter') doLogin(); });
+document.getElementById('regPassword').addEventListener('keydown',   function(e){ if (e.key === 'Enter') doRegister(); });
+
+updateNavForAuth();
+loadListings();
 </script>
 </body>
 </html>
