@@ -1365,6 +1365,18 @@ function openInterestFromCard(btn) {
 function openDetailFromDB(cardEl) {
   var l = getCardListing(cardEl);
   var cc = CARD_COLORS[0];
+
+  //
+  var detailImg = document.querySelector('#dPanel .card-img, #detailImg, .detail-img');
+  if (detailImg) {
+    if (l.primary_photo) {
+      detailImg.style.background = 'url(' + l.primary_photo + ') center/cover no-repeat';
+      detailImg.style.backgroundColor = 'transparent';
+      var emoji = detailImg.querySelector('.big-emoji');
+      if (emoji) emoji.style.display = 'none';
+    }
+  }
+
   openDetail('🏠', l.title, '📍 ' + l.locality + ', ' + (l.city || ''),
     '₹' + Number(l.monthly_rent).toLocaleString('en-IN'),
     (l.flat_type || 'room').toUpperCase(),
@@ -1375,6 +1387,46 @@ function openDetailFromDB(cardEl) {
     l.flatmate_note || 'No note added yet.',
     l.note_author || 'Outgoing flatmate',
     cc);
+
+  // 
+  fetch(API_BASE + '/listings/' + l.id)
+    .then(function(r) { return r.json(); })
+    .then(function(full) {
+      var photos = full.photos || [];
+      if (photos.length < 2) return; // only 1 photo, already shown
+
+      // 
+      var panel = document.getElementById('dPanel') || document.querySelector('.detail-panel');
+      if (!panel) return;
+
+      var existing = panel.querySelector('.photo-carousel');
+      if (existing) existing.remove();
+
+      var carousel = document.createElement('div');
+      carousel.className = 'photo-carousel';
+      carousel.style.cssText = 'display:flex;gap:8px;overflow-x:auto;padding:12px 20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;';
+
+      photos.forEach(function(p) {
+        var thumb = document.createElement('div');
+        thumb.style.cssText = 'min-width:160px;height:110px;border-radius:12px;background:url(' + p.url + ') center/cover no-repeat;flex-shrink:0;scroll-snap-align:start;cursor:pointer;';
+        thumb.onclick = function() {
+          if (detailImg) {
+            detailImg.style.background = 'url(' + p.url + ') center/cover no-repeat';
+            detailImg.style.backgroundColor = 'transparent';
+          }
+        };
+        carousel.appendChild(thumb);
+      });
+
+      // Insert carousel right after the main image
+      var mainImg = panel.querySelector('.card-img, .detail-img');
+      if (mainImg && mainImg.nextSibling) {
+        panel.insertBefore(carousel, mainImg.nextSibling);
+      } else {
+        panel.appendChild(carousel);
+      }
+    })
+    .catch(function() {}); // non-fatal
 }
 
 async function loadListings() {
