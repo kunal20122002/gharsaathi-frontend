@@ -1298,7 +1298,7 @@ function buildCard(l, i) {
   var cc = CARD_COLORS[i % 6];
   var ce = CARD_EMOJIS[i % 10];
   var ac = AVATAR_CLRS[i % 6];
-  var imgStyle = l.primary_photo ? 'background:url(' + JSON.stringify(l.primary_photo) + ') center/cover no-repeat;' : '';
+  var imgStyle = l.primary_photo ? 'background:url(' + l.primary_photo + ') center/cover no-repeat;' : '';
   var init = (l.lister_name || '?').charAt(0).toUpperCase();
   var type = (l.flat_type || 'room').toUpperCase();
   var vBadge = l.lister_verified ? '<span class="badge b-verified">✓ Verified</span>' : '';
