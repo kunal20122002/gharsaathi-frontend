@@ -1366,17 +1366,6 @@ function openDetailFromDB(cardEl) {
   var l = getCardListing(cardEl);
   var cc = CARD_COLORS[0];
 
-  //
-  var detailImg = document.querySelector('#dPanel .card-img, #detailImg, .detail-img');
-  if (detailImg) {
-    if (l.primary_photo) {
-      detailImg.style.background = 'url(' + l.primary_photo + ') center/cover no-repeat';
-      detailImg.style.backgroundColor = 'transparent';
-      var emoji = detailImg.querySelector('.big-emoji');
-      if (emoji) emoji.style.display = 'none';
-    }
-  }
-
   openDetail('🏠', l.title, '📍 ' + l.locality + ', ' + (l.city || ''),
     '₹' + Number(l.monthly_rent).toLocaleString('en-IN'),
     (l.flat_type || 'room').toUpperCase(),
@@ -1388,47 +1377,72 @@ function openDetailFromDB(cardEl) {
     l.note_author || 'Outgoing flatmate',
     cc);
 
+  //
+  var dImg = document.getElementById('dImg');
+  if (dImg && l.primary_photo) {
+    dImg.textContent = '';  // remove emoji
+    dImg.style.backgroundImage = 'url(' + l.primary_photo + ')';
+    dImg.style.backgroundSize = 'cover';
+    dImg.style.backgroundPosition = 'center';
+    dImg.style.backgroundRepeat = 'no-repeat';
+  }
+
+  // 
+  var old = document.getElementById('gsPhotoCarousel');
+  if (old) old.remove();
+
   // 
   fetch(API_BASE + '/listings/' + l.id)
     .then(function(r) { return r.json(); })
     .then(function(full) {
-      var photos = full.photos || [];
-      if (photos.length < 2) return; // only 1 photo, already shown
-
-      // 
-      var panel = document.getElementById('dPanel') || document.querySelector('.detail-panel');
-      if (!panel) return;
-
-      var existing = panel.querySelector('.photo-carousel');
-      if (existing) existing.remove();
+      var photos = (full.photos || []).filter(function(p) { return p.url; });
+      if (photos.length < 2) return;
 
       var carousel = document.createElement('div');
-      carousel.className = 'photo-carousel';
-      carousel.style.cssText = 'display:flex;gap:8px;overflow-x:auto;padding:12px 20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;';
+      carousel.id = 'gsPhotoCarousel';
+      carousel.style.cssText = [
+        'display:flex',
+        'gap:8px',
+        'overflow-x:auto',
+        'padding:10px 20px 14px',
+        'scroll-snap-type:x mandatory',
+        '-webkit-overflow-scrolling:touch',
+        'scrollbar-width:none'
+      ].join(';');
 
       photos.forEach(function(p) {
         var thumb = document.createElement('div');
-        thumb.style.cssText = 'min-width:160px;height:110px;border-radius:12px;background:url(' + p.url + ') center/cover no-repeat;flex-shrink:0;scroll-snap-align:start;cursor:pointer;';
+        thumb.style.cssText = [
+          'min-width:120px',
+          'height:80px',
+          'border-radius:10px',
+          'background:url(' + p.url + ') center/cover no-repeat',
+          'flex-shrink:0',
+          'scroll-snap-align:start',
+          'cursor:pointer',
+          'border:2px solid transparent',
+          'transition:border-color .15s'
+        ].join(';');
+
+        thumb.onmouseenter = function() { this.style.borderColor = 'var(--fire, #e8440a)'; };
+        thumb.onmouseleave = function() { this.style.borderColor = 'transparent'; };
+
         thumb.onclick = function() {
-          if (detailImg) {
-            detailImg.style.background = 'url(' + p.url + ') center/cover no-repeat';
-            detailImg.style.backgroundColor = 'transparent';
+          if (dImg) {
+            dImg.textContent = '';
+            dImg.style.backgroundImage = 'url(' + p.url + ')';
+            dImg.style.backgroundSize = 'cover';
+            dImg.style.backgroundPosition = 'center';
           }
         };
         carousel.appendChild(thumb);
       });
 
-      // Insert carousel right after the main image
-      var mainImg = panel.querySelector('.card-img, .detail-img');
-      if (mainImg && mainImg.nextSibling) {
-        panel.insertBefore(carousel, mainImg.nextSibling);
-      } else {
-        panel.appendChild(carousel);
-      }
+      // 
+      dImg.parentNode.insertBefore(carousel, dImg.nextSibling);
     })
-    .catch(function() {}); // non-fatal
+    .catch(function() {});
 }
-
 async function loadListings() {
   var grid = document.getElementById('listingsGrid');
   if (!grid) return;
