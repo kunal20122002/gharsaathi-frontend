@@ -1320,7 +1320,7 @@ function buildCard(l, i) {
   var listerName = escHtml(l.lister_name || 'Lister');
 
   return '<div class="lcard reveal" style="transition-delay:' + (i * .08) + 's" onclick="openDetailFromDB(this)" data-lb="' + lB64 + '">' +
-    '<div class="card-img ' + cc + '" style="' + imgStyle + '">' +
+    '<div class="card-img ' + (l.primary_photo ? '' : cc) + '" style="' + imgStyle + '">' +
     (imgStyle ? '' : '<span class="big-emoji">' + ce + '</span>') +
     '<div class="card-badges">' + vBadge + uBadge + nBadge + '</div>' +
     '<button class="heart-btn" onclick="event.stopPropagation();loveCard(this)">♡</button>' +
