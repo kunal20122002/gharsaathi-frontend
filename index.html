@@ -584,6 +584,42 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
       <button class="tab" onclick="switchTab(this)">Urgent ⚡</button>
     </div>
   </div>
+  <!-- ── FILTER BAR ───────────────────────────── -->
+  <div id="filterBar" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:28px;">
+    <input id="fCity" type="text" placeholder="🏙 City (e.g. Delhi)"
+      style="flex:1;min-width:130px;padding:10px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'DM Sans',sans-serif;font-size:13px;background:white;outline:none;"
+      oninput="debounceLoad()" />
+    <input id="fLocality" type="text" placeholder="📍 Locality"
+      style="flex:1;min-width:130px;padding:10px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'DM Sans',sans-serif;font-size:13px;background:white;outline:none;"
+      oninput="debounceLoad()" />
+    <select id="fType" onchange="loadListings()"
+      style="padding:10px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'DM Sans',sans-serif;font-size:13px;background:white;outline:none;cursor:pointer;">
+      <option value="">All Types</option>
+      <option value="1bhk">1BHK</option>
+      <option value="2bhk">2BHK</option>
+      <option value="3bhk">3BHK</option>
+      <option value="studio">Studio</option>
+      <option value="4bhk">4BHK+</option>
+    </select>
+    <select id="fGender" onchange="loadListings()"
+      style="padding:10px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'DM Sans',sans-serif;font-size:13px;background:white;outline:none;cursor:pointer;">
+      <option value="">Any Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="any">Any</option>
+    </select>
+    <input id="fMaxRent" type="number" placeholder="₹ Max Rent"
+      style="width:120px;padding:10px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'DM Sans',sans-serif;font-size:13px;background:white;outline:none;"
+      oninput="debounceLoad()" />
+    <button onclick="clearFilters()"
+      style="padding:10px 20px;border-radius:30px;border:1.5px solid var(--line);background:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;color:var(--dust);transition:all .2s;"
+      onmouseenter="this.style.borderColor='var(--fire)';this.style.color='var(--fire)'"
+      onmouseleave="this.style.borderColor='var(--line)';this.style.color='var(--dust)'">
+      Clear ✕
+    </button>
+  </div>
+
+  <div class="grid-3" id="listingsGrid">
   <div class="grid-3" id="listingsGrid">
     <!-- listings loaded dynamically -->
   </div>
