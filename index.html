@@ -1610,10 +1610,11 @@ function openDetail(emoji, name, loc, price, type, addr, rooms, flmates, residen
   document.getElementById('dNote').textContent  = note;
   document.getElementById('dNoteFrom').textContent = '— ' + noteFrom;
   document.getElementById('dInterestBtn').onclick = function() {
-    document.getElementById('detailModal').classList.remove('open');
-    document.body.style.overflow = '';
-    openInterest(resident);
-  };
+  var listingId = document.getElementById('detailModal').dataset.listingId || '';
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow = '';
+  openInterest(resident, listingId);
+};
   m.classList.add('open'); document.body.style.overflow = 'hidden';
 }
 
