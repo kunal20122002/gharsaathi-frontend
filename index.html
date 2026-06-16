@@ -1220,9 +1220,10 @@ function closeList() {
   document.getElementById('listModal').classList.remove('open');
   document.body.style.overflow = '';
 }
-function openInterest(name) {
+function openInterest(name, listingId) {
   document.getElementById('intTitle').textContent = 'Show Interest — ' + name + "'s Room 💌";
   document.getElementById('intModal').classList.add('open');
+  document.getElementById('intModal').dataset.listingId = listingId || '';
   document.body.style.overflow = 'hidden';
 }
 function closeInt() {
