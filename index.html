@@ -1559,7 +1559,41 @@ async function submitList() {
 }
 
 function submitSeeker() { closeList(); confetti(); setTimeout(function(){ toast2('🎉 Profile created! Matching you now...'); }, 400); }
-function submitInt()    { closeInt();  confetti(); setTimeout(function(){ toast2('💌 Interest sent! You will hear back when they respond.'); }, 400); }
+async function submitInt() {
+  var token = Auth.getToken();
+  if (!token) { closeInt(); showAuthModal('register'); return; }
+
+  var listingId = document.getElementById('intModal').dataset.listingId;
+  if (!listingId) { toast2('⚠️ Could not identify listing. Please try again.'); return; }
+
+  var message = document.getElementById('intMessage') ? document.getElementById('intMessage').value.trim() : '';
+
+  var btn = document.querySelector('#intModal .btn-modal-sub') || document.querySelector('#intModal button[onclick*="submitInt"]');
+  if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+
+  try {
+    var res = await fetch(API_BASE + '/matches/' + listingId + '/interest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ message: message || null })
+    });
+    var data = await res.json();
+
+    if (res.ok) {
+      closeInt();
+      confetti();
+      setTimeout(function() { toast2('💌 Interest sent! You will hear back when they respond.'); }, 400);
+    } else if (res.status === 401) {
+      closeInt(); showAuthModal('login');
+    } else {
+      toast2('❌ ' + (data.error || 'Failed to send interest. Try again.'));
+    }
+  } catch (e) {
+    toast2('❌ Network error: ' + e.message);
+  } finally {
+    if (btn) { btn.textContent = 'Send Interest 💌'; btn.disabled = false; }
+  }
+}
 
 // ── DETAIL MODAL ──────────────────────────────
 function openDetail(emoji, name, loc, price, type, addr, rooms, flmates, resident, note, noteFrom, colorClass) {
