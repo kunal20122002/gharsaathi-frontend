@@ -1359,7 +1359,7 @@ function getCardListing(el) {
 
 function openInterestFromCard(btn) {
   var l = getCardListing(btn);
-  openInterest(l.lister_name || 'this');
+  openInterest(l.lister_name || 'this', l.id);
 }
 
 function openDetailFromDB(cardEl) {
