@@ -1379,9 +1379,12 @@ function openDetailFromDB(cardEl) {
     cc);
 
   //
+  document.getElementById('detailModal').dataset.listingId = l.id;
+
+  //
   var dImg = document.getElementById('dImg');
   if (dImg && l.primary_photo) {
-    dImg.textContent = '';  // remove emoji
+    dImg.textContent = '';
     dImg.style.backgroundImage = 'url(' + l.primary_photo + ')';
     dImg.style.backgroundSize = 'cover';
     dImg.style.backgroundPosition = 'center';
@@ -1401,33 +1404,13 @@ function openDetailFromDB(cardEl) {
 
       var carousel = document.createElement('div');
       carousel.id = 'gsPhotoCarousel';
-      carousel.style.cssText = [
-        'display:flex',
-        'gap:8px',
-        'overflow-x:auto',
-        'padding:10px 20px 14px',
-        'scroll-snap-type:x mandatory',
-        '-webkit-overflow-scrolling:touch',
-        'scrollbar-width:none'
-      ].join(';');
+      carousel.style.cssText = 'display:flex;gap:8px;overflow-x:auto;padding:10px 20px 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;';
 
       photos.forEach(function(p) {
         var thumb = document.createElement('div');
-        thumb.style.cssText = [
-          'min-width:120px',
-          'height:80px',
-          'border-radius:10px',
-          'background:url(' + p.url + ') center/cover no-repeat',
-          'flex-shrink:0',
-          'scroll-snap-align:start',
-          'cursor:pointer',
-          'border:2px solid transparent',
-          'transition:border-color .15s'
-        ].join(';');
-
+        thumb.style.cssText = 'min-width:120px;height:80px;border-radius:10px;background:url(' + p.url + ') center/cover no-repeat;flex-shrink:0;scroll-snap-align:start;cursor:pointer;border:2px solid transparent;transition:border-color .15s;';
         thumb.onmouseenter = function() { this.style.borderColor = 'var(--fire, #e8440a)'; };
         thumb.onmouseleave = function() { this.style.borderColor = 'transparent'; };
-
         thumb.onclick = function() {
           if (dImg) {
             dImg.textContent = '';
@@ -1439,8 +1422,9 @@ function openDetailFromDB(cardEl) {
         carousel.appendChild(thumb);
       });
 
-      // 
-      dImg.parentNode.insertBefore(carousel, dImg.nextSibling);
+      if (dImg && dImg.parentNode) {
+        dImg.parentNode.insertBefore(carousel, dImg.nextSibling);
+      }
     })
     .catch(function() {});
 }
