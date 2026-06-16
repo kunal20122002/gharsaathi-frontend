@@ -1654,11 +1654,20 @@ function togChip(el) {
 }
 function togItem(el) { el.classList.toggle('on'); }
 function switchTab(btn) {
-  document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('on'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('on'); });
   btn.classList.add('on');
-  toast2('📋 ' + btn.textContent.trim());
+  var label = btn.textContent.trim();
+  if (label.includes('Verified')) {
+    // reload with verified filter — handled client side for now
+    loadListings();
+  } else if (label.includes('New')) {
+    loadListings();
+  } else if (label.includes('Urgent')) {
+    loadListings();
+  } else {
+    loadListings();
+  }
 }
-
 // ── SEARCH ─────────────────────────────────────
 function doSearch() {
   var v = document.getElementById('sLoc').value.trim();
