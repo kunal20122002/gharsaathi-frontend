@@ -1576,7 +1576,67 @@ async function submitList() {
   }
 }
 
-function submitSeeker() { closeList(); confetti(); setTimeout(function(){ toast2('🎉 Profile created! Matching you now...'); }, 400); }
+async function submitSeeker() {
+  var token = Auth.getToken();
+  if (!token) { closeList(); showAuthModal('register'); return; }
+
+  var city      = (document.getElementById('sCity')?.value || '').trim();
+  var budget    = document.getElementById('sBudget')?.value;
+  var reason    = document.getElementById('sReason')?.value || '';
+  var timeline  = document.getElementById('sTimeline')?.value || '';
+  var duration  = document.getElementById('sStayDuration')?.value || '';
+  var refName   = (document.getElementById('sRefName')?.value || '').trim();
+  var refPhone  = (document.getElementById('sRefPhone')?.value || '').trim();
+
+  if (!city || !budget) { toast2('⚠️ City and budget are required.'); return; }
+
+  // 
+  var tags = [];
+  document.querySelectorAll('#seekerLifestyle .toggle-item.on').forEach(function(el) {
+    var tag = el.getAttribute('data-tag');
+    if (tag) tags.push(tag);
+  });
+
+  // 
+  var durationMap = { '3-6 months': 3, '6-12 months': 6, '1 year+': 12, 'Flexible': 3 };
+  var stayMin = durationMap[duration] || 3;
+
+  var btn = document.querySelector('#sPanel .btn-modal-sub');
+  if (btn) { btn.textContent = 'Saving...'; btn.disabled = true; }
+
+  try {
+    var res = await fetch(API_BASE + '/users/seeker-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({
+        looking_in_cities:   [city],
+        looking_in_locality: city,
+        max_budget:          parseInt(budget),
+        looking_reason:      reason,
+        move_in_timeline:    timeline,
+        stay_duration_min:   stayMin,
+        lifestyle_tags:      tags,
+        reference_name:      refName || null,
+        reference_phone:     refPhone || null
+      })
+    });
+    var data = await res.json();
+
+    if (res.ok) {
+      closeList();
+      confetti();
+      setTimeout(function() { toast2('🎉 Profile created! Matching you now...'); }, 400);
+    } else if (res.status === 401) {
+      closeList(); showAuthModal('login');
+    } else {
+      toast2('❌ ' + (data.error || 'Failed to save profile. Try again.'));
+    }
+  } catch (e) {
+    toast2('❌ Network error: ' + e.message);
+  } finally {
+    if (btn) { btn.textContent = 'Find My Room 🏠'; btn.disabled = false; }
+  }
+}
 async function submitInt() {
   var token = Auth.getToken();
   if (!token) { closeInt(); showAuthModal('register'); return; }
