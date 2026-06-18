@@ -965,42 +965,40 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     </div>
 
     <!-- SEEKER PANEL -->
-    <div id="sPanel" class="panel">
-      <div class="form-section">👤 About You</div>
-      <div class="form-grid">
-        <div class="fg"><label>Your Full Name</label><input type="text" placeholder="Full name"></div>
-        <div class="fg"><label>Occupation</label><select><option>Working Professional</option><option>Student</option><option>Freelancer</option><option>Other</option></select></div>
-        <div class="fg"><label>Looking in City / Locality</label><input type="text" placeholder="e.g. Baner, Pune"></div>
-        <div class="fg"><label>Max Budget (₹/month)</label><input type="number" placeholder="e.g. 10000"></div>
-        <div class="fg"><label>Why are you looking?</label><select><option>New job in the city</option><option>College/course admission</option><option>Relocating cities</option><option>Current lease ending</option><option>Flatmate situation changed</option><option>Other</option></select></div>
-        <div class="fg"><label>Move-in Timeline</label><select><option>Immediately 🔥</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option></select></div>
-        <div class="fg"><label>Stay Duration</label><select><option>3-6 months</option><option>6-12 months</option><option>1 year+</option><option>Flexible</option></select></div>
-        <div class="fg"><label>LinkedIn URL (strongly 🔥)</label><input type="url" placeholder="https://linkedin.com/in/..."></div>
-        <div class="fg span2"><label>Introduce Yourself (visible after mutual match)</label><textarea rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy, 10pm bedtime... 😴 Tell them who you are!"></textarea></div>
-      </div>
-      <div class="form-section">🌙 Your Lifestyle</div>
-      <div class="toggle-grid">
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🚭 Non-Smoker</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🥗 Vegetarian</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 😴 Early Sleeper</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🦉 Night Owl</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 💻 Work from Home</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🏢 Office Goer</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🧹 Super Tidy</div>
-        <div class="toggle-item" onclick="togItem(this)"><span class="tick">✓</span> 🐾 Has a Pet</div>
-      </div>
-      <div class="form-section">🛡️ Verification</div>
-      <div class="form-grid">
-        <div class="fg"><label>Govt. ID Type</label><select><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option></select></div>
-        <div class="fg"><label>ID Number</label><input type="text" placeholder="Masked after verification 🔒"></div>
-        <div class="fg"><label>Reference Contact Name</label><input type="text" placeholder="A friend or colleague"></div>
-        <div class="fg"><label>Reference Contact Phone</label><input type="text" placeholder="+91 98765 43210"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-ghost" onclick="closeList()">Cancel</button>
-        <button class="btn-modal-sub" style="background:var(--jade)" onclick="submitSeeker()">Find My Room 🏠</button>
-      </div>
-    </div>
+   <div id="sPanel" class="panel">
+  <div class="form-section">👤 About You</div>
+  <div class="form-grid">
+    <div class="fg"><label>Your Full Name</label><input id="sName" type="text" placeholder="Full name"></div>
+    <div class="fg"><label>Occupation</label><select id="sOccupation"><option>Working Professional</option><option>Student</option><option>Freelancer</option><option>Other</option></select></div>
+    <div class="fg"><label>Looking in City / Locality</label><input id="sCity" type="text" placeholder="e.g. Baner, Pune"></div>
+    <div class="fg"><label>Max Budget (₹/month)</label><input id="sBudget" type="number" placeholder="e.g. 10000"></div>
+    <div class="fg"><label>Why are you looking?</label><select id="sReason"><option>New job in the city</option><option>College/course admission</option><option>Relocating cities</option><option>Current lease ending</option><option>Flatmate situation changed</option><option>Other</option></select></div>
+    <div class="fg"><label>Move-in Timeline</label><select id="sTimeline"><option>Immediately 🔥</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option></select></div>
+    <div class="fg"><label>Stay Duration</label><select id="sStayDuration"><option>3-6 months</option><option>6-12 months</option><option>1 year+</option><option>Flexible</option></select></div>
+    <div class="fg"><label>LinkedIn URL (strongly 🔥)</label><input id="sLinkedin" type="url" placeholder="https://linkedin.com/in/..."></div>
+    <div class="fg span2"><label>Introduce Yourself (visible after mutual match)</label><textarea id="sBio" rows="3" placeholder="Hi! I'm a product designer, early riser, keep shared spaces tidy, 10pm bedtime... 😴"></textarea></div>
+  </div>
+  <div class="form-section">🌙 Your Lifestyle</div>
+  <div class="toggle-grid" id="seekerLifestyle">
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Non-Smoker"><span class="tick">✓</span> 🚭 Non-Smoker</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Vegetarian"><span class="tick">✓</span> 🥗 Vegetarian</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Early Sleeper"><span class="tick">✓</span> 😴 Early Sleeper</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Night Owl"><span class="tick">✓</span> 🦉 Night Owl</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Work from Home"><span class="tick">✓</span> 💻 Work from Home</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Office Goer"><span class="tick">✓</span> 🏢 Office Goer</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Super Tidy"><span class="tick">✓</span> 🧹 Super Tidy</div>
+    <div class="toggle-item" onclick="togItem(this)" data-tag="Has a Pet"><span class="tick">✓</span> 🐾 Has a Pet</div>
+  </div>
+  <div class="form-section">🛡️ Verification</div>
+  <div class="form-grid">
+    <div class="fg"><label>Govt. ID Type</label><select id="sIdType"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option></select></div>
+    <div class="fg"><label>ID Number</label><input id="sIdNumber" type="text" placeholder="Masked after verification 🔒"></div>
+    <div class="fg"><label>Reference Contact Name</label><input id="sRefName" type="text" placeholder="A friend or colleague"></div>
+    <div class="fg"><label>Reference Contact Phone</label><input id="sRefPhone" type="text" placeholder="+91 98765 43210"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn-ghost" onclick="closeList()">Cancel</button>
+    <button class="btn-modal-sub" style="background:var(--jade)" onclick="submitSeeker()">Find My Room 🏠</button>
   </div>
 </div>
 
