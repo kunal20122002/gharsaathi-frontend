@@ -611,15 +611,18 @@ footer{background:#120B04;color:rgba(255,255,255,.55);padding:52px 5% 28px;}
     <input id="fMaxRent" type="number" placeholder="₹ Max Rent"
       style="width:120px;padding:10px 16px;border-radius:30px;border:1.5px solid var(--line);font-family:'DM Sans',sans-serif;font-size:13px;background:white;outline:none;"
       oninput="debounceLoad()" />
+    <button onclick="loadListings()"
+      style="padding:10px 24px;border-radius:30px;border:none;background:var(--fire);color:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(232,68,10,.3);">
+      Search 🔍
+    </button>
     <button onclick="clearFilters()"
-      style="padding:10px 20px;border-radius:30px;border:1.5px solid var(--line);background:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;color:var(--dust);transition:all .2s;"
+      style="padding:10px 20px;border-radius:30px;border:1.5px solid var(--line);background:white;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;color:var(--dust);"
       onmouseenter="this.style.borderColor='var(--fire)';this.style.color='var(--fire)'"
       onmouseleave="this.style.borderColor='var(--line)';this.style.color='var(--dust)'">
       Clear ✕
     </button>
   </div>
 
-  <div class="grid-3" id="listingsGrid">
   <div class="grid-3" id="listingsGrid">
     <!-- listings loaded dynamically -->
   </div>
