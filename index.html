@@ -1463,25 +1463,61 @@ function openDetailFromDB(cardEl) {
     .catch(function() {});
 }
 async function loadListings() {
+  var _loadTimer = null;
+function debounceLoad() {
+  clearTimeout(_loadTimer);
+  _loadTimer = setTimeout(loadListings, 500);
+}
+
+function clearFilters() {
+  document.getElementById('fCity').value = '';
+  document.getElementById('fLocality').value = '';
+  document.getElementById('fType').value = '';
+  document.getElementById('fGender').value = '';
+  document.getElementById('fMaxRent').value = '';
+  loadListings();
+}
+
+async function loadListings() {
   var grid = document.getElementById('listingsGrid');
   if (!grid) return;
+
+  // Read filter values
+  var city     = document.getElementById('fCity')    ? document.getElementById('fCity').value.trim()    : '';
+  var locality = document.getElementById('fLocality')? document.getElementById('fLocality').value.trim(): '';
+  var flatType = document.getElementById('fType')    ? document.getElementById('fType').value            : '';
+  var gender   = document.getElementById('fGender')  ? document.getElementById('fGender').value          : '';
+  var maxRent  = document.getElementById('fMaxRent') ? document.getElementById('fMaxRent').value          : '';
+
+  // Build query string
+  var params = [];
+  if (city)     params.push('city='      + encodeURIComponent(city));
+  if (locality) params.push('locality='  + encodeURIComponent(locality));
+  if (flatType) params.push('flat_type=' + encodeURIComponent(flatType));
+  if (gender)   params.push('gender='    + encodeURIComponent(gender));
+  if (maxRent)  params.push('max_rent='  + encodeURIComponent(maxRent));
+  var qs = params.length ? '?' + params.join('&') : '';
+
   grid.innerHTML =
     '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dust);">' +
     '<div style="font-size:40px;margin-bottom:12px;">⏳</div>' +
     '<p style="font-family:Syne,sans-serif;font-size:13px;letter-spacing:1px;">Loading rooms...</p></div>';
+
   try {
-    var res = await fetch(API_BASE + '/listings');
+    var res  = await fetch(API_BASE + '/listings' + qs);
     var data = await res.json();
     var list = data.listings || [];
+
     if (!list.length) {
       grid.innerHTML =
         '<div style="grid-column:1/-1;text-align:center;padding:70px 20px;">' +
         '<div style="font-size:64px;margin-bottom:16px;">🏠</div>' +
-        '<h3 style="font-family:\'Instrument Serif\',serif;font-size:26px;margin-bottom:10px;color:var(--ink);">No listings yet</h3>' +
-        '<p style="color:var(--dust);font-size:15px;margin-bottom:28px;max-width:360px;margin-inline:auto;">GharSaathi is brand new! Be the first to list your room. 🎉</p>' +
+        '<h3 style="font-family:\'Instrument Serif\',serif;font-size:26px;margin-bottom:10px;color:var(--ink);">No listings found</h3>' +
+        '<p style="color:var(--dust);font-size:15px;margin-bottom:28px;max-width:360px;margin-inline:auto;">Try different filters or be the first to list! 🎉</p>' +
         '<button onclick="openList()" style="background:var(--fire);color:white;border:none;padding:14px 32px;border-radius:40px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(232,68,10,.28);">+ List My Room for Free</button></div>';
       return;
     }
+
     grid.innerHTML = list.map(buildCard).join('');
     grid.querySelectorAll('.reveal').forEach(function(el){ rObs.observe(el); });
     grid.querySelectorAll('.lcard').forEach(function(card) {
@@ -1502,7 +1538,6 @@ async function loadListings() {
       '<a href="#" onclick="loadListings();return false;" style="color:var(--fire);text-decoration:underline;">Retry</a></p></div>';
   }
 }
-
 async function submitList() {
   var token = Auth.getToken();
   if (!token) { closeList(); showAuthModal('register'); return; }
