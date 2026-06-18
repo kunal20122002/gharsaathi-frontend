@@ -1472,8 +1472,7 @@ function openDetailFromDB(cardEl) {
     })
     .catch(function() {});
 }
-async function loadListings() {
-  var _loadTimer = null;
+var _loadTimer = null;
 function debounceLoad() {
   clearTimeout(_loadTimer);
   _loadTimer = setTimeout(loadListings, 500);
