@@ -1109,22 +1109,23 @@ var Auth = {
 };
 
 function updateNavForAuth() {
-  var cta = document.getElementById('navCta');
-  if (!cta) return;
   var user = Auth.getUser();
-  if (Auth.isLoggedIn() && user) {
-    var initials = (user.full_name || user.email || '?').charAt(0).toUpperCase();
-    var firstName = (user.full_name || '').split(' ')[0];
+  var cta  = document.getElementById('navCta');
+  var bell = document.getElementById('navBell');
+
+  if (user) {
+    var init = (user.name || user.email || '?').charAt(0).toUpperCase();
+    var colors = ['#e8440a','#1D9E75','#378ADD','#D4537E','#BA7517'];
+    var bg = colors[init.charCodeAt(0) % colors.length];
     cta.innerHTML =
-      '<div class="nav-user">' +
-        '<div class="nav-avatar" title="Logged in as ' + (user.full_name || '') + '">' + initials + '</div>' +
-        '<span class="nav-name">' + firstName + '</span>' +
-        '<button class="btn-ghost" onclick="doLogout()" style="font-size:11px;padding:6px 14px;">Log Out</button>' +
-      '</div>';
+      '<div style="width:34px;height:34px;border-radius:50%;background:' + bg + ';color:white;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:13px;font-weight:800;cursor:pointer;" onclick="doLogout()" title="Log out">' + init + '</div>';
+    if (bell) bell.style.display = 'flex';
+    fetchInterestCount();
   } else {
     cta.innerHTML =
       '<button class="btn-ghost" onclick="showAuthModal(\'login\')">Log In</button>' +
       '<button class="btn-fire" onclick="openList()">+ List My Room</button>';
+    if (bell) bell.style.display = 'none';
   }
 }
 
