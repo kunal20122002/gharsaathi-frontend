@@ -1160,6 +1160,63 @@ function setFieldErr(inputId, errId, show) {
   if (err) err.classList.toggle('show', show);
 }
 
+  async function fetchInterestCount() {
+  var token = Auth.getToken();
+  if (!token) return;
+  try {
+    var res  = await fetch(API_BASE + '/matches/my?type=pending', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    var data = await res.json();
+    if (!Array.isArray(data)) return;
+
+    // 
+    var user   = Auth.getUser();
+    var count  = data.filter(function(m) {
+      return m.lister_id === user.id && m.seeker_liked && !m.lister_liked;
+    }).length;
+
+    var badge = document.getElementById('bellBadge');
+    if (!badge) return;
+    if (count > 0) {
+      badge.textContent = count > 9 ? '9+' : count;
+      badge.style.display = 'flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  } catch(e) {}
+}
+
+function openMatches() {
+  var token = Auth.getToken();
+  if (!token) { showAuthModal('login'); return; }
+  fetch(API_BASE + '/matches/my?type=pending', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (!Array.isArray(data) || !data.length) {
+      toast2('💌 No new interests yet — share your listing to get more visibility!');
+      return;
+    }
+    var user = Auth.getUser();
+    var mine = data.filter(function(m) {
+      return m.lister_id === user.id && m.seeker_liked && !m.lister_liked;
+    });
+    if (!mine.length) {
+      toast2('✅ You are all caught up!');
+      return;
+    }
+    // 
+    var names = mine.slice(0, 3).map(function(m) {
+      return (m.seeker_name || 'Someone') + ' is interested in ' + (m.listing_title || 'your listing');
+    });
+    if (mine.length > 3) names.push('+ ' + (mine.length - 3) + ' more...');
+    toast2('💌 ' + names[0]);
+  })
+  .catch(function() {});
+}
+  
 async function doLogin() {
   var email    = document.getElementById('loginEmail').value.trim();
   var password = document.getElementById('loginPassword').value;
